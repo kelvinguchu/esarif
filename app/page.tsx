@@ -1,103 +1,137 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { FaWallet, FaExchangeAlt, FaCoins } from "react-icons/fa";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // Calculate current year for copyright
+  const currentYear = new Date().getFullYear();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="w-full min-h-screen bg-[url('/images/landing-page.jpg')] bg-cover bg-center bg-no-repeat bg-fixed">
+      {/* Background Overlay */}
+      <div className='absolute inset-0 bg-background/90 z-0'></div>
+
+      {/* Ambient Effects */}
+      <div className='fixed -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl animate-pulse-slow'></div>
+      <div className='fixed -bottom-40 -left-20 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl animate-pulse-slow animation-delay-2000'></div>
+
+      {/* Content container */}
+      <div className='relative z-10'>
+        <div className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 min-h-screen flex flex-col'>
+          {/* Logo Header */}
+          <header className='flex items-center gap-3 mb-6 md:mb-10'>
+            <div className='w-12 h-12 rounded-xl bg-primary/90 flex items-center justify-center shadow-lg backdrop-blur-md'>
+              <FaWallet className='text-white text-xl' />
+            </div>
+            <h2 className='text-2xl font-bold text-white tracking-tight ml-2'>
+              e - <span className='text-primary'>Sarif</span>
+            </h2>
+          </header>
+
+          {/* Main Content */}
+          <main className='flex-1 flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12 py-4 md:py-8'>
+            {/* Left Content - Hero Section */}
+            <div className='w-full lg:w-1/2 flex flex-col items-center lg:items-start'>
+              <h1 className='font-bold tracking-tight mb-4 text-center lg:text-left'>
+                <span className='text-4xl sm:text-5xl text-white leading-tight block'>
+                  Connecting Your
+                </span>
+                <span className='text-4xl sm:text-5xl text-primary leading-tight block mt-2'>
+                  Financial
+                </span>
+                <span className='text-4xl sm:text-5xl text-primary leading-tight block'>
+                  Ecosystem
+                </span>
+              </h1>
+
+              <p className='text-gray-300 text-base sm:text-lg mb-4 max-w-lg text-center lg:text-left'>
+                Seamlessly manage your mobile wallets and cryptocurrencies in
+                one unified platform.
+              </p>
+
+              <p className='text-gray-400 text-sm sm:text-base mb-6 max-w-md text-center lg:text-left'>
+                Secure. Fast. All in one place.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md'>
+                <Button
+                  asChild
+                  className='w-full sm:w-auto px-6 py-3 h-12 rounded-xl font-medium text-base shadow-lg bg-primary hover:bg-primary/90 transition-all hover:translate-y-[-2px] hover:shadow-primary/20 hover:shadow-xl'>
+                  <Link href='/login'>Sign In</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant='outline'
+                  className='w-full sm:w-auto px-6 py-3 h-12 rounded-xl font-medium text-base shadow-md text-white border-white/20 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all hover:translate-y-[-2px]'>
+                  <Link href='/register'>Create Account</Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Content - Feature Cards */}
+            <div className='w-full lg:w-1/2 flex flex-col lg:mt-0'>
+              <div className='space-y-4'>
+                {/* Feature Cards */}
+                <div className='p-4 rounded-xl bg-background/30 backdrop-blur-md border border-white/10 shadow-lg hover:shadow-xl transition-all'>
+                  <div className='flex items-start gap-4'>
+                    <div className='w-10 h-10 rounded-lg bg-primary/30 flex items-center justify-center shrink-0'>
+                      <FaWallet className='text-primary text-lg' />
+                    </div>
+                    <div className='flex-1'>
+                      <h3 className='text-white font-semibold text-lg mb-1'>
+                        Mobile Wallets
+                      </h3>
+                      <p className='text-gray-300 text-sm'>
+                        Connect your Mpesa, EVC, ZAAD and more in one place
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='p-4 rounded-xl bg-background/30 backdrop-blur-md border border-white/10 shadow-lg hover:shadow-xl transition-all'>
+                  <div className='flex items-start gap-4'>
+                    <div className='w-10 h-10 rounded-lg bg-blue-500/30 flex items-center justify-center shrink-0'>
+                      <FaCoins className='text-blue-400 text-lg' />
+                    </div>
+                    <div className='flex-1'>
+                      <h3 className='text-white font-semibold text-lg mb-1'>
+                        Crypto Support
+                      </h3>
+                      <p className='text-gray-300 text-sm'>
+                        USDT TRC20, USDT BEP20, USDC and more
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='p-4 rounded-xl bg-background/30 backdrop-blur-md border border-white/10 shadow-lg hover:shadow-xl transition-all'>
+                  <div className='flex items-start gap-4'>
+                    <div className='w-10 h-10 rounded-lg bg-green-500/30 flex items-center justify-center shrink-0'>
+                      <FaExchangeAlt className='text-green-400 text-lg' />
+                    </div>
+                    <div className='flex-1'>
+                      <h3 className='text-white font-semibold text-lg mb-1'>
+                        Seamless Swaps
+                      </h3>
+                      <p className='text-gray-300 text-sm'>
+                        Transfer between wallets with just 1% transaction fee
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          {/* Footer */}
+          <footer className='w-full py-4 text-center mt-auto mb-4'>
+            <p className='text-gray-400 text-sm font-medium'>
+              © {currentYear} e-Sarif. All rights reserved.
+            </p>
+          </footer>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
