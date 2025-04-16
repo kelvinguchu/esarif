@@ -1,135 +1,227 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { FaWallet, FaExchangeAlt, FaCoins } from "react-icons/fa";
+import { Metadata } from "next";
+import { Wallet, RefreshCw, BarChart3 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "e-Sarif | Multi-Wallet Financial Platform",
+  description: "Manage your mobile money and crypto wallets in one place.",
+};
 
 export default function Home() {
-  // Calculate current year for copyright
-  const currentYear = new Date().getFullYear();
-
   return (
-    <div className="w-full min-h-screen bg-[url('/images/landing-page.jpg')] bg-cover bg-center bg-no-repeat bg-fixed">
-      {/* Background Overlay */}
-      <div className='absolute inset-0 bg-background/90 z-0'></div>
+    <div className='relative min-h-screen w-full overflow-hidden bg-background'>
+      {/* Animated particles background with improved effects */}
+      <div className='absolute inset-0 z-0'>
+        <div className='absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse'></div>
+        <div
+          className='absolute bottom-1/4 right-1/3 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse'
+          style={{ animationDelay: "1s", animationDuration: "5s" }}></div>
+        <div
+          className='absolute top-1/3 right-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl animate-pulse'
+          style={{ animationDelay: "2s", animationDuration: "7s" }}></div>
+      </div>
 
-      {/* Ambient Effects */}
-      <div className='fixed -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl animate-pulse-slow'></div>
-      <div className='fixed -bottom-40 -left-20 w-80 h-80 bg-blue-500/10 rounded-full filter blur-3xl animate-pulse-slow animation-delay-2000'></div>
+      {/* Diagonal split design with image and improved overlay */}
+      <div className='absolute inset-0 z-0'>
+        <div className='absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/80'></div>
+        <div
+          className='absolute top-0 right-0 bottom-0 left-1/3 md:left-1/2 bg-cover bg-center bg-no-repeat'
+          style={{
+            backgroundImage: "url('/images/landing-page.jpg')",
+            clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0% 100%)",
+          }}>
+          <div className='absolute inset-0 bg-background/40 backdrop-blur-sm'></div>
+        </div>
+      </div>
 
-      {/* Content container */}
-      <div className='relative z-10'>
-        <div className='w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 min-h-screen flex flex-col'>
-          {/* Logo Header */}
-          <header className='flex items-center gap-3 mb-6 md:mb-10'>
-            <div className='w-12 h-12 rounded-xl bg-primary/90 flex items-center justify-center shadow-lg backdrop-blur-md'>
-              <FaWallet className='text-white text-xl' />
+      {/* Floating cards in background with improved styling */}
+      <div className='absolute inset-0 z-0 overflow-hidden'>
+        <div className='absolute -right-20 top-40 w-80 h-48 bg-white/5 backdrop-blur-lg rounded-2xl rotate-12 border border-white/10 shadow-xl shadow-primary/5'></div>
+        <div className='absolute -left-10 bottom-60 w-64 h-40 bg-white/5 backdrop-blur-lg rounded-2xl -rotate-6 border border-white/10 shadow-xl shadow-primary/5'></div>
+        <div className='absolute right-40 bottom-20 w-72 h-36 bg-white/5 backdrop-blur-lg rounded-2xl rotate-3 border border-white/10 shadow-xl shadow-primary/5'></div>
+      </div>
+
+      {/* Content with improved spacing and alignment */}
+      <div className='relative z-10 flex h-screen'>
+        {/* Left side content */}
+        <div className='w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center'>
+          <div className='mb-6 relative'>
+            <div className='inline-flex mb-4'>
+              <div className='px-6 py-2 rounded-full bg-background border border-white/20 shadow-md'>
+                <span className='text-xl md:text-2xl font-bold text-primary'>
+                  e-Sarif
+                </span>
+              </div>
             </div>
-            <h2 className='text-2xl font-bold text-white tracking-tight ml-2'>
-              e - <span className='text-primary'>Sarif</span>
-            </h2>
-          </header>
+            <h1 className='text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight'>
+              Financial <br />
+              <span className='relative'>
+                <span className='relative z-10'>Ecosystem</span>
+                <span className='absolute -bottom-2 left-0 right-0 h-3 bg-primary/30 z-0'></span>
+              </span>{" "}
+              <br />
+              Reimagined
+            </h1>
+          </div>
 
-          {/* Main Content */}
-          <main className='flex-1 flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12 py-4 md:py-8'>
-            {/* Left Content - Hero Section */}
-            <div className='w-full lg:w-1/2 flex flex-col items-center lg:items-start'>
-              <h1 className='font-bold tracking-tight mb-4 text-center lg:text-left'>
-                <span className='text-4xl sm:text-5xl text-white leading-tight block'>
-                  Connecting Your
-                </span>
-                <span className='text-4xl sm:text-5xl text-primary leading-tight block mt-2'>
-                  Financial
-                </span>
-                <span className='text-4xl sm:text-5xl text-primary leading-tight block'>
-                  Ecosystem
-                </span>
-              </h1>
+          <p className='text-white/90 text-lg max-w-lg mb-8 leading-relaxed'>
+            Blur the boundaries between mobile money and crypto.
+            <span className='text-primary font-semibold'> One platform</span>,
+            limitless possibilities.
+          </p>
 
-              <p className='text-gray-300 text-base sm:text-lg mb-4 max-w-lg text-center lg:text-left'>
-                Seamlessly manage your mobile wallets and cryptocurrencies in
-                one unified platform.
-              </p>
+          {/* Improved buttons with refined styling */}
+          <div className='flex flex-col sm:flex-row gap-5 w-full max-w-md mb-12'>
+            <Link href='/login' className='w-full'>
+              <button className='w-full h-13 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:translate-y-[2px] flex items-center justify-center'>
+                <Wallet className='h-4 w-4 mr-2 opacity-80' />
+                <span>Login</span>
+              </button>
+            </Link>
 
-              <p className='text-gray-400 text-sm sm:text-base mb-6 max-w-md text-center lg:text-left'>
-                Secure. Fast. All in one place.
-              </p>
+            <Link href='/register' className='w-full'>
+              <button className='w-full h-13 bg-white/10 hover:bg-white/15 text-white font-semibold rounded-xl transition-all duration-200 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:translate-y-[2px] flex items-center justify-center'>
+                <span>Register</span>
+              </button>
+            </Link>
+          </div>
 
-              {/* CTA Buttons */}
-              <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md'>
-                <Button
-                  asChild
-                  className='w-full sm:w-auto px-6 py-3 h-12 rounded-xl font-medium text-base shadow-lg bg-primary hover:bg-primary/90 transition-all hover:translate-y-[-2px] hover:shadow-primary/20 hover:shadow-xl'>
-                  <Link href='/login'>Sign In</Link>
-                </Button>
-                <Button
-                  asChild
-                  variant='outline'
-                  className='w-full sm:w-auto px-6 py-3 h-12 rounded-xl font-medium text-base shadow-md text-white border-white/20 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all hover:translate-y-[-2px]'>
-                  <Link href='/register'>Create Account</Link>
-                </Button>
+          {/* Stats with improved styling */}
+          <div className='flex space-x-6 md:space-x-10 bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10'>
+            <div className='flex flex-col items-center'>
+              <span className='text-2xl md:text-3xl font-bold text-white'>
+                10+
+              </span>
+              <span className='text-white/70 text-xs md:text-sm'>Wallets</span>
+            </div>
+            <div className='w-px h-12 bg-white/15'></div>
+            <div className='flex flex-col items-center'>
+              <span className='text-2xl md:text-3xl font-bold text-white'>
+                Low
+              </span>
+              <span className='text-white/70 text-xs md:text-sm'>Fees</span>
+            </div>
+            <div className='w-px h-12 bg-white/15'></div>
+            <div className='flex flex-col items-center'>
+              <span className='text-2xl md:text-3xl font-bold text-white'>
+                24/7
+              </span>
+              <span className='text-white/70 text-xs md:text-sm'>Support</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right side - Feature cards with improved glassmorphism */}
+        <div className='hidden md:flex w-1/2 items-center justify-center p-8'>
+          <div className='relative w-full max-w-md' style={{ height: "490px" }}>
+            {/* First card - improved glassmorphism */}
+            <div className='absolute top-0 left-0 right-0 w-full bg-gradient-to-br from-primary/30 to-blue-500/20 rounded-2xl backdrop-blur-md border border-white/20 p-6 transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-xl'>
+              <div className='relative'>
+                {/* Card background enhancement for better contrast */}
+                <div className='absolute -inset-6 bg-background/40 rounded-2xl -z-10 backdrop-blur-md'></div>
+
+                <div className='h-11 w-11 rounded-full bg-primary/40 mb-4 flex items-center justify-center shadow-md'>
+                  <Wallet className='h-5 w-5 text-white' />
+                </div>
+                <h3 className='text-xl font-bold text-white mb-2 drop-shadow-sm'>
+                  Multiple Wallets
+                </h3>
+                <p className='text-white/90 text-sm leading-relaxed'>
+                  Connect and manage all your financial accounts in one secure
+                  dashboard.
+                </p>
               </div>
             </div>
 
-            {/* Right Content - Feature Cards */}
-            <div className='w-full lg:w-1/2 flex flex-col lg:mt-0'>
-              <div className='space-y-4'>
-                {/* Feature Cards */}
-                <div className='p-4 rounded-xl bg-background/30 backdrop-blur-md border border-white/10 shadow-lg hover:shadow-xl transition-all'>
-                  <div className='flex items-start gap-4'>
-                    <div className='w-10 h-10 rounded-lg bg-primary/30 flex items-center justify-center shrink-0'>
-                      <FaWallet className='text-primary text-lg' />
-                    </div>
-                    <div className='flex-1'>
-                      <h3 className='text-white font-semibold text-lg mb-1'>
-                        Mobile Wallets
-                      </h3>
-                      <p className='text-gray-300 text-sm'>
-                        Connect your Mpesa, EVC, ZAAD and more in one place
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            {/* Second card - improved glassmorphism */}
+            <div className='absolute top-[170px] left-0 right-0 w-full bg-gradient-to-br from-blue-500/30 to-indigo-500/20 rounded-2xl backdrop-blur-md border border-white/20 p-6 transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-xl'>
+              <div className='relative'>
+                {/* Card background enhancement for better contrast */}
+                <div className='absolute -inset-6 bg-background/40 rounded-2xl -z-10 backdrop-blur-md'></div>
 
-                <div className='p-4 rounded-xl bg-background/30 backdrop-blur-md border border-white/10 shadow-lg hover:shadow-xl transition-all'>
-                  <div className='flex items-start gap-4'>
-                    <div className='w-10 h-10 rounded-lg bg-blue-500/30 flex items-center justify-center shrink-0'>
-                      <FaCoins className='text-blue-400 text-lg' />
-                    </div>
-                    <div className='flex-1'>
-                      <h3 className='text-white font-semibold text-lg mb-1'>
-                        Crypto Support
-                      </h3>
-                      <p className='text-gray-300 text-sm'>
-                        USDT TRC20, USDT BEP20, USDC and more
-                      </p>
-                    </div>
-                  </div>
+                <div className='h-11 w-11 rounded-full bg-blue-500/40 mb-4 flex items-center justify-center shadow-md'>
+                  <RefreshCw className='h-5 w-5 text-white' />
                 </div>
-
-                <div className='p-4 rounded-xl bg-background/30 backdrop-blur-md border border-white/10 shadow-lg hover:shadow-xl transition-all'>
-                  <div className='flex items-start gap-4'>
-                    <div className='w-10 h-10 rounded-lg bg-green-500/30 flex items-center justify-center shrink-0'>
-                      <FaExchangeAlt className='text-green-400 text-lg' />
-                    </div>
-                    <div className='flex-1'>
-                      <h3 className='text-white font-semibold text-lg mb-1'>
-                        Seamless Swaps
-                      </h3>
-                      <p className='text-gray-300 text-sm'>
-                        Transfer between wallets with just 1% transaction fee
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <h3 className='text-xl font-bold text-white mb-2 drop-shadow-sm'>
+                  Seamless Transfers
+                </h3>
+                <p className='text-white/90 text-sm leading-relaxed'>
+                  Move money between wallets with just a few taps, at the lowest
+                  rates.
+                </p>
               </div>
             </div>
-          </main>
 
-          {/* Footer */}
-          <footer className='w-full py-4 text-center mt-auto mb-4'>
-            <p className='text-gray-400 text-sm font-medium'>
-              © {currentYear} e-Sarif. All rights reserved.
+            {/* Third card - improved glassmorphism */}
+            <div className='absolute top-[340px] left-0 right-0 w-full bg-gradient-to-br from-indigo-500/30 to-purple-500/20 rounded-2xl backdrop-blur-md border border-white/20 p-6 transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-xl'>
+              <div className='relative'>
+                {/* Card background enhancement for better contrast */}
+                <div className='absolute -inset-6 bg-background/40 rounded-2xl -z-10 backdrop-blur-md'></div>
+
+                <div className='h-11 w-11 rounded-full bg-indigo-500/40 mb-4 flex items-center justify-center shadow-md'>
+                  <BarChart3 className='h-5 w-5 text-white' />
+                </div>
+                <h3 className='text-xl font-bold text-white mb-2 drop-shadow-sm'>
+                  Smart Analytics
+                </h3>
+                <p className='text-white/90 text-sm leading-relaxed'>
+                  Track spending patterns and optimize your financial decisions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile feature cards with improved glassmorphism */}
+      <div className='block md:hidden relative z-10 px-6 pb-12 mt-8'>
+        <div className='space-y-4'>
+          <div className='w-full bg-gradient-to-r from-primary/30 to-blue-500/20 rounded-xl backdrop-blur-md border border-white/20 p-5 shadow-lg transform transition-transform hover:translate-y-[-2px] relative overflow-hidden'>
+            {/* Card background enhancement for better contrast */}
+            <div className='absolute inset-0 bg-background/30 -z-10 backdrop-blur-sm'></div>
+
+            <div className='h-10 w-10 rounded-full bg-primary/40 mb-3 flex items-center justify-center shadow-md'>
+              <Wallet className='h-5 w-5 text-white' />
+            </div>
+            <h3 className='text-lg font-bold text-white mb-2 drop-shadow-sm'>
+              Multiple Wallets
+            </h3>
+            <p className='text-white/90 text-sm'>
+              Connect and manage all your financial accounts in one secure
+              dashboard.
             </p>
-          </footer>
+          </div>
+
+          <div className='w-full bg-gradient-to-r from-blue-500/30 to-indigo-500/20 rounded-xl backdrop-blur-md border border-white/20 p-5 shadow-lg transform transition-transform hover:translate-y-[-2px] relative overflow-hidden'>
+            {/* Card background enhancement for better contrast */}
+            <div className='absolute inset-0 bg-background/30 -z-10 backdrop-blur-sm'></div>
+
+            <div className='h-10 w-10 rounded-full bg-blue-500/40 mb-3 flex items-center justify-center shadow-md'>
+              <RefreshCw className='h-5 w-5 text-white' />
+            </div>
+            <h3 className='text-lg font-bold text-white mb-2 drop-shadow-sm'>
+              Seamless Transfers
+            </h3>
+            <p className='text-white/90 text-sm'>
+              Move money between wallets with just a few taps, at the lowest
+              rates.
+            </p>
+          </div>
+
+          <div className='w-full bg-gradient-to-r from-indigo-500/30 to-purple-500/20 rounded-xl backdrop-blur-md border border-white/20 p-5 shadow-lg transform transition-transform hover:translate-y-[-2px] relative overflow-hidden'>
+            {/* Card background enhancement for better contrast */}
+            <div className='absolute inset-0 bg-background/30 -z-10 backdrop-blur-sm'></div>
+
+            <div className='h-10 w-10 rounded-full bg-indigo-500/40 mb-3 flex items-center justify-center shadow-md'>
+              <BarChart3 className='h-5 w-5 text-white' />
+            </div>
+            <h3 className='text-lg font-bold text-white mb-2 drop-shadow-sm'>
+              Smart Analytics
+            </h3>
+            <p className='text-white/90 text-sm'>
+              Track spending patterns and optimize your financial decisions.
+            </p>
+          </div>
         </div>
       </div>
     </div>
