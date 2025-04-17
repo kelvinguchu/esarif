@@ -262,7 +262,7 @@ export const KycFacialVerification = ({
       </CardHeader>
       <CardContent className='p-6'>
         {isCompleted ? (
-          <div className='space-y-6'>
+          <div className='flex flex-col space-y-6'>
             <div className='space-y-3'>
               <p className='text-white/50 text-sm'>Verification Method</p>
               <p className='text-white capitalize'>
@@ -299,25 +299,25 @@ export const KycFacialVerification = ({
             </div>
           </div>
         ) : (
-          <div className='space-y-6'>
+          <div className='flex flex-col space-y-6'>
             <Tabs value={activeTab} onValueChange={handleTabChange}>
-              <TabsList className='bg-[#041c38] border-white/10 w-full grid grid-cols-2'>
+              <TabsList className='bg-[#041c38] border-white/10 w-full flex'>
                 <TabsTrigger
                   value='photo'
-                  className='data-[state=active]:bg-primary'>
+                  className='flex-1 data-[state=active]:bg-primary'>
                   <Camera className='mr-2 h-4 w-4' />
                   Photo Selfie
                 </TabsTrigger>
                 <TabsTrigger
                   value='video'
-                  className='data-[state=active]:bg-primary'>
+                  className='flex-1 data-[state=active]:bg-primary'>
                   <Video className='mr-2 h-4 w-4' />
                   Video Recording
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value='photo' className='mt-4'>
-                <div className='space-y-4'>
+                <div className='flex flex-col space-y-4'>
                   <div className='bg-[#041c38] rounded-md overflow-hidden border border-white/10 h-64 flex items-center justify-center'>
                     {!cameraActive && !capturedImage && (
                       <div className='text-center p-4'>
@@ -379,7 +379,7 @@ export const KycFacialVerification = ({
               </TabsContent>
 
               <TabsContent value='video' className='mt-4'>
-                <div className='space-y-4'>
+                <div className='flex flex-col space-y-4'>
                   <div className='bg-[#041c38] rounded-md overflow-hidden border border-white/10 h-64 flex items-center justify-center'>
                     {!cameraActive && !videoRecorded && (
                       <div className='text-center p-4'>

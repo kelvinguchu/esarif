@@ -83,24 +83,26 @@ export default function KycVerificationType({
   };
 
   return (
-    <div className='w-full px-4'>
-      <div className='mb-8'>
-        <div className='flex items-center'>
+    <div className='w-full mt-4 sm:mt-8 px-3 sm:px-4'>
+      <div className='mb-4 sm:mb-8'>
+        <div className='flex flex-col sm:flex-row sm:items-center'>
           <Link href='/kyc'>
             <Button
               variant='ghost'
-              className='p-0 mr-4 text-white/70 hover:text-white hover:bg-transparent'>
-              <ArrowLeft className='h-5 w-5 mr-1' />
+              className='p-0 mb-2 sm:mb-0 sm:mr-4 text-white/70 hover:text-white hover:bg-transparent text-sm sm:text-base'>
+              <ArrowLeft className='h-4 w-4 sm:h-5 sm:w-5 mr-1' />
               <span>Back to Verifications</span>
             </Button>
           </Link>
-          <h1 className='text-2xl font-semibold text-white'>{title}</h1>
+          <h1 className='text-xl sm:text-2xl font-semibold text-white'>
+            {title}
+          </h1>
         </div>
       </div>
 
       {loading ? (
-        <div className='flex justify-center items-center h-64'>
-          <div className='animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-white'></div>
+        <div className='flex justify-center items-center h-48 sm:h-64'>
+          <div className='animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-t-2 border-b-2 border-white'></div>
         </div>
       ) : (
         <div className='w-full'>{verificationComponent}</div>

@@ -154,7 +154,7 @@ export const KycProofOfResidence = ({
       </CardHeader>
       <CardContent className='p-6'>
         {isCompleted ? (
-          <div className='space-y-6'>
+          <div className='flex flex-col space-y-6'>
             <div className='space-y-3'>
               <p className='text-white/50 text-sm'>Document Type</p>
               <p className='text-white'>
@@ -179,7 +179,7 @@ export const KycProofOfResidence = ({
             </div>
           </div>
         ) : (
-          <div className='space-y-6'>
+          <div className='flex flex-col space-y-6'>
             <div>
               <label htmlFor='document-type' className='block text-white mb-2'>
                 Document Type
