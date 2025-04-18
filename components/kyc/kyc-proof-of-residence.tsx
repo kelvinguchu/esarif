@@ -47,7 +47,7 @@ export const KycProofOfResidence = ({
 }: ProofOfResidenceProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [documentType, setDocumentType] = useState<string>(
-    proofData?.documentType || ""
+    proofData?.documentType ?? ""
   );
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | undefined>(
@@ -159,7 +159,7 @@ export const KycProofOfResidence = ({
               <p className='text-white/50 text-sm'>Document Type</p>
               <p className='text-white'>
                 {DOCUMENT_TYPES.find((d) => d.value === proofData?.documentType)
-                  ?.label || proofData?.documentType}
+                  ?.label ?? proofData?.documentType}
               </p>
             </div>
 

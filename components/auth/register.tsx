@@ -123,7 +123,7 @@ export default function RegisterForm() {
       console.log(data);
       toast.success("Registration successful");
       setIsLoading(false);
-      router.push("/account");
+      router.push("/swap");
     }, 1500);
   }
 

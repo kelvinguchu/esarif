@@ -22,7 +22,10 @@ interface KycBasicInfoProps {
   initialData?: Partial<BasicInfoData>;
 }
 
-export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
+export function KycBasicInfo({
+  onNext,
+  initialData = {},
+}: Readonly<KycBasicInfoProps>) {
   const [formData, setFormData] = useState<BasicInfoData>({
     firstName: initialData.firstName ?? "",
     lastName: initialData.lastName ?? "",
@@ -89,15 +92,16 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
   };
 
   return (
-    <Card className='border-none shadow-md bg-[#001a38] w-full'>
-      <CardHeader className='bg-[#041c38]/50 border-b border-white/10 p-3 sm:p-6'>
+    <Card className='border border-[#1a3c5e]/70 shadow-md bg-[#051b36] w-full overflow-hidden'>
+      <div className='h-1 w-full bg-blue-600'></div>
+      <CardHeader className='bg-[#072442] border-b border-[#1a3c5e] p-4'>
         <CardTitle className='text-white text-lg sm:text-xl'>
           Personal Information
         </CardTitle>
       </CardHeader>
       <CardContent className='p-3 sm:p-6'>
-        <form onSubmit={handleSubmit}>
-          <div className='flex flex-col md:flex-row md:flex-wrap gap-3 sm:gap-4 mb-4 sm:mb-6'>
+        <form onSubmit={handleSubmit} className='space-y-4 sm:space-y-6'>
+          <div className='flex flex-col md:flex-row md:flex-wrap gap-3 sm:gap-4 mb-2 sm:mb-4'>
             <div className='space-y-1.5 sm:space-y-2 w-full md:w-[calc(50%-8px)]'>
               <Label
                 htmlFor='firstName'
@@ -109,12 +113,12 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
                 name='firstName'
                 value={formData.firstName}
                 onChange={handleChange}
-                className={`bg-[#041c38] text-white border-white/10 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.firstName ? "border-red-500" : ""
                 }`}
               />
               {errors.firstName && (
-                <p className='text-red-500 text-xs sm:text-sm'>
+                <p className='text-red-500 text-xs sm:text-sm mt-1'>
                   {errors.firstName}
                 </p>
               )}
@@ -131,12 +135,12 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
                 name='lastName'
                 value={formData.lastName}
                 onChange={handleChange}
-                className={`bg-[#041c38] text-white border-white/10 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.lastName ? "border-red-500" : ""
                 }`}
               />
               {errors.lastName && (
-                <p className='text-red-500 text-xs sm:text-sm'>
+                <p className='text-red-500 text-xs sm:text-sm mt-1'>
                   {errors.lastName}
                 </p>
               )}
@@ -154,12 +158,12 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
                 type='date'
                 value={formData.dateOfBirth}
                 onChange={handleChange}
-                className={`bg-[#041c38] text-white border-white/10 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.dateOfBirth ? "border-red-500" : ""
                 }`}
               />
               {errors.dateOfBirth && (
-                <p className='text-red-500 text-xs sm:text-sm'>
+                <p className='text-red-500 text-xs sm:text-sm mt-1'>
                   {errors.dateOfBirth}
                 </p>
               )}
@@ -176,12 +180,12 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
                 name='nationality'
                 value={formData.nationality}
                 onChange={handleChange}
-                className={`bg-[#041c38] text-white border-white/10 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.nationality ? "border-red-500" : ""
                 }`}
               />
               {errors.nationality && (
-                <p className='text-red-500 text-xs sm:text-sm'>
+                <p className='text-red-500 text-xs sm:text-sm mt-1'>
                   {errors.nationality}
                 </p>
               )}
@@ -199,12 +203,12 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
                 type='email'
                 value={formData.email}
                 onChange={handleChange}
-                className={`bg-[#041c38] text-white border-white/10 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.email ? "border-red-500" : ""
                 }`}
               />
               {errors.email && (
-                <p className='text-red-500 text-xs sm:text-sm'>
+                <p className='text-red-500 text-xs sm:text-sm mt-1'>
                   {errors.email}
                 </p>
               )}
@@ -221,20 +225,20 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
                 name='phone'
                 value={formData.phone}
                 onChange={handleChange}
-                className={`bg-[#041c38] text-white border-white/10 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.phone ? "border-red-500" : ""
                 }`}
                 placeholder='+1 234 567 8900'
               />
               {errors.phone && (
-                <p className='text-red-500 text-xs sm:text-sm'>
+                <p className='text-red-500 text-xs sm:text-sm mt-1'>
                   {errors.phone}
                 </p>
               )}
             </div>
           </div>
 
-          <Alert className='mb-4 sm:mb-6 bg-blue-500/10 border-blue-500/20 py-2 sm:py-3 text-xs sm:text-sm'>
+          <Alert className='bg-blue-900/20 border-blue-500/30 py-2 sm:py-3 text-xs sm:text-sm'>
             <AlertCircle className='h-3 w-3 sm:h-4 sm:w-4 text-blue-400' />
             <AlertDescription className='text-white/90'>
               Please ensure that all information provided matches your official
@@ -242,10 +246,10 @@ export function KycBasicInfo({ onNext, initialData = {} }: KycBasicInfoProps) {
             </AlertDescription>
           </Alert>
 
-          <div className='flex justify-end'>
+          <div className='flex justify-end pt-2 sm:pt-4'>
             <Button
               type='submit'
-              className='bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm h-8 sm:h-10 py-1.5 px-3 sm:px-4'>
+              className='bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4 h-auto w-full sm:w-auto rounded-md'>
               Submit Verification
             </Button>
           </div>

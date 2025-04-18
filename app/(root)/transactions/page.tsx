@@ -9,7 +9,7 @@ export const metadata = {
 
 function TransactionsPage() {
   return (
-    <div className='max-w-full px-4'>
+    <div className='max-w-full px-2 sm:px-4 md:px-8 lg:px-10 mt-5'>
       <div className='mb-8'>
         <h1 className='text-2xl md:text-3xl font-bold text-white mb-2'>
           Transactions

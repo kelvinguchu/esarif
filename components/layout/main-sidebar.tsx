@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  ArrowLeftRight,
-  CreditCard,
-  HelpCircle,
-  Settings,
-  UserCheck,
-} from "lucide-react";
+  FaExchangeAlt,
+  FaHistory,
+  FaIdCard,
+  FaUserCircle,
+  FaQuestionCircle,
+} from "react-icons/fa";
 
 import {
   Sidebar,
@@ -27,27 +27,27 @@ export const MainSidebar = () => {
 
   const routes = [
     {
-      icon: ArrowLeftRight,
+      icon: FaExchangeAlt,
       label: "Swap",
       href: "/swap",
     },
     {
-      icon: CreditCard,
+      icon: FaHistory,
       label: "Transactions",
       href: "/transactions",
     },
     {
-      icon: UserCheck,
+      icon: FaIdCard,
       label: "KYC",
       href: "/kyc",
     },
     {
-      icon: Settings,
+      icon: FaUserCircle,
       label: "Account",
       href: "/account",
     },
     {
-      icon: HelpCircle,
+      icon: FaQuestionCircle,
       label: "Support",
       href: "/support",
     },
@@ -60,7 +60,7 @@ export const MainSidebar = () => {
       <SidebarHeader className='py-4 h-16'>
         <Link href='/swap' className='flex items-center gap-2 px-6'>
           <div className='p-2 bg-primary rounded-md shadow-md'>
-            <ArrowLeftRight className='h-6 w-6 text-white' />
+            <FaExchangeAlt className='h-6 w-6 text-white' />
           </div>
           <span className='font-bold text-xl text-white'>e-Sarif</span>
         </Link>

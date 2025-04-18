@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, Check, Loader2, RefreshCw, Video } from "lucide-react";
+import { Camera, Check, Loader2, RefreshCw } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface FacialVerificationProps {
   onSubmit: (data: FacialData) => void;
@@ -20,8 +19,6 @@ interface FacialVerificationProps {
 
 export interface FacialData {
   selfieImage?: string;
-  videoBlob?: Blob;
-  videoUrl?: string;
 }
 
 export const KycFacialVerification = ({
@@ -30,32 +27,19 @@ export const KycFacialVerification = ({
   facialData,
 }: FacialVerificationProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState<string>("photo");
   const [capturedImage, setCapturedImage] = useState<string | undefined>(
     facialData?.selfieImage
   );
-  const [videoRecorded, setVideoRecorded] = useState<boolean>(
-    !!facialData?.videoUrl
-  );
-  const [videoUrl, setVideoUrl] = useState<string | undefined>(
-    facialData?.videoUrl
-  );
-  const [videoBlob, setVideoBlob] = useState<Blob | undefined>();
   const [cameraActive, setCameraActive] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingTime, setRecordingTime] = useState(0);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     return () => {
       // Cleanup on unmount
       stopCamera();
-      if (timerRef.current) clearInterval(timerRef.current);
     };
   }, []);
 
@@ -67,7 +51,7 @@ export const KycFacialVerification = ({
           height: { ideal: 720 },
           facingMode: "user",
         },
-        audio: activeTab === "video",
+        audio: false,
       };
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -76,10 +60,6 @@ export const KycFacialVerification = ({
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
         setCameraActive(true);
-
-        if (activeTab === "video") {
-          prepareRecorder(stream);
-        }
       }
     } catch (err) {
       console.error("Error accessing camera:", err);
@@ -100,7 +80,6 @@ export const KycFacialVerification = ({
     }
 
     setCameraActive(false);
-    stopRecording();
   };
 
   const capturePhoto = () => {
@@ -132,86 +111,8 @@ export const KycFacialVerification = ({
     startCamera();
   };
 
-  const prepareRecorder = (stream: MediaStream) => {
-    try {
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: "video/webm",
-      });
-      const chunks: BlobPart[] = [];
-
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunks.push(e.data);
-        }
-      };
-
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "video/webm" });
-        const url = URL.createObjectURL(blob);
-        setVideoBlob(blob);
-        setVideoUrl(url);
-        setVideoRecorded(true);
-      };
-
-      mediaRecorderRef.current = mediaRecorder;
-    } catch (err) {
-      console.error("Error creating media recorder:", err);
-      alert("Video recording is not supported in your browser.");
-    }
-  };
-
-  const startRecording = () => {
-    if (mediaRecorderRef.current && streamRef.current) {
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-      setRecordingTime(0);
-
-      // Start timer
-      timerRef.current = setInterval(() => {
-        setRecordingTime((prev) => prev + 1);
-      }, 1000);
-    }
-  };
-
-  const stopRecording = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-
-      // Stop timer
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
-    }
-  };
-
-  const resetVideo = () => {
-    if (videoUrl) {
-      URL.revokeObjectURL(videoUrl);
-    }
-    setVideoUrl(undefined);
-    setVideoBlob(undefined);
-    setVideoRecorded(false);
-    startCamera();
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
   const handleSubmit = () => {
-    if (
-      (activeTab === "photo" && !capturedImage) ||
-      (activeTab === "video" && !videoBlob)
-    ) {
+    if (!capturedImage) {
       return;
     }
 
@@ -221,24 +122,9 @@ export const KycFacialVerification = ({
     setTimeout(() => {
       onSubmit({
         selfieImage: capturedImage,
-        videoBlob: videoBlob,
-        videoUrl: videoUrl,
       });
       setIsSubmitting(false);
     }, 1500);
-  };
-
-  const handleTabChange = (value: string) => {
-    // Stop current camera if active
-    if (cameraActive) {
-      stopCamera();
-    }
-
-    setActiveTab(value);
-    setCapturedImage(undefined);
-    setVideoRecorded(false);
-    setVideoUrl(undefined);
-    setVideoBlob(undefined);
   };
 
   return (
@@ -250,7 +136,7 @@ export const KycFacialVerification = ({
               Facial Verification
             </CardTitle>
             <CardDescription className='text-white/70 mt-1'>
-              Take a selfie or short video for identity verification
+              Take a selfie for identity verification
             </CardDescription>
           </div>
           {isCompleted && (
@@ -265,9 +151,7 @@ export const KycFacialVerification = ({
           <div className='flex flex-col space-y-6'>
             <div className='space-y-3'>
               <p className='text-white/50 text-sm'>Verification Method</p>
-              <p className='text-white capitalize'>
-                {facialData?.selfieImage ? "Photo Selfie" : "Video Recording"}
-              </p>
+              <p className='text-white'>Photo Selfie</p>
             </div>
 
             <div className='space-y-3'>
@@ -283,185 +167,74 @@ export const KycFacialVerification = ({
                   </div>
                 </>
               )}
-
-              {facialData?.videoUrl && (
-                <>
-                  <p className='text-white/50 text-sm'>Recorded Video</p>
-                  <div className='bg-[#041c38] rounded-md overflow-hidden max-w-sm mx-auto border border-white/10'>
-                    <video
-                      src={facialData.videoUrl}
-                      controls
-                      className='w-full h-full'
-                    />
-                  </div>
-                </>
-              )}
             </div>
           </div>
         ) : (
           <div className='flex flex-col space-y-6'>
-            <Tabs value={activeTab} onValueChange={handleTabChange}>
-              <TabsList className='bg-[#041c38] border-white/10 w-full flex'>
-                <TabsTrigger
-                  value='photo'
-                  className='flex-1 data-[state=active]:bg-primary'>
-                  <Camera className='mr-2 h-4 w-4' />
-                  Photo Selfie
-                </TabsTrigger>
-                <TabsTrigger
-                  value='video'
-                  className='flex-1 data-[state=active]:bg-primary'>
-                  <Video className='mr-2 h-4 w-4' />
-                  Video Recording
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value='photo' className='mt-4'>
-                <div className='flex flex-col space-y-4'>
-                  <div className='bg-[#041c38] rounded-md overflow-hidden border border-white/10 h-64 flex items-center justify-center'>
-                    {!cameraActive && !capturedImage && (
-                      <div className='text-center p-4'>
-                        <Camera className='h-16 w-16 text-white/30 mx-auto mb-4' />
-                        <p className='text-white/70 mb-4'>
-                          Camera is not active
-                        </p>
-                        <Button
-                          onClick={startCamera}
-                          className='bg-primary hover:bg-primary/90'>
-                          Start Camera
-                        </Button>
-                      </div>
-                    )}
-
-                    {cameraActive && !capturedImage && (
-                      <video
-                        ref={videoRef}
-                        autoPlay
-                        playsInline
-                        muted
-                        className='max-w-full max-h-full'
-                      />
-                    )}
-
-                    {capturedImage && (
-                      <img
-                        src={capturedImage}
-                        alt='Captured selfie'
-                        className='max-w-full max-h-full'
-                      />
-                    )}
-
-                    {/* Hidden canvas for taking photo */}
-                    <canvas ref={canvasRef} className='hidden' />
+            <div className='flex flex-col space-y-4'>
+              <div className='bg-[#041c38] rounded-md overflow-hidden border border-white/10 h-64 flex items-center justify-center'>
+                {!cameraActive && !capturedImage && (
+                  <div className='text-center p-4'>
+                    <Camera className='h-16 w-16 text-white/30 mx-auto mb-4' />
+                    <p className='text-white/70 mb-4'>Camera is not active</p>
+                    <Button
+                      onClick={startCamera}
+                      className='bg-primary hover:bg-primary/90'>
+                      Start Camera
+                    </Button>
                   </div>
+                )}
 
-                  <div className='flex justify-center space-x-4'>
-                    {cameraActive && !capturedImage && (
-                      <Button
-                        onClick={capturePhoto}
-                        className='bg-primary hover:bg-primary/90'>
-                        <Camera className='mr-2 h-4 w-4' />
-                        Take Photo
-                      </Button>
-                    )}
+                {cameraActive && !capturedImage && (
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className='max-w-full max-h-full'
+                  />
+                )}
 
-                    {capturedImage && (
-                      <Button
-                        onClick={retakePhoto}
-                        variant='outline'
-                        className='border-white/10 text-white hover:bg-white/5'>
-                        <RefreshCw className='mr-2 h-4 w-4' />
-                        Retake
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </TabsContent>
+                {capturedImage && (
+                  <img
+                    src={capturedImage}
+                    alt='Captured selfie'
+                    className='max-w-full max-h-full'
+                  />
+                )}
 
-              <TabsContent value='video' className='mt-4'>
-                <div className='flex flex-col space-y-4'>
-                  <div className='bg-[#041c38] rounded-md overflow-hidden border border-white/10 h-64 flex items-center justify-center'>
-                    {!cameraActive && !videoRecorded && (
-                      <div className='text-center p-4'>
-                        <Video className='h-16 w-16 text-white/30 mx-auto mb-4' />
-                        <p className='text-white/70 mb-4'>
-                          Camera is not active
-                        </p>
-                        <Button
-                          onClick={startCamera}
-                          className='bg-primary hover:bg-primary/90'>
-                          Start Camera
-                        </Button>
-                      </div>
-                    )}
+                {/* Hidden canvas for taking photo */}
+                <canvas ref={canvasRef} className='hidden' />
+              </div>
 
-                    {cameraActive && !videoRecorded && (
-                      <div className='relative w-full h-full'>
-                        <video
-                          ref={videoRef}
-                          autoPlay
-                          playsInline
-                          muted
-                          className='w-full h-full object-contain'
-                        />
-                        {isRecording && (
-                          <div className='absolute top-4 right-4 bg-red-500/80 text-white px-2 py-1 rounded-md flex items-center'>
-                            <div className='w-3 h-3 rounded-full bg-red-100 mr-2 animate-pulse' />
-                            {formatTime(recordingTime)}
-                          </div>
-                        )}
-                      </div>
-                    )}
+              <div className='flex justify-center space-x-4'>
+                {cameraActive && !capturedImage && (
+                  <Button
+                    onClick={capturePhoto}
+                    className='bg-primary hover:bg-primary/90'>
+                    <Camera className='mr-2 h-4 w-4' />
+                    Take Photo
+                  </Button>
+                )}
 
-                    {videoRecorded && videoUrl && (
-                      <video
-                        src={videoUrl}
-                        controls
-                        className='max-w-full max-h-full'
-                      />
-                    )}
-                  </div>
-
-                  <div className='flex justify-center space-x-4'>
-                    {cameraActive && !videoRecorded && !isRecording && (
-                      <Button
-                        onClick={startRecording}
-                        className='bg-primary hover:bg-primary/90'>
-                        <Video className='mr-2 h-4 w-4' />
-                        Start Recording
-                      </Button>
-                    )}
-
-                    {cameraActive && isRecording && (
-                      <Button onClick={stopRecording} variant='destructive'>
-                        Stop Recording
-                      </Button>
-                    )}
-
-                    {videoRecorded && (
-                      <Button
-                        onClick={resetVideo}
-                        variant='outline'
-                        className='border-white/10 text-white hover:bg-white/5'>
-                        <RefreshCw className='mr-2 h-4 w-4' />
-                        Record Again
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+                {capturedImage && (
+                  <Button
+                    onClick={retakePhoto}
+                    variant='outline'
+                    className='border-white/10 text-white hover:bg-white/5'>
+                    <RefreshCw className='mr-2 h-4 w-4' />
+                    Retake
+                  </Button>
+                )}
+              </div>
+            </div>
 
             <div className='pt-4 flex justify-end'>
               <Button
                 type='button'
                 className='bg-primary hover:bg-primary/90 text-white font-medium'
                 onClick={handleSubmit}
-                disabled={
-                  isSubmitting ||
-                  (activeTab === "photo" && !capturedImage) ||
-                  (activeTab === "video" && !videoRecorded)
-                }>
+                disabled={isSubmitting || !capturedImage}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />

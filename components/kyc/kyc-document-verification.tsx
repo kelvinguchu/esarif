@@ -32,7 +32,7 @@ export function KycDocumentVerification({
   onNext,
   onBack,
   initialData = {},
-}: KycDocumentVerificationProps) {
+}: Readonly<KycDocumentVerificationProps>) {
   const [documents, setDocuments] = useState<DocumentData>({
     idCard: initialData.idCard,
     proofOfAddress: initialData.proofOfAddress,
@@ -84,7 +84,7 @@ export function KycDocumentVerification({
 
     // Create new file object
     const newFile: DocumentFile = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       name: file.name,
       type: file.type,
       size: file.size,

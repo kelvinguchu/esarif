@@ -135,7 +135,7 @@ export function ConnectedAccounts() {
               {filteredAccounts.map((account) => (
                 <div
                   key={account.id}
-                  className='w-full md:w-1/2 lg:w-1/3 py-1 md:p-2'>
+                  className='w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-16px)] py-1 md:p-2 md:min-w-[320px]'>
                   <div className='w-full mx-auto md:w-full'>
                     <AccountCard
                       account={account}

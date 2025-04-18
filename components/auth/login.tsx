@@ -54,7 +54,7 @@ export default function LoginForm() {
       console.log(data);
       toast.success("Login successful");
       setIsLoading(false);
-      router.push("/account");
+      router.push("/swap");
     }, 1500);
   }
 

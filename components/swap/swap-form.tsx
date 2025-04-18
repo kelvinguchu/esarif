@@ -1,35 +1,64 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDown, RefreshCw } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ArrowDown, RefreshCw, ArrowRightLeft } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { WalletSelector } from "./wallet-selector";
+import { TransactionSummary, ExchangeRates } from "./transaction-summary";
+import { ConfirmationMessage } from "./confirmation-message";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  walletOptions,
+  currencyRates,
+  getEquivalentRates,
+} from "./wallet-data";
 
 export const SwapForm = () => {
   const [fromWallet, setFromWallet] = useState("MPESA");
   const [toWallet, setToWallet] = useState("USDT-TRC20");
   const [fromAmount, setFromAmount] = useState("");
+  const [recipientAccount, setRecipientAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
+  const [fromDrawerOpen, setFromDrawerOpen] = useState(false);
+  const [toDrawerOpen, setToDrawerOpen] = useState(false);
 
-  // This would be calculated based on actual rates and fees
+  // Service fee calculation (1%)
+  const serviceFee = fromAmount ? parseFloat(fromAmount) * 0.01 : 0;
+
+  // Net amount after fee
+  const netAmount = fromAmount ? parseFloat(fromAmount) - serviceFee : 0;
+
+  // Estimated amount based on exchange rate
   const estimatedAmount = fromAmount
-    ? (parseFloat(fromAmount) * 0.99).toFixed(2)
+    ? (
+        netAmount * currencyRates[toWallet as keyof typeof currencyRates].rate
+      ).toFixed(2)
     : "0";
+
+  // Get equivalent rates
+  const equivalentRates = getEquivalentRates();
+
+  const selectedFromWallet = walletOptions.find(
+    (wallet) => wallet.id === fromWallet
+  );
+  const selectedToWallet = walletOptions.find(
+    (wallet) => wallet.id === toWallet
+  );
+
+  // Handle amount change with conversion preview
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFromAmount(value);
+
+    // When amount changes, we can show the summary after a valid amount is entered
+    if (value && parseFloat(value) > 0) {
+      setShowSummary(true);
+    } else {
+      setShowSummary(false);
+    }
+  };
 
   const handleSwapWallets = () => {
     const temp = fromWallet;
@@ -48,105 +77,157 @@ export const SwapForm = () => {
     }, 1500);
   };
 
+  // Determine if we need to show recipient field - only show for mobile money destinations
+  const shouldShowRecipientField = false; // Setting to false to always hide the recipient input
+
   return (
-    <Card className='border-0 shadow-none bg-transparent'>
-      <CardHeader className='bg-[#ebeffb]/10 rounded-t-lg px-6 py-4'>
-        <CardTitle className='text-white text-lg'>Cross-Wallet Swap</CardTitle>
+    <Card className='border border-white/10 shadow-xl bg-gradient-to-b from-[#0a2348] to-[#001a38] rounded-xl overflow-hidden backdrop-blur-sm'>
+      <CardHeader className='bg-gradient-to-r from-[#ebeffb]/10 to-[#ebeffb]/5 rounded-t-lg px-6 py-4 border-b border-white/5'>
+        <CardTitle className='text-white text-xl flex items-center gap-2'>
+          <div className='bg-gradient-to-r from-primary to-blue-500 rounded-full p-1.5'>
+            <ArrowRightLeft className='h-5 w-5 text-white' />
+          </div>
+          Cross-Wallet Swap
+        </CardTitle>
       </CardHeader>
+
       <CardContent className='pt-6 px-6 bg-transparent'>
         <form onSubmit={handleSubmit} className='space-y-6'>
+          {/* From Section */}
           <div className='space-y-3'>
-            <div className='flex gap-2'>
-              <Select value={fromWallet} onValueChange={setFromWallet}>
-                <SelectTrigger className='w-[140px] bg-[#001a38] border-0 text-white rounded-md'>
-                  <SelectValue placeholder='Select wallet' />
-                </SelectTrigger>
-                <SelectContent className='bg-[#001a38] border-white/10 text-white'>
-                  <SelectGroup>
-                    <SelectLabel className='text-white/70'>
-                      Mobile Money
-                    </SelectLabel>
-                    <SelectItem value='MPESA'>Mpesa</SelectItem>
-                    <SelectItem value='EVC'>EVC</SelectItem>
-                    <SelectItem value='T-PLUS'>T-Plus</SelectItem>
-                    <SelectItem value='JEEB'>JEEB</SelectItem>
-                    <SelectItem value='SAHAL'>SAHAL</SelectItem>
-                    <SelectItem value='ZAAD'>ZAAD</SelectItem>
-                  </SelectGroup>
-                  <SelectGroup>
-                    <SelectLabel className='text-white/70'>Crypto</SelectLabel>
-                    <SelectItem value='USDT-TRC20'>USDT (TRC20)</SelectItem>
-                    <SelectItem value='USDT-BEP20'>USDT (BEP20)</SelectItem>
-                    <SelectItem value='USDC-BEP20'>USDC (BEP20)</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <Input
-                type='number'
-                placeholder='0.00'
-                value={fromAmount}
-                onChange={(e) => setFromAmount(e.target.value)}
-                className='flex-1 bg-[#001a38] border-0 text-white rounded-md'
-                min='0'
+            <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+              From
+            </label>
+            <div className='flex flex-col gap-3'>
+              <WalletSelector
+                label='Source'
+                selected={fromWallet}
+                onSelect={setFromWallet}
+                type='from'
+                walletOptions={walletOptions}
+                showDrawer={fromDrawerOpen}
+                setShowDrawer={setFromDrawerOpen}
               />
+
+              <div className='relative'>
+                <Input
+                  type='number'
+                  placeholder='0.00'
+                  value={fromAmount}
+                  onChange={handleAmountChange}
+                  className='bg-[#001a38]/80 border border-white/10 text-white rounded-lg shadow-inner shadow-black/20 transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg'
+                  min='0'
+                />
+                {fromAmount &&
+                  parseFloat(fromAmount) > 0 &&
+                  fromWallet !== "USDT-TRC20" &&
+                  fromWallet !== "USDT-BEP20" &&
+                  fromWallet !== "USDC-BEP20" && (
+                    <div className='mt-2 p-2 rounded-lg bg-[#001428]/80 border border-white/5 text-xs text-white/70 space-y-1.5'>
+                      <div className='flex items-center'>
+                        <span>
+                          ≈ {currencyRates["MPESA"].symbol}{" "}
+                          {(
+                            parseFloat(fromAmount) * currencyRates["MPESA"].rate
+                          ).toFixed(2)}{" "}
+                          (Kenyan Shilling)
+                        </span>
+                      </div>
+                      <div className='flex items-center'>
+                        <span>
+                          ≈ {currencyRates["EVC"].symbol}{" "}
+                          {(
+                            parseFloat(fromAmount) * currencyRates["EVC"].rate
+                          ).toFixed(2)}{" "}
+                          (Somali Shilling)
+                        </span>
+                      </div>
+                    </div>
+                  )}
+              </div>
             </div>
           </div>
 
+          {/* Swap Button */}
           <div className='flex justify-center'>
-            <Button
-              type='button'
-              variant='outline'
-              size='icon'
-              className='rounded-full border border-white/20 bg-[#ebeffb]/10 hover:bg-[#ebeffb]/20 text-white'
-              onClick={handleSwapWallets}>
-              <ArrowDown className='h-4 w-4' />
-            </Button>
-          </div>
-
-          <div className='space-y-3'>
-            <div className='flex gap-2'>
-              <Select value={toWallet} onValueChange={setToWallet}>
-                <SelectTrigger className='w-[140px] bg-[#001a38] border-0 text-white rounded-md'>
-                  <SelectValue placeholder='Select wallet' />
-                </SelectTrigger>
-                <SelectContent className='bg-[#001a38] border-white/10 text-white'>
-                  <SelectGroup>
-                    <SelectLabel className='text-white/70'>
-                      Mobile Money
-                    </SelectLabel>
-                    <SelectItem value='MPESA'>Mpesa</SelectItem>
-                    <SelectItem value='EVC'>EVC</SelectItem>
-                    <SelectItem value='T-PLUS'>T-Plus</SelectItem>
-                    <SelectItem value='JEEB'>JEEB</SelectItem>
-                    <SelectItem value='SAHAL'>SAHAL</SelectItem>
-                    <SelectItem value='ZAAD'>ZAAD</SelectItem>
-                  </SelectGroup>
-                  <SelectGroup>
-                    <SelectLabel className='text-white/70'>Crypto</SelectLabel>
-                    <SelectItem value='USDT-TRC20'>USDT (TRC20)</SelectItem>
-                    <SelectItem value='USDT-BEP20'>USDT (BEP20)</SelectItem>
-                    <SelectItem value='USDC-BEP20'>USDC (BEP20)</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <Input
-                type='text'
-                placeholder='0.00'
-                value={estimatedAmount}
-                readOnly
-                className='flex-1 bg-[#001a38]/70 border-0 text-white/70 rounded-md'
-              />
+            <div className='p-1.5 bg-gradient-to-br from-primary/80 to-blue-500/80 rounded-full shadow-lg'>
+              <Button
+                type='button'
+                variant='outline'
+                size='icon'
+                className='rounded-full border-0 h-12 w-12 bg-[#001a38] hover:bg-[#0a2348] text-white transition-all duration-300 hover:scale-105'
+                onClick={handleSwapWallets}>
+                <ArrowDown className='h-6 w-6' />
+              </Button>
             </div>
           </div>
 
-          <div className='pt-4'>
+          {/* To Section */}
+          <div className='space-y-3'>
+            <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+              To
+            </label>
+            <div className='flex flex-col gap-3'>
+              <WalletSelector
+                label='Destination'
+                selected={toWallet}
+                onSelect={setToWallet}
+                type='to'
+                walletOptions={walletOptions}
+                showDrawer={toDrawerOpen}
+                setShowDrawer={setToDrawerOpen}
+              />
+
+              <div className='relative'>
+                <Input
+                  type='text'
+                  placeholder='0.00'
+                  value={estimatedAmount}
+                  readOnly
+                  className='w-full bg-[#001a38]/60 border border-white/10 text-white/80 rounded-lg shadow-inner shadow-black/20 h-12 text-lg'
+                />
+                {fromAmount && parseFloat(fromAmount) > 0 && (
+                  <div className='absolute right-3 top-1/2 -translate-y-1/2 text-white/80'>
+                    {
+                      currencyRates[toWallet as keyof typeof currencyRates]
+                        ?.symbol
+                    }
+                  </div>
+                )}
+                {fromAmount && parseFloat(fromAmount) > 0 && (
+                  <div className='absolute -right-2 -top-2 text-xs bg-gradient-to-r from-primary to-blue-500 text-white px-2 py-1 rounded-full font-semibold shadow-md'>
+                    Est. Value
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Recipient field - now removed */}
+
+          {/* Transaction Summary - conditionally rendered */}
+          {showSummary && (
+            <div className='mt-4 pt-4 border-t border-white/10'>
+              <TransactionSummary
+                fromAmount={fromAmount}
+                serviceFee={serviceFee}
+                netAmount={netAmount}
+              />
+              <ExchangeRates rates={equivalentRates} />
+            </div>
+          )}
+
+          {/* Action Button */}
+          <div className='pt-6'>
             <Button
               type='submit'
-              className='w-full bg-primary hover:bg-primary/90 text-white font-medium'
-              disabled={isLoading}>
+              className='w-full bg-gradient-to-r from-primary to-blue-500 hover:from-primary/90 hover:to-blue-500/90 text-white font-semibold py-6 rounded-lg shadow-lg shadow-primary/20 transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] border border-white/10'
+              disabled={Boolean(
+                isLoading || !fromAmount || parseFloat(fromAmount) <= 0
+              )}>
               {isLoading ? (
                 <>
-                  <RefreshCw className='mr-2 h-4 w-4 animate-spin' />
+                  <RefreshCw className='mr-2 h-5 w-5 animate-spin' />
                   Processing...
                 </>
               ) : (
@@ -154,6 +235,20 @@ export const SwapForm = () => {
               )}
             </Button>
           </div>
+
+          {/* Confirmation Message */}
+          {fromAmount && !isLoading && parseFloat(fromAmount) > 0 && (
+            <ConfirmationMessage
+              estimatedAmount={estimatedAmount}
+              toWallet={toWallet}
+              selectedWallet={selectedToWallet}
+              recipientAccount={recipientAccount}
+              shouldShowRecipientField={shouldShowRecipientField}
+              currencySymbol={
+                currencyRates[toWallet as keyof typeof currencyRates]?.symbol
+              }
+            />
+          )}
         </form>
       </CardContent>
     </Card>

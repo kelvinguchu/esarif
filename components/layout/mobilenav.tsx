@@ -2,41 +2,41 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  ArrowLeftRight,
-  CreditCard,
-  HelpCircle,
-  Settings,
-  UserCheck,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  FaExchangeAlt,
+  FaHistory,
+  FaIdCard,
+  FaUserCircle,
+  FaQuestionCircle,
+} from "react-icons/fa";
 
 export const MobileNav = () => {
   const pathname = usePathname();
 
   const routes = [
     {
-      icon: ArrowLeftRight,
+      icon: FaExchangeAlt,
       label: "Swap",
       href: "/swap",
     },
     {
-      icon: CreditCard,
+      icon: FaHistory,
       label: "Transactions",
       href: "/transactions",
     },
     {
-      icon: UserCheck,
+      icon: FaIdCard,
       label: "KYC",
       href: "/kyc",
     },
     {
-      icon: Settings,
+      icon: FaUserCircle,
       label: "Account",
       href: "/account",
     },
     {
-      icon: HelpCircle,
+      icon: FaQuestionCircle,
       label: "Support",
       href: "/support",
     },
