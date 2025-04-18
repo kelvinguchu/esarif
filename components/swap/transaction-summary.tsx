@@ -19,7 +19,7 @@ export const TransactionSummary = ({
         <div className='p-1 bg-gradient-to-r from-[#002346] to-[#00367a] rounded-full mr-2'>
           <Wallet className='h-4 w-4 text-primary' />
         </div>
-        Transaction Summary
+        Transaction Summary (USD)
       </h3>
       <div className='space-y-3 text-sm'>
         <div className='flex justify-between'>
@@ -58,13 +58,6 @@ interface ExchangeRateProps {
 export const ExchangeRates = ({ rates }: ExchangeRateProps) => {
   return (
     <div className='mt-4 p-3 rounded-lg bg-white/5 border border-white/5'>
-      <div className='flex items-center justify-between mb-2'>
-        <span className='text-xs text-white/60 flex items-center'>
-          <RefreshCw className='h-3 w-3 mr-1 animate-spin-slow' /> Live Exchange
-          Rates
-        </span>
-        <span className='text-xs text-white/60'>Updated 2 min ago</span>
-      </div>
       <div className='grid grid-cols-1 sm:grid-cols-3 gap-2'>
         {rates.map((rate, index) => (
           <div key={index} className='bg-white/5 rounded-md p-2 text-center'>

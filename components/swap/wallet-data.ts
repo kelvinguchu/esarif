@@ -1,14 +1,14 @@
 import { WalletInfo } from "./wallet-logo";
 
-// Currency mappings with proper symbols, formatting and current exchange rates
+// Currency mappings with proper symbols, all standardized to USD
 export const currencyRates = {
-  // Mobile Money
-  MPESA: { symbol: "KSh", name: "Kenyan Shilling", rate: 128.55 }, // 1 USD = 128.55 KSh (example rate)
-  EVC: { symbol: "Sh.So", name: "Somali Shilling", rate: 57300 }, // 1 USD = 57300 Sh.So (example rate)
-  "T-PLUS": { symbol: "Sh.So", name: "Somali Shilling", rate: 57300 },
-  JEEB: { symbol: "Sh.So", name: "Somali Shilling", rate: 57300 },
-  SAHAL: { symbol: "Sh.So", name: "Somali Shilling", rate: 57300 },
-  ZAAD: { symbol: "Sh.So", name: "Somali Shilling", rate: 57300 },
+  // Mobile Money - all using USD
+  MPESA: { symbol: "$", name: "USD", rate: 1 },
+  EVC: { symbol: "$", name: "USD", rate: 1 },
+  "T-PLUS": { symbol: "$", name: "USD", rate: 1 },
+  JEEB: { symbol: "$", name: "USD", rate: 1 },
+  SAHAL: { symbol: "$", name: "USD", rate: 1 },
+  ZAAD: { symbol: "$", name: "USD", rate: 1 },
   // Crypto
   "USDT-TRC20": { symbol: "$", name: "USDT", rate: 1 },
   "USDT-BEP20": { symbol: "$", name: "USDT", rate: 1 },
@@ -22,7 +22,7 @@ export const walletOptions: WalletInfo[] = [
     name: "M-PESA",
     type: "mobile",
     logo: "/logos/mpesa.png",
-    description: "Kenyan Mobile Money",
+    description: "Kenyan Mobile Money (USD)",
     color: "#4CAF50",
     isLocalImage: true,
   },
@@ -31,7 +31,7 @@ export const walletOptions: WalletInfo[] = [
     name: "EVC Plus",
     type: "mobile",
     logo: "/logos/evc.svg",
-    description: "Somali Mobile Money",
+    description: "Somali Mobile Money (USD)",
     color: "#2196F3",
     isLocalImage: true,
   },
@@ -40,7 +40,7 @@ export const walletOptions: WalletInfo[] = [
     name: "Telesom Plus",
     type: "mobile",
     logo: "/logos/tplus.webp",
-    description: "Somali Mobile Money",
+    description: "Somali Mobile Money (USD)",
     color: "#FF9800",
     isLocalImage: true,
   },
@@ -49,7 +49,7 @@ export const walletOptions: WalletInfo[] = [
     name: "JEEB",
     type: "mobile",
     logo: "/logos/jeeb.png",
-    description: "Somali Mobile Money",
+    description: "Somali Mobile Money (USD)",
     color: "#E91E63",
     isLocalImage: true,
   },
@@ -58,7 +58,7 @@ export const walletOptions: WalletInfo[] = [
     name: "SAHAL",
     type: "mobile",
     logo: "/logos/sahal.png",
-    description: "Somali Mobile Money",
+    description: "Somali Mobile Money (USD)",
     color: "#9C27B0",
     isLocalImage: true,
   },
@@ -67,7 +67,7 @@ export const walletOptions: WalletInfo[] = [
     name: "ZAAD",
     type: "mobile",
     logo: "/logos/zaad.png",
-    description: "Somali Mobile Money",
+    description: "Somali Mobile Money (USD)",
     color: "#3F51B5",
     isLocalImage: true,
   },
@@ -76,7 +76,7 @@ export const walletOptions: WalletInfo[] = [
     name: "USDT (TRC20)",
     type: "crypto",
     logo: "usdt",
-    description: "Tether on TRON",
+    description: "Tether on TRON (USD)",
     color: "#26A17B",
     isLocalImage: false,
   },
@@ -85,7 +85,7 @@ export const walletOptions: WalletInfo[] = [
     name: "USDT (BEP20)",
     type: "crypto",
     logo: "usdt",
-    description: "Tether on Binance Smart Chain",
+    description: "Tether on Binance Smart Chain (USD)",
     color: "#F0B90B",
     isLocalImage: false,
   },
@@ -94,38 +94,20 @@ export const walletOptions: WalletInfo[] = [
     name: "USDC (BEP20)",
     type: "crypto",
     logo: "usdc",
-    description: "USD Coin on Binance Smart Chain",
+    description: "USD Coin on Binance Smart Chain (USD)",
     color: "#2775CA",
     isLocalImage: false,
   },
 ];
 
-// Helper function to calculate equivalent rates for popular conversions
+// Helper function to return only a single USD rate for simplicity
 export const getEquivalentRates = () => {
   return [
     {
-      from: "USD",
-      to: "MPESA",
-      rate: currencyRates["MPESA"].rate.toFixed(2),
-      label: `$1 = ${currencyRates["MPESA"].symbol}${currencyRates[
-        "MPESA"
-      ].rate.toFixed(2)}`,
-    },
-    {
-      from: "MPESA",
+      from: "All wallets",
       to: "USD",
-      rate: (1 / currencyRates["MPESA"].rate).toFixed(6),
-      label: `${currencyRates["MPESA"].symbol}100 = $${(
-        100 / currencyRates["MPESA"].rate
-      ).toFixed(2)}`,
-    },
-    {
-      from: "EVC",
-      to: "USD",
-      rate: (1 / currencyRates["EVC"].rate).toFixed(6),
-      label: `${currencyRates["EVC"].symbol}1000 = $${(
-        1000 / currencyRates["EVC"].rate
-      ).toFixed(2)}`,
+      rate: "1.00",
+      label: "All transactions in USD ($)",
     },
   ];
 };

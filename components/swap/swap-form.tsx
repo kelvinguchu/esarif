@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { WalletSelector } from "./wallet-selector";
-import { TransactionSummary, ExchangeRates } from "./transaction-summary";
+import { TransactionSummary } from "./transaction-summary";
 import { ConfirmationMessage } from "./confirmation-message";
 import {
   walletOptions,
@@ -30,12 +30,8 @@ export const SwapForm = () => {
   // Net amount after fee
   const netAmount = fromAmount ? parseFloat(fromAmount) - serviceFee : 0;
 
-  // Estimated amount based on exchange rate
-  const estimatedAmount = fromAmount
-    ? (
-        netAmount * currencyRates[toWallet as keyof typeof currencyRates].rate
-      ).toFixed(2)
-    : "0";
+  // Since everything is now in USD, the estimated amount is the same as netAmount
+  const estimatedAmount = fromAmount ? netAmount.toFixed(2) : "0";
 
   // Get equivalent rates
   const equivalentRates = getEquivalentRates();
@@ -77,8 +73,8 @@ export const SwapForm = () => {
     }, 1500);
   };
 
-  // Determine if we need to show recipient field - only show for mobile money destinations
-  const shouldShowRecipientField = false; // Setting to false to always hide the recipient input
+  // Recipient field no longer needed
+  const shouldShowRecipientField = false;
 
   return (
     <Card className='border border-white/10 shadow-xl bg-gradient-to-b from-[#0a2348] to-[#001a38] rounded-xl overflow-hidden backdrop-blur-sm'>
@@ -115,35 +111,12 @@ export const SwapForm = () => {
                   placeholder='0.00'
                   value={fromAmount}
                   onChange={handleAmountChange}
-                  className='bg-[#001a38]/80 border border-white/10 text-white rounded-lg shadow-inner shadow-black/20 transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg'
+                  className='bg-[#001a38]/80 border border-white/10 text-white rounded-lg shadow-inner shadow-black/20 transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg pl-7'
                   min='0'
                 />
-                {fromAmount &&
-                  parseFloat(fromAmount) > 0 &&
-                  fromWallet !== "USDT-TRC20" &&
-                  fromWallet !== "USDT-BEP20" &&
-                  fromWallet !== "USDC-BEP20" && (
-                    <div className='mt-2 p-2 rounded-lg bg-[#001428]/80 border border-white/5 text-xs text-white/70 space-y-1.5'>
-                      <div className='flex items-center'>
-                        <span>
-                          ≈ {currencyRates["MPESA"].symbol}{" "}
-                          {(
-                            parseFloat(fromAmount) * currencyRates["MPESA"].rate
-                          ).toFixed(2)}{" "}
-                          (Kenyan Shilling)
-                        </span>
-                      </div>
-                      <div className='flex items-center'>
-                        <span>
-                          ≈ {currencyRates["EVC"].symbol}{" "}
-                          {(
-                            parseFloat(fromAmount) * currencyRates["EVC"].rate
-                          ).toFixed(2)}{" "}
-                          (Somali Shilling)
-                        </span>
-                      </div>
-                    </div>
-                  )}
+                <div className='absolute left-3 top-1/2 -translate-y-1/2 text-white/80'>
+                  $
+                </div>
               </div>
             </div>
           </div>
@@ -184,26 +157,14 @@ export const SwapForm = () => {
                   placeholder='0.00'
                   value={estimatedAmount}
                   readOnly
-                  className='w-full bg-[#001a38]/60 border border-white/10 text-white/80 rounded-lg shadow-inner shadow-black/20 h-12 text-lg'
+                  className='w-full bg-[#001a38]/60 border border-white/10 text-white/80 rounded-lg shadow-inner shadow-black/20 h-12 text-lg pl-7'
                 />
-                {fromAmount && parseFloat(fromAmount) > 0 && (
-                  <div className='absolute right-3 top-1/2 -translate-y-1/2 text-white/80'>
-                    {
-                      currencyRates[toWallet as keyof typeof currencyRates]
-                        ?.symbol
-                    }
-                  </div>
-                )}
-                {fromAmount && parseFloat(fromAmount) > 0 && (
-                  <div className='absolute -right-2 -top-2 text-xs bg-gradient-to-r from-primary to-blue-500 text-white px-2 py-1 rounded-full font-semibold shadow-md'>
-                    Est. Value
-                  </div>
-                )}
+                <div className='absolute left-3 top-1/2 -translate-y-1/2 text-white/80'>
+                  $
+                </div>           
               </div>
             </div>
           </div>
-
-          {/* Recipient field - now removed */}
 
           {/* Transaction Summary - conditionally rendered */}
           {showSummary && (
@@ -213,7 +174,6 @@ export const SwapForm = () => {
                 serviceFee={serviceFee}
                 netAmount={netAmount}
               />
-              <ExchangeRates rates={equivalentRates} />
             </div>
           )}
 
@@ -244,9 +204,7 @@ export const SwapForm = () => {
               selectedWallet={selectedToWallet}
               recipientAccount={recipientAccount}
               shouldShowRecipientField={shouldShowRecipientField}
-              currencySymbol={
-                currencyRates[toWallet as keyof typeof currencyRates]?.symbol
-              }
+              currencySymbol='$'
             />
           )}
         </form>
