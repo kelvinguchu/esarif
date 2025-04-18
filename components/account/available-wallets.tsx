@@ -42,8 +42,8 @@ export function AvailableWallets({ isOpen, onClose }: AvailableWalletsProps) {
     {
       id: "tplus",
       name: "T-Plus",
-      provider: "Telesom",
-      description: "Telesom's mobile money service",
+      provider: "T-Plus",
+      description: "T-Plus's mobile money service",
       color: "bg-purple-500",
       logo: "/logos/tplus.webp",
     },

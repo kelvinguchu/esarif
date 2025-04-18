@@ -37,7 +37,7 @@ export const walletOptions: WalletInfo[] = [
   },
   {
     id: "T-PLUS",
-    name: "Telesom Plus",
+    name: "T-Plus",
     type: "mobile",
     logo: "/logos/tplus.webp",
     description: "Somali Mobile Money (USD)",
