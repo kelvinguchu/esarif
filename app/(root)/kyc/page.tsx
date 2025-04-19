@@ -71,12 +71,12 @@ export default function KYC() {
       <div className='flex flex-col md:flex-row md:flex-wrap gap-3 sm:gap-6'>
         {/* Basic Information Card */}
         <Card className='bg-[#051b36] border border-[#1a3c5e]/70 shadow-md hover:shadow-lg transition-all flex flex-col w-full md:w-[48%] overflow-hidden'>
-          <div className='h-1 w-full bg-blue-600'></div>
+          <div className='h-1 w-full bg-[#00805a]'></div>
           <CardHeader className='bg-[#072442] border-b border-[#1a3c5e] p-4'>
             <div className='flex justify-between items-center'>
               <CardTitle className='text-white text-base sm:text-lg flex items-center'>
-                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-blue-500/30'>
-                  <UserIcon className='h-4 w-4 text-blue-400' />
+                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-[#00805a]/30'>
+                  <UserIcon className='h-4 w-4 text-[#00805a]' />
                 </div>
                 Basic Information
               </CardTitle>
@@ -106,7 +106,7 @@ export default function KYC() {
           </CardContent>
           <CardFooter className='border-t border-[#1a3c5e] p-4 mt-auto'>
             <Link href='/kyc/basic-info' className='w-full'>
-              <Button className='w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 h-auto rounded-md'>
+              <Button className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-medium py-3 h-auto rounded-md'>
                 {verificationStatus.basicInfo === "verified"
                   ? "View Submission"
                   : "Complete Verification"}
@@ -117,12 +117,12 @@ export default function KYC() {
 
         {/* ID Verification Card */}
         <Card className='bg-[#051b36] border border-[#1a3c5e]/70 shadow-md hover:shadow-lg transition-all flex flex-col w-full md:w-[48%] overflow-hidden'>
-          <div className='h-1 w-full bg-indigo-600'></div>
+          <div className='h-1 w-full bg-[#00805a]'></div>
           <CardHeader className='bg-[#072442] border-b border-[#1a3c5e] p-4'>
             <div className='flex justify-between items-center'>
               <CardTitle className='text-white text-base sm:text-lg flex items-center'>
-                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-indigo-500/30'>
-                  <FileCheck className='h-4 w-4 text-indigo-400' />
+                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-[#00805a]/30'>
+                  <FileCheck className='h-4 w-4 text-[#00805a]' />
                 </div>
                 ID Verification
               </CardTitle>
@@ -151,7 +151,7 @@ export default function KYC() {
           </CardContent>
           <CardFooter className='border-t border-[#1a3c5e] p-4 mt-auto'>
             <Link href='/kyc/document-verification' className='w-full'>
-              <Button className='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 h-auto rounded-md'>
+              <Button className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-medium py-3 h-auto rounded-md'>
                 {verificationStatus.idVerification === "verified"
                   ? "View Submission"
                   : "Complete Verification"}
@@ -162,12 +162,12 @@ export default function KYC() {
 
         {/* Facial Verification Card */}
         <Card className='bg-[#051b36] border border-[#1a3c5e]/70 shadow-md hover:shadow-lg transition-all flex flex-col w-full md:w-[48%] overflow-hidden'>
-          <div className='h-1 w-full bg-violet-600'></div>
+          <div className='h-1 w-full bg-[#00805a]'></div>
           <CardHeader className='bg-[#072442] border-b border-[#1a3c5e] p-4'>
             <div className='flex justify-between items-center'>
               <CardTitle className='text-white text-base sm:text-lg flex items-center'>
-                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-violet-500/30'>
-                  <Camera className='h-4 w-4 text-violet-400' />
+                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-[#00805a]/30'>
+                  <Camera className='h-4 w-4 text-[#00805a]' />
                 </div>
                 Facial Verification
               </CardTitle>
@@ -196,7 +196,7 @@ export default function KYC() {
           </CardContent>
           <CardFooter className='border-t border-[#1a3c5e] p-4 mt-auto'>
             <Link href='/kyc/facial-verification' className='w-full'>
-              <Button className='w-full bg-violet-600 hover:bg-violet-700 text-white font-medium py-3 h-auto rounded-md'>
+              <Button className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-medium py-3 h-auto rounded-md'>
                 {verificationStatus.facialVerification === "verified"
                   ? "View Submission"
                   : "Complete Verification"}
@@ -207,12 +207,12 @@ export default function KYC() {
 
         {/* Proof of Address Card */}
         <Card className='bg-[#051b36] border border-[#1a3c5e]/70 shadow-md hover:shadow-lg transition-all flex flex-col w-full md:w-[48%] overflow-hidden'>
-          <div className='h-1 w-full bg-teal-600'></div>
+          <div className='h-1 w-full bg-[#00805a]'></div>
           <CardHeader className='bg-[#072442] border-b border-[#1a3c5e] p-4'>
             <div className='flex justify-between items-center'>
               <CardTitle className='text-white text-base sm:text-lg flex items-center'>
-                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-teal-500/30'>
-                  <Home className='h-4 w-4 text-teal-400' />
+                <div className='h-9 w-9 mr-3 bg-[#0d325b] rounded-full flex items-center justify-center border border-[#00805a]/30'>
+                  <Home className='h-4 w-4 text-[#00805a]' />
                 </div>
                 Proof of Address
               </CardTitle>
@@ -241,7 +241,7 @@ export default function KYC() {
           </CardContent>
           <CardFooter className='border-t border-[#1a3c5e] p-4 mt-auto'>
             <Link href='/kyc/proof-of-residence' className='w-full'>
-              <Button className='w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 h-auto rounded-md'>
+              <Button className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-medium py-3 h-auto rounded-md'>
                 {verificationStatus.proofOfAddress === "verified"
                   ? "View Submission"
                   : "Complete Verification"}
