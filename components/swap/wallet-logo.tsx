@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { DollarSign, CircleDollarSign } from "lucide-react";
+import { FaBitcoin, FaEthereum } from "react-icons/fa";
 
 export type WalletInfo = {
   id: string;
@@ -39,6 +40,18 @@ export const WalletLogo = ({ wallet, size = 32 }: WalletLogoProps) => {
     return (
       <div className='flex items-center justify-center w-full h-full bg-[#2775CA] rounded-full'>
         <DollarSign className='h-[60%] w-[60%] text-white' />
+      </div>
+    );
+  } else if (wallet.logo === "btc") {
+    return (
+      <div className='flex items-center justify-center w-full h-full bg-[#F7931A] rounded-full'>
+        <FaBitcoin className='h-[65%] w-[65%] text-white' />
+      </div>
+    );
+  } else if (wallet.logo === "eth") {
+    return (
+      <div className='flex items-center justify-center w-full h-full bg-[#627EEA] rounded-full'>
+        <FaEthereum className='h-[65%] w-[65%] text-white' />
       </div>
     );
   }

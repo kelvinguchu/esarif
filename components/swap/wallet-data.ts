@@ -13,6 +13,8 @@ export const currencyRates = {
   "USDT-TRC20": { symbol: "$", name: "USDT", rate: 1 },
   "USDT-BEP20": { symbol: "$", name: "USDT", rate: 1 },
   "USDC-BEP20": { symbol: "$", name: "USDC", rate: 1 },
+  BTC: { symbol: "₿", name: "Bitcoin", rate: 1 / 63000 }, // 1 USD = ~0.000016 BTC
+  ETH: { symbol: "Ξ", name: "Ethereum", rate: 1 / 3300 }, // 1 USD = ~0.0003 ETH
 };
 
 // Wallet options with actual logos and crypto icons
@@ -98,6 +100,24 @@ export const walletOptions: WalletInfo[] = [
     color: "#2775CA",
     isLocalImage: false,
   },
+  {
+    id: "BTC",
+    name: "Bitcoin",
+    type: "crypto",
+    logo: "btc",
+    description: "Bitcoin",
+    color: "#F7931A",
+    isLocalImage: false,
+  },
+  {
+    id: "ETH",
+    name: "Ethereum",
+    type: "crypto",
+    logo: "eth",
+    description: "Ethereum",
+    color: "#627EEA",
+    isLocalImage: false,
+  },
 ];
 
 // Helper function to return only a single USD rate for simplicity
@@ -111,3 +131,130 @@ export const getEquivalentRates = () => {
     },
   ];
 };
+
+// Crypto filter for wallet options
+export const cryptoWallets = walletOptions.filter(
+  (wallet) => wallet.type === "crypto"
+);
+
+// Mobile money filter for wallet options
+export const mobileWallets = walletOptions.filter(
+  (wallet) => wallet.type === "mobile"
+);
+
+// List of Somali banks for payment methods
+export const somaliaBanks = [
+  {
+    id: "agro-africa-bank",
+    name: "Agro Africa Bank",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "amal-bank",
+    name: "Amal Bank",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "amana-bank",
+    name: "Amana Bank",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "bushra-business-bank",
+    name: "Bushra Business Bank",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "dahabshiil-bank",
+    name: "Dahabshil Bank International",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "daryeel-bank",
+    name: "Daryeel Bank Ltd",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "galaxy-bank",
+    name: "Galaxy International Bank",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "ibs-bank",
+    name: "International Bank of Somalia (IBS)",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "premier-bank",
+    name: "Premier Bank",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "salaam-bank",
+    name: "Salaam Somali Bank",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  {
+    id: "sombank",
+    name: "SomBank Ltd",
+    logo: "",
+    description: "Banking Services",
+    color: "#00805a",
+  },
+  // Mobile Money Services
+  {
+    id: "evc",
+    name: "EVC Plus",
+    logo: "",
+    description: "Mobile Money Service",
+    color: "#2196F3",
+  },
+  {
+    id: "zaad",
+    name: "ZAAD",
+    logo: "",
+    description: "Mobile Money Service",
+    color: "#3F51B5",
+  },
+  {
+    id: "sahal",
+    name: "SAHAL",
+    logo: "",
+    description: "Mobile Money Service",
+    color: "#9C27B0",
+  },
+  {
+    id: "jeeb",
+    name: "JEEB",
+    logo: "",
+    description: "Mobile Money Service",
+    color: "#E91E63",
+  },
+  {
+    id: "tplus",
+    name: "Telesom Plus",
+    logo: "",
+    description: "Mobile Money Service",
+    color: "#FF9800",
+  },
+];

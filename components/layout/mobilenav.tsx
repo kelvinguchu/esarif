@@ -28,31 +28,45 @@ export const MobileNav = () => {
   ];
 
   return (
-    <div className='fixed bottom-0 left-0 right-0 z-50 md:hidden'>
-      <nav className='flex items-center justify-around bg-[#05264c] border-t border-white/10 h-16 relative'>
+    <div className='fixed bottom-0 left-0 right-0 z-50 md:hidden px-3 pb-2'>
+      <nav className='flex items-center justify-around bg-[#05264c] h-16 relative rounded-full shadow-lg border border-white/10'>
         {routes.map((route) => (
           <Link
             key={route.href}
             href={route.href}
             className={cn(
               "flex flex-col items-center justify-center w-full h-full",
-              route.isMain && "relative -mt-5",
               pathname === route.href
                 ? route.isMain
                   ? "text-white"
-                  : "text-primary"
-                : "text-white/80 hover:text-white"
+                  : "text-[#00805a]"
+                : "text-white/60 hover:text-white"
             )}>
-            {route.isMain ? (
-              <div className='absolute -top-5 bg-gradient-to-r from-primary to-blue-500 rounded-full p-3 shadow-lg border-4 border-[#05264c]'>
-                <route.icon className='h-6 w-6 text-white' />
-              </div>
-            ) : (
-              <route.icon className='h-5 w-5 mb-1' />
-            )}
-            <span className={cn("text-xs", route.isMain && "mt-5")}>
-              {route.label}
-            </span>
+            <div className='flex flex-col items-center'>
+              {route.isMain ? (
+                <div className='relative'>
+                  <div className='absolute -top-10 left-1/2 -translate-x-1/2 bg-[#00805a] rounded-full p-4 shadow-[0_0_15px_rgba(0,128,90,0.5)] border-4 border-[#05264c] transition-transform hover:scale-105'>
+                    <route.icon className='h-7 w-7 text-white' />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className={cn(
+                    "rounded-full p-2 transition-colors mb-1",
+                    pathname === route.href ? "bg-white/10" : "bg-transparent"
+                  )}>
+                  <route.icon className='h-5 w-5' />
+                </div>
+              )}
+              <span
+                className={cn(
+                  "text-xs font-medium transition-colors mt-1",
+                  route.isMain && "mt-9",
+                  pathname === route.href ? "opacity-100" : "opacity-70"
+                )}>
+                {route.label}
+              </span>
+            </div>
           </Link>
         ))}
       </nav>
