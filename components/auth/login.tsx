@@ -59,49 +59,50 @@ export default function LoginForm() {
   }
 
   return (
-    <div className='flex items-center justify-center min-h-screen py-4 px-3 sm:py-6 sm:px-6 bg-background'>
-      <div className='relative flex flex-col md:flex-row w-full max-w-5xl overflow-hidden rounded-xl shadow-2xl bg-secondary'>
+    <div className='flex items-center justify-center min-h-screen py-4 px-3 sm:py-6 sm:px-6 bg-gray-50'>
+      <div className='relative flex flex-col md:flex-row w-full max-w-5xl overflow-hidden rounded-xl shadow-lg bg-white'>
         {/* Left side - Image/Brand - Hidden on mobile, visible from md breakpoint */}
-        <div className='relative hidden md:block md:w-1/2 overflow-hidden'>
-          <div className='absolute inset-0 bg-primary/20 backdrop-blur-sm z-10'></div>
-          <div className='absolute inset-0 flex flex-col items-center justify-center z-20 bg-background/80 p-6 lg:p-10'>
-            <div className='px-5 py-3 rounded-full bg-primary/90 flex items-center justify-center mb-6 lg:mb-8 shadow-lg'>
+        <div className='relative hidden md:block md:w-1/2 overflow-hidden bg-primary/5'>
+          <div className='absolute inset-0 flex flex-col items-center justify-center z-20 p-6 lg:p-10'>
+            <div className='px-5 py-3 rounded-full bg-primary flex items-center justify-center mb-6 lg:mb-8 shadow-md'>
               <span className='text-2xl lg:text-3xl font-bold text-white tracking-tight'>
                 e-Sarif
               </span>
             </div>
-            <h2 className='text-2xl lg:text-3xl font-bold text-white mb-3 lg:mb-4'>
+            <h2 className='text-2xl lg:text-3xl font-bold text-gray-800 mb-3 lg:mb-4'>
               Welcome Back
             </h2>
-            <p className='text-center text-white/80 mb-6 lg:mb-8 max-w-sm'>
+            <p className='text-center text-gray-600 mb-6 lg:mb-8 max-w-sm'>
               Access your wallets and manage your finances securely in one
               place.
             </p>
             <div className='grid grid-cols-3 gap-3 lg:gap-4 w-full max-w-xs'>
-              <div className='rounded-lg bg-white/10 p-2 backdrop-blur-md border border-white/10 flex items-center justify-center transition-colors hover:bg-white/15'>
-                <span className='text-xs text-white font-medium'>Mpesa</span>
+              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
+                <span className='text-xs text-gray-700 font-medium'>Mpesa</span>
               </div>
-              <div className='rounded-lg bg-white/10 p-2 backdrop-blur-md border border-white/10 flex items-center justify-center transition-colors hover:bg-white/15'>
-                <span className='text-xs text-white font-medium'>EVC</span>
+              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
+                <span className='text-xs text-gray-700 font-medium'>EVC</span>
               </div>
-              <div className='rounded-lg bg-white/10 p-2 backdrop-blur-md border border-white/10 flex items-center justify-center transition-colors hover:bg-white/15'>
-                <span className='text-xs text-white font-medium'>ZAAD</span>
+              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
+                <span className='text-xs text-gray-700 font-medium'>ZAAD</span>
               </div>
-              <div className='rounded-lg bg-white/10 p-2 backdrop-blur-md border border-white/10 flex items-center justify-center transition-colors hover:bg-white/15'>
-                <span className='text-xs text-white font-medium'>USDT</span>
+              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
+                <span className='text-xs text-gray-700 font-medium'>USDT</span>
               </div>
-              <div className='rounded-lg bg-white/10 p-2 backdrop-blur-md border border-white/10 flex items-center justify-center transition-colors hover:bg-white/15'>
-                <span className='text-xs text-white font-medium'>JEEB</span>
+              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
+                <span className='text-xs text-gray-700 font-medium'>JEEB</span>
               </div>
-              <div className='rounded-lg bg-white/10 p-2 backdrop-blur-md border border-white/10 flex items-center justify-center transition-colors hover:bg-white/15'>
-                <span className='text-xs text-white font-medium'>T-Plus</span>
+              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
+                <span className='text-xs text-gray-700 font-medium'>
+                  T-Plus
+                </span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Mobile Brand - Only visible on smaller screens */}
-        <div className='md:hidden text-center w-full py-6 bg-gray-50 border-b border-gray-200'>
+        <div className='md:hidden text-center w-full py-6 bg-white border-b border-gray-200'>
           <div className='flex justify-center mb-2'>
             <div className='inline-flex px-4 py-2 items-center justify-center rounded-full bg-primary shadow-md'>
               <span className='text-lg font-bold text-white'>e-Sarif</span>
@@ -138,7 +139,7 @@ export default function LoginForm() {
                         <Input
                           placeholder='name@example.com'
                           {...field}
-                          className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                          className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                         />
                       </div>
                     </FormControl>
@@ -168,7 +169,7 @@ export default function LoginForm() {
                           type='password'
                           placeholder='••••••••'
                           {...field}
-                          className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                          className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                         />
                       </div>
                     </FormControl>

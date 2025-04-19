@@ -128,8 +128,8 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className='flex items-center justify-center min-h-screen py-4 px-3 sm:py-6 sm:px-6 bg-background'>
-      <div className='w-full max-w-4xl p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl bg-white'>
+    <div className='flex items-center justify-center min-h-screen py-4 px-3 sm:py-6 sm:px-6 bg-gray-50'>
+      <div className='w-full max-w-4xl p-4 sm:p-6 md:p-8 rounded-xl shadow-lg bg-white'>
         <div className='text-center mb-6 md:mb-8'>
           <div className='flex justify-center mb-4'>
             <div className='inline-flex px-5 py-2 items-center justify-center rounded-full bg-primary shadow-md'>
@@ -170,7 +170,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='John'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -192,7 +192,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='David'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -214,7 +214,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='Doe'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -236,7 +236,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='john.doe@example.com'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -258,7 +258,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='+254712345678'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -289,7 +289,7 @@ export default function RegisterForm() {
                         <FormControl>
                           <div className='relative'>
                             <MapPin className='absolute left-3 top-1/2 -translate-y-1/2 h-[18px] w-[18px] sm:h-5 sm:w-5 text-gray-500 z-10' />
-                            <SelectTrigger className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800'>
+                            <SelectTrigger className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800'>
                               <SelectValue placeholder='Select country' />
                             </SelectTrigger>
                           </div>
@@ -322,7 +322,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='Nairobi'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -344,7 +344,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='Westlands'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -366,7 +366,7 @@ export default function RegisterForm() {
                           <Input
                             placeholder='Parklands'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -398,7 +398,7 @@ export default function RegisterForm() {
                             type='password'
                             placeholder='••••••••'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
@@ -421,7 +421,7 @@ export default function RegisterForm() {
                             type='password'
                             placeholder='••••••••'
                             {...field}
-                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-100 border-gray-300 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                            className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
                           />
                         </div>
                       </FormControl>
