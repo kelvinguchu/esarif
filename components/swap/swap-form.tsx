@@ -428,12 +428,13 @@ export const SwapForm = () => {
           )}
 
           {/* Transaction Summary - conditionally rendered only for transfer mode */}
-          {showSummary && mode === "transfer" && (
+          {showSummary && isModeType(mode, "transfer") && (
             <div className='mt-4 pt-4 border-t border-gray-200'>
               <TransactionSummary
                 fromAmount={fromAmount}
                 serviceFee={serviceFee}
                 netAmount={netAmount}
+                toWallet={toWallet}
               />
             </div>
           )}

@@ -6,39 +6,53 @@ interface TransactionSummaryProps {
   fromAmount: string;
   serviceFee: number;
   netAmount: number;
+  toWallet?: string;
 }
 
 export const TransactionSummary = ({
   fromAmount,
   serviceFee,
   netAmount,
+  toWallet = "",
 }: TransactionSummaryProps) => {
+  const isMpesa = toWallet === "MPESA";
+
+  const kshRate = 128.55;
+
+  const formatCurrency = (amount: number) => {
+    if (isMpesa) {
+      return `KSh ${(amount * kshRate).toFixed(2)}`;
+    } else {
+      return `$${amount.toFixed(2)}`;
+    }
+  };
+
   return (
     <div className='bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border border-gray-200 p-4 shadow-sm'>
       <h3 className='text-gray-800 font-medium mb-4 flex items-center'>
         <div className='p-1 bg-gradient-to-r from-blue-100 to-green-100 rounded-full mr-2'>
           <Wallet className='h-4 w-4 text-primary' />
         </div>
-        Transaction Summary (USD)
+        Transaction Summary {isMpesa ? "(KES)" : "(USD)"}
       </h3>
       <div className='space-y-3 text-sm'>
         <div className='flex justify-between'>
           <span className='text-gray-600'>Amount:</span>
           <span className='text-gray-800 font-medium'>
-            ${parseFloat(fromAmount).toFixed(2)}
+            {formatCurrency(parseFloat(fromAmount))}
           </span>
         </div>
         <div className='flex justify-between'>
           <span className='text-gray-600'>Service Charge (1%):</span>
           <span className='text-gray-800 font-medium'>
-            ${serviceFee.toFixed(2)}
+            {formatCurrency(serviceFee)}
           </span>
         </div>
         <div className='h-px bg-gray-200 my-3'></div>
         <div className='flex justify-between text-base'>
           <span className='text-gray-700 font-medium'>Net Amount:</span>
           <span className='text-gray-900 font-semibold'>
-            ${netAmount.toFixed(2)}
+            {formatCurrency(netAmount)}
           </span>
         </div>
       </div>
