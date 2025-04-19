@@ -67,9 +67,6 @@ export const BankSelector = ({
 
   const content = (
     <div className='p-4 divide-y divide-gray-200'>
-      <div className='pb-2 text-gray-700 font-medium'>
-        Select Payment Method
-      </div>
       {bankOptions.map((bank) => (
         <div
           key={bank.id}

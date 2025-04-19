@@ -50,9 +50,6 @@ export const WalletSelector = ({
 
   const content = (
     <div className='p-4 divide-y divide-gray-200'>
-      <div className='pb-2 text-gray-700 font-medium'>
-        Select {label} Wallet
-      </div>
       {walletOptions.map((wallet) => (
         <div
           key={wallet.id}
