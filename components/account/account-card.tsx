@@ -74,8 +74,8 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
   };
 
   return (
-    <Card className='bg-[#001a38] border-0 shadow-md hover:shadow-lg transition-all w-full h-full overflow-hidden'>
-      <CardHeader className='bg-[#041c38]/50 border-b border-white/10 flex flex-row items-center justify-between p-3 md:p-4'>
+    <Card className='bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all w-full h-full overflow-hidden'>
+      <CardHeader className='bg-gray-50 border-b border-gray-200 flex flex-row items-center justify-between p-3 md:p-4'>
         <div className='flex items-center space-x-2 md:space-x-3'>
           {account.logoUrl ? (
             <div className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 flex items-center justify-center overflow-hidden'>
@@ -94,10 +94,10 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
             </div>
           )}
           <div>
-            <CardTitle className='text-white text-base md:text-lg'>
+            <CardTitle className='text-gray-800 text-base md:text-lg'>
               {account.name}
             </CardTitle>
-            <p className='text-white/60 text-xs'>{account.provider}</p>
+            <p className='text-gray-500 text-xs'>{account.provider}</p>
           </div>
         </div>
         <DropdownMenu>
@@ -105,21 +105,21 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
             <Button
               variant='ghost'
               size='icon'
-              className='h-8 w-8 text-white/70 hover:text-white hover:bg-white/10'>
+              className='h-8 w-8 text-gray-500 hover:text-gray-700 hover:bg-gray-100'>
               <MoreHorizontal className='h-4 w-4' />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align='end'
-            className='bg-[#05264c] border-white/10 text-white'>
+            className='bg-white border-gray-200 text-gray-800'>
             <DropdownMenuItem
-              className='hover:bg-white/10 cursor-pointer'
+              className='hover:bg-gray-100 cursor-pointer'
               onClick={copyAccountNumber}>
               <Copy className='mr-2 h-4 w-4' />
               {copied ? "Copied" : "Copy Account Number"}
             </DropdownMenuItem>
             <DropdownMenuItem
-              className='hover:bg-white/10 cursor-pointer text-red-400 hover:text-red-300'
+              className='hover:bg-gray-100 cursor-pointer text-red-500 hover:text-red-600'
               onClick={() => onDisconnect(account.id)}>
               <Trash className='mr-2 h-4 w-4' /> Disconnect
             </DropdownMenuItem>
@@ -129,28 +129,28 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
       <CardContent className='p-3 md:p-4'>
         <div className='flex flex-col space-y-3'>
           <div>
-            <p className='text-white/50 text-xs mb-1'>Balance</p>
-            <p className='text-white text-lg md:text-xl font-semibold'>
+            <p className='text-gray-500 text-xs mb-1'>Balance</p>
+            <p className='text-gray-800 text-lg md:text-xl font-semibold'>
               {formatCurrency(account.balance, account.currency)}
             </p>
           </div>
           <div>
-            <p className='text-white/50 text-xs mb-1'>Account Number</p>
+            <p className='text-gray-500 text-xs mb-1'>Account Number</p>
             <div className='flex items-center'>
-              <p className='text-white/80 text-xs md:text-sm mr-2 break-all'>
+              <p className='text-gray-600 text-xs md:text-sm mr-2 break-all'>
                 {account.accountNumber}
               </p>
               <Button
                 variant='ghost'
                 size='icon'
-                className='h-6 w-6 p-0 flex-shrink-0 text-white/50 hover:text-white hover:bg-white/10'
+                className='h-6 w-6 p-0 flex-shrink-0 text-gray-400 hover:text-gray-600 hover:bg-gray-100'
                 onClick={copyAccountNumber}>
                 <Copy className='h-3.5 w-3.5' />
               </Button>
             </div>
           </div>
           <div className='pt-2'>
-            <p className='text-white/50 text-xs'>
+            <p className='text-gray-400 text-xs'>
               Last updated: {account.lastUpdated}
             </p>
           </div>

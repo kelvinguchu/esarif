@@ -111,17 +111,17 @@ export function AvailableWallets({ isOpen, onClose }: AvailableWalletsProps) {
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
-        className='bg-[#041c38] text-white border-white/10 p-0 min-w-[95vw] md:min-w-[40vw]'
+        className='bg-white text-gray-800 border-gray-200 p-0 min-w-[95vw] md:min-w-[40vw]'
         side='right'>
-        <SheetHeader className='p-4 border-b border-white/10'>
-          <SheetTitle className='text-white text-xl'>
+        <SheetHeader className='p-4 border-b border-gray-200'>
+          <SheetTitle className='text-gray-800 text-xl'>
             Connect New Account
           </SheetTitle>
         </SheetHeader>
 
         <div className='p-4 overflow-y-auto max-h-[calc(100vh-5rem)]'>
           <div className='mb-6'>
-            <h3 className='text-white font-medium mb-3'>
+            <h3 className='text-gray-800 font-medium mb-3'>
               Mobile Money Services
             </h3>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
@@ -130,7 +130,7 @@ export function AvailableWallets({ isOpen, onClose }: AvailableWalletsProps) {
                   key={wallet.id}
                   className='w-full cursor-pointer'
                   onClick={() => handleWalletClick(wallet.id)}>
-                  <div className='flex items-center p-3 bg-[#001a38] rounded-lg border border-white/5 hover:bg-[#001a38]/80 transition-colors h-full overflow-hidden'>
+                  <div className='flex items-center p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors h-full overflow-hidden'>
                     {wallet.logo ? (
                       <div className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 flex items-center justify-center overflow-hidden flex-shrink-0'>
                         <img
@@ -146,10 +146,10 @@ export function AvailableWallets({ isOpen, onClose }: AvailableWalletsProps) {
                       </div>
                     )}
                     <div className='flex-grow ml-2 md:ml-3 min-w-0'>
-                      <h3 className='text-white font-medium text-sm md:text-base truncate'>
+                      <h3 className='text-gray-800 font-medium text-sm md:text-base truncate'>
                         {wallet.name}
                       </h3>
-                      <p className='text-white/60 text-xs truncate'>
+                      <p className='text-gray-500 text-xs truncate'>
                         {wallet.provider}
                       </p>
                     </div>
@@ -160,7 +160,7 @@ export function AvailableWallets({ isOpen, onClose }: AvailableWalletsProps) {
           </div>
 
           <div>
-            <h3 className='text-white font-medium mb-3'>
+            <h3 className='text-gray-800 font-medium mb-3'>
               Cryptocurrency Wallets
             </h3>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
@@ -169,16 +169,16 @@ export function AvailableWallets({ isOpen, onClose }: AvailableWalletsProps) {
                   key={wallet.id}
                   className='w-full cursor-pointer'
                   onClick={() => handleWalletClick(wallet.id)}>
-                  <div className='flex items-center p-3 bg-[#001a38] rounded-lg border border-white/5 hover:bg-[#001a38]/80 transition-colors h-full overflow-hidden'>
+                  <div className='flex items-center p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors h-full overflow-hidden'>
                     <div
                       className={`h-8 w-8 md:h-10 md:w-10 rounded-full ${wallet.color} p-2 flex items-center justify-center text-white font-semibold flex-shrink-0 text-xs md:text-sm`}>
                       {getInitials(wallet.name)}
                     </div>
                     <div className='flex-grow ml-2 md:ml-3 min-w-0'>
-                      <h3 className='text-white font-medium text-sm md:text-base truncate'>
+                      <h3 className='text-gray-800 font-medium text-sm md:text-base truncate'>
                         {wallet.name}
                       </h3>
-                      <p className='text-white/60 text-xs truncate'>
+                      <p className='text-gray-500 text-xs truncate'>
                         {wallet.provider}
                       </p>
                     </div>

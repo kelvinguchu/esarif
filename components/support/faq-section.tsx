@@ -48,9 +48,9 @@ const faqs: FAQItem[] = [
 
 export function FAQSection() {
   return (
-    <Card className='border-0 shadow-none bg-transparent'>
-      <CardHeader className='bg-[#ebeffb]/10 px-4 sm:px-6 py-3 sm:py-4'>
-        <CardTitle className='text-white text-lg'>
+    <Card className='border border-gray-200 shadow-sm bg-white'>
+      <CardHeader className='bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200'>
+        <CardTitle className='text-gray-800 text-lg'>
           Frequently Asked Questions
         </CardTitle>
       </CardHeader>
@@ -60,11 +60,11 @@ export function FAQSection() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className='border-white/10 mb-2'>
-              <AccordionTrigger className='text-white hover:text-primary text-left py-3 text-sm sm:text-base font-medium px-3 sm:px-4 bg-[#001a38]/80 rounded-md hover:bg-[#001a38]'>
+              className='border-gray-200 mb-2'>
+              <AccordionTrigger className='text-gray-800 hover:text-primary text-left py-3 text-sm sm:text-base font-medium px-3 sm:px-4 bg-gray-50 rounded-md hover:bg-gray-100'>
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className='text-white/80 text-sm sm:text-base mt-1 mb-3 px-3 sm:px-4 py-2 bg-[#001a38]/40 rounded-md'>
+              <AccordionContent className='text-gray-600 text-sm sm:text-base mt-1 mb-3 px-3 sm:px-4 py-2 bg-gray-50/50 rounded-md'>
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

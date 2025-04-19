@@ -68,14 +68,14 @@ export function ContactForm() {
   }
 
   return (
-    <Card className='border-0 shadow-none bg-transparent'>
-      <CardHeader className='bg-[#ebeffb]/10 px-4 sm:px-6 py-3 sm:py-4'>
-        <CardTitle className='text-white text-lg'>Contact Support</CardTitle>
+    <Card className='border border-gray-200 shadow-sm bg-white'>
+      <CardHeader className='bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200'>
+        <CardTitle className='text-gray-800 text-lg'>Contact Support</CardTitle>
       </CardHeader>
       <CardContent className='p-3 sm:p-4 md:p-6'>
         {isSuccess ? (
-          <div className='bg-green-500/20 border border-green-500/30 text-green-400 rounded-md p-3 sm:p-4 mb-4 sm:mb-6 text-sm sm:text-base'>
-            <CheckCircle className='h-5 w-5 mr-2 text-green-400' />
+          <div className='bg-green-100 border border-green-200 text-green-700 rounded-md p-3 sm:p-4 mb-4 sm:mb-6 text-sm sm:text-base flex items-center'>
+            <CheckCircle className='h-5 w-5 mr-2 text-green-500' />
             Your message has been sent! Our team will get back to you soon.
           </div>
         ) : null}
@@ -90,14 +90,14 @@ export function ContactForm() {
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-white text-sm sm:text-base mb-1'>
+                    <FormLabel className='text-gray-700 text-sm sm:text-base mb-1'>
                       Full Name
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder='Your name'
                         {...field}
-                        className='bg-[#07335a] border-white/10 text-white text-sm sm:text-base h-9 sm:h-10'
+                        className='bg-gray-50 border-gray-200 text-gray-800 text-sm sm:text-base h-9 sm:h-10'
                       />
                     </FormControl>
                     <FormMessage className='text-xs sm:text-sm' />
@@ -110,7 +110,7 @@ export function ContactForm() {
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-white text-sm sm:text-base mb-1'>
+                    <FormLabel className='text-gray-700 text-sm sm:text-base mb-1'>
                       Email
                     </FormLabel>
                     <FormControl>
@@ -118,7 +118,7 @@ export function ContactForm() {
                         placeholder='your.email@example.com'
                         type='email'
                         {...field}
-                        className='bg-[#07335a] border-white/10 text-white text-sm sm:text-base h-9 sm:h-10'
+                        className='bg-gray-50 border-gray-200 text-gray-800 text-sm sm:text-base h-9 sm:h-10'
                       />
                     </FormControl>
                     <FormMessage className='text-xs sm:text-sm' />
@@ -133,14 +133,14 @@ export function ContactForm() {
                 name='subject'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-white text-sm sm:text-base mb-1'>
+                    <FormLabel className='text-gray-700 text-sm sm:text-base mb-1'>
                       Subject
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder='Brief subject of your inquiry'
                         {...field}
-                        className='bg-[#07335a] border-white/10 text-white text-sm sm:text-base h-9 sm:h-10'
+                        className='bg-gray-50 border-gray-200 text-gray-800 text-sm sm:text-base h-9 sm:h-10'
                       />
                     </FormControl>
                     <FormMessage className='text-xs sm:text-sm' />
@@ -153,18 +153,18 @@ export function ContactForm() {
                 name='category'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-white text-sm sm:text-base mb-1'>
+                    <FormLabel className='text-gray-700 text-sm sm:text-base mb-1'>
                       Category
                     </FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className='bg-[#07335a] border-white/10 text-white text-sm sm:text-base h-9 sm:h-10'>
+                        <SelectTrigger className='bg-gray-50 border-gray-200 text-gray-800 text-sm sm:text-base h-9 sm:h-10'>
                           <SelectValue placeholder='Select a category' />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className='bg-[#07335a] border-white/10 text-white'>
+                      <SelectContent className='bg-white border-gray-200 text-gray-800'>
                         <SelectItem value='account'>Account Issues</SelectItem>
                         <SelectItem value='wallet'>
                           Wallet Connection
@@ -188,13 +188,13 @@ export function ContactForm() {
               name='message'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-white text-sm sm:text-base mb-1'>
+                  <FormLabel className='text-gray-700 text-sm sm:text-base mb-1'>
                     Message
                   </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder='Describe your issue or question in detail...'
-                      className='min-h-[100px] sm:min-h-[150px] bg-[#07335a] border-white/10 text-white text-sm sm:text-base'
+                      className='min-h-[100px] sm:min-h-[150px] bg-gray-50 border-gray-200 text-gray-800 text-sm sm:text-base'
                       {...field}
                     />
                   </FormControl>

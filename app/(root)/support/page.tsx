@@ -14,26 +14,26 @@ export default function SupportPage() {
   return (
     <div className='w-full flex flex-col py-2 px-2 sm:px-3 md:px-4 md:py-8'>
       <div className='w-full flex flex-col mb-4 sm:mb-6 md:mb-8'>
-        <h1 className='text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2'>
+        <h1 className='text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2'>
           Support Center
         </h1>
       </div>
 
       <Tabs defaultValue='contact' className='w-full flex flex-col'>
-        <TabsList className='bg-[#041c38] border border-white/10 mb-4 sm:mb-6 p-0.5 md:p-1 w-full max-w-md overflow-x-auto scrollbar-hide flex-nowrap'>
+        <TabsList className='bg-gray-50 border border-gray-200 mb-4 sm:mb-6 p-0.5 md:p-1 w-full max-w-md overflow-x-auto scrollbar-hide flex-nowrap'>
           <TabsTrigger
             value='contact'
-            className='flex-1 text-white text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-white/70 min-w-[80px]'>
+            className='flex-1 text-gray-700 text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500 min-w-[80px]'>
             Contact Us
           </TabsTrigger>
           <TabsTrigger
             value='support'
-            className='flex-1 text-white text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-white/70 min-w-[80px]'>
+            className='flex-1 text-gray-700 text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500 min-w-[80px]'>
             Support Options
           </TabsTrigger>
           <TabsTrigger
             value='faq'
-            className='flex-1 text-white text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-white/70 min-w-[80px]'>
+            className='flex-1 text-gray-700 text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500 min-w-[80px]'>
             FAQ
           </TabsTrigger>
         </TabsList>

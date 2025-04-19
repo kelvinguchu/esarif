@@ -26,14 +26,14 @@ export function SupportCard({
   action,
 }: SupportCardProps) {
   return (
-    <Card className='bg-[#041c38]/50 border-white/5 text-white h-full'>
+    <Card className='bg-white border border-gray-200 text-gray-800 h-full shadow-sm'>
       <CardHeader className='flex flex-row items-center gap-4 pb-2'>
-        <div className={`p-2 rounded-full bg-[#07335a] ${iconColor}`}>
+        <div className={`p-2 rounded-full bg-gray-50 ${iconColor}`}>
           <Icon className='h-6 w-6' />
         </div>
         <div>
           <CardTitle className='text-lg font-medium'>{title}</CardTitle>
-          <CardDescription className='text-white/70'>
+          <CardDescription className='text-gray-600'>
             {description}
           </CardDescription>
         </div>

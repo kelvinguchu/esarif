@@ -95,7 +95,7 @@ export function ConnectedAccounts() {
   return (
     <div className='w-full'>
       <div className='flex flex-col md:flex-row items-start md:items-center justify-between mb-4 md:mb-6'>
-        <h2 className='text-xl font-semibold text-white mb-3 md:mb-0'>
+        <h2 className='text-xl font-semibold text-gray-800 mb-3 md:mb-0'>
           Connected Accounts
         </h2>
         <Button
@@ -111,20 +111,20 @@ export function ConnectedAccounts() {
         value={activeTab}
         onValueChange={setActiveTab}
         className='w-full'>
-        <TabsList className='bg-[#041c38] border border-white/10 mb-4 md:mb-6 p-0.5 md:p-1 w-full max-w-md overflow-hidden'>
+        <TabsList className='bg-gray-50 border border-gray-200 mb-4 md:mb-6 p-0.5 md:p-1 w-full max-w-md overflow-hidden'>
           <TabsTrigger
             value='all'
-            className='flex-1 text-white text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-white/70'>
+            className='flex-1 text-gray-700 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500'>
             All Accounts
           </TabsTrigger>
           <TabsTrigger
             value='mobile-money'
-            className='flex-1 text-white text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-white/70'>
+            className='flex-1 text-gray-700 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500'>
             Mobile Money
           </TabsTrigger>
           <TabsTrigger
             value='crypto'
-            className='flex-1 text-white text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-white/70'>
+            className='flex-1 text-gray-700 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500'>
             Crypto Wallets
           </TabsTrigger>
         </TabsList>
@@ -146,8 +146,8 @@ export function ConnectedAccounts() {
               ))}
             </div>
           ) : (
-            <div className='w-full mx-auto md:w-full flex flex-col items-center justify-center py-8 md:py-12 bg-[#041c38]/30 rounded-lg border border-white/5 overflow-hidden'>
-              <p className='text-white/70 mb-4 text-sm md:text-base'>
+            <div className='w-full mx-auto md:w-full flex flex-col items-center justify-center py-8 md:py-12 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden'>
+              <p className='text-gray-500 mb-4 text-sm md:text-base'>
                 No accounts connected in this category
               </p>
               <Button
