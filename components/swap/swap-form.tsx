@@ -17,6 +17,7 @@ import { WalletSelector } from "./wallet-selector";
 import { BankSelector } from "./bank-selector";
 import { TransactionSummary } from "./transaction-summary";
 import { ConfirmationMessage } from "./confirmation-message";
+import { FaBitcoin, FaEthereum } from "react-icons/fa";
 import {
   walletOptions,
   currencyRates,
@@ -28,6 +29,64 @@ import {
 
 // Trading mode type
 type TradingMode = "buy" | "sell" | "transfer";
+
+// Function to check if a mode matches a specific value (type-safe)
+const isModeType = (
+  currentMode: TradingMode,
+  typeToCheck: TradingMode
+): boolean => {
+  return currentMode === typeToCheck;
+};
+
+// Display crypto amount for buy mode
+const BuyPreview = ({
+  fromAmount,
+  toWallet,
+}: {
+  fromAmount: string;
+  toWallet: string;
+}) => {
+  if (!fromAmount || parseFloat(fromAmount) <= 0) return null;
+
+  const currencyInfo = currencyRates[toWallet as keyof typeof currencyRates];
+
+  return (
+    <div className='mt-1 flex items-center gap-1'>
+      <div className='p-1 rounded-full bg-[#00805a]/20'>
+        {toWallet === "BTC" ? (
+          <FaBitcoin className='h-3 w-3 text-[#F7931A]' />
+        ) : toWallet === "ETH" ? (
+          <FaEthereum className='h-3 w-3 text-[#627EEA]' />
+        ) : (
+          <DollarSign className='h-3 w-3 text-[#00805a]' />
+        )}
+      </div>
+      <span className='text-xs text-gray-500'>
+        {`You will receive approximately ${currencyInfo?.symbol || ""} ${
+          fromAmount
+            ? (parseFloat(fromAmount) * (currencyInfo?.rate || 1)).toFixed(8)
+            : "0"
+        } ${currencyInfo?.name || ""}`}
+      </span>
+    </div>
+  );
+};
+
+// Display USD amount for sell mode
+const SellPreview = ({ fromAmount }: { fromAmount: string }) => {
+  if (!fromAmount || parseFloat(fromAmount) <= 0) return null;
+
+  return (
+    <div className='mt-1 flex items-center gap-1'>
+      <div className='p-1 rounded-full bg-[#00805a]/20'>
+        <DollarSign className='h-3 w-3 text-[#00805a]' />
+      </div>
+      <span className='text-xs text-gray-500'>
+        {`You will receive $${fromAmount || "0"} USD`}
+      </span>
+    </div>
+  );
+};
 
 export const SwapForm = () => {
   // Mode selection state
@@ -47,14 +106,23 @@ export const SwapForm = () => {
   const [selectedBank, setSelectedBank] = useState(somaliaBanks[0].id);
   const [bankDrawerOpen, setBankDrawerOpen] = useState(false);
 
-  // Service fee calculation (1%)
-  const serviceFee = fromAmount ? parseFloat(fromAmount) * 0.01 : 0;
+  // Check if the transaction involves crypto
+  const isCryptoTransaction =
+    isModeType(mode, "buy") || isModeType(mode, "sell");
+
+  // Service fee calculation (1%) - Only apply to transfer mode, not crypto transactions
+  const serviceFee =
+    fromAmount && !isCryptoTransaction ? parseFloat(fromAmount) * 0.01 : 0;
 
   // Net amount after fee
   const netAmount = fromAmount ? parseFloat(fromAmount) - serviceFee : 0;
 
-  // Since everything is now in USD, the estimated amount is the same as netAmount
-  const estimatedAmount = fromAmount ? netAmount.toFixed(2) : "0";
+  // For crypto transactions, don't apply the fee
+  const estimatedAmount = fromAmount
+    ? isCryptoTransaction
+      ? parseFloat(fromAmount).toFixed(2)
+      : netAmount.toFixed(2)
+    : "0";
 
   // Get equivalent rates
   const equivalentRates = getEquivalentRates();
@@ -111,16 +179,31 @@ export const SwapForm = () => {
     setFromAmount("");
     setShowSummary(false);
 
+    // Get the selected bank's ID for payment method
+    const paymentMethod = selectedBank ? selectedBank : somaliaBanks[0].id;
+
     // Set appropriate defaults based on the selected mode
     if (newMode === "buy") {
-      setFromWallet("MPESA");
+      // For buy mode: Use selected bank as payment source, BTC as destination
+      setFromWallet(paymentMethod);
       setToWallet("BTC");
     } else if (newMode === "sell") {
+      // For sell mode: Use BTC as source, selected bank as destination
       setFromWallet("BTC");
-      setToWallet("MPESA");
+      setToWallet(paymentMethod);
     } else {
+      // For transfer mode: Use mobile wallet as source, crypto as destination
       setFromWallet("MPESA");
       setToWallet("USDT-TRC20");
+    }
+
+    // When changing to "buy" or "sell" mode, use the selected bank
+    if (isModeType(newMode, "buy") || isModeType(newMode, "sell")) {
+      // Make sure we're using a recognized bank ID
+      const bankExists = somaliaBanks.some((bank) => bank.id === selectedBank);
+      if (!bankExists) {
+        setSelectedBank(somaliaBanks[0].id);
+      }
     }
   };
 
@@ -263,6 +346,14 @@ export const SwapForm = () => {
                       $
                     </div>
                   </div>
+
+                  {/* Use type helper function to check mode type */}
+                  {isModeType(mode, "buy") && (
+                    <BuyPreview fromAmount={fromAmount} toWallet={toWallet} />
+                  )}
+                  {isModeType(mode, "sell") && (
+                    <SellPreview fromAmount={fromAmount} />
+                  )}
                 </div>
               </div>
             </>
@@ -308,29 +399,13 @@ export const SwapForm = () => {
                     </div>
                   </div>
 
-                  <div className='mt-1 flex items-center gap-1'>
-                    <div className='p-1 rounded-full bg-[#00805a]/20'>
-                      <DollarSign className='h-3 w-3 text-[#00805a]' />
-                    </div>
-                    <span className='text-xs text-gray-500'>
-                      {mode === "buy"
-                        ? `You will receive approximately ${
-                            fromAmount
-                              ? (
-                                  parseFloat(fromAmount) *
-                                  (currencyRates[
-                                    toWallet as keyof typeof currencyRates
-                                  ]?.rate || 0)
-                                ).toFixed(8)
-                              : "0"
-                          } ${
-                            currencyRates[
-                              toWallet as keyof typeof currencyRates
-                            ]?.name || ""
-                          }`
-                        : `You will receive $${fromAmount || "0"} USD`}
-                    </span>
-                  </div>
+                  {/* Use type helper function to check mode type */}
+                  {isModeType(mode, "buy") && (
+                    <BuyPreview fromAmount={fromAmount} toWallet={toWallet} />
+                  )}
+                  {isModeType(mode, "sell") && (
+                    <SellPreview fromAmount={fromAmount} />
+                  )}
                 </div>
               </div>
 
@@ -386,17 +461,20 @@ export const SwapForm = () => {
             </Button>
           </div>
 
-          {/* Confirmation Message */}
-          {fromAmount && !isLoading && parseFloat(fromAmount) > 0 && (
-            <ConfirmationMessage
-              estimatedAmount={estimatedAmount}
-              toWallet={toWallet}
-              selectedWallet={selectedToWallet}
-              recipientAccount={recipientAccount}
-              shouldShowRecipientField={shouldShowRecipientField}
-              currencySymbol='$'
-            />
-          )}
+          {/* Confirmation Message - Only show for transfer mode */}
+          {fromAmount &&
+            !isLoading &&
+            parseFloat(fromAmount) > 0 &&
+            isModeType(mode, "transfer") && (
+              <ConfirmationMessage
+                estimatedAmount={estimatedAmount}
+                toWallet={toWallet}
+                selectedWallet={selectedToWallet}
+                recipientAccount={recipientAccount}
+                shouldShowRecipientField={shouldShowRecipientField}
+                currencySymbol='$'
+              />
+            )}
         </form>
       </CardContent>
     </Card>
