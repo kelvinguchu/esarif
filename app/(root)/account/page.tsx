@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function AccountPage() {
   return (
-    <div className='w-full py-4 md:px-4 md:py-8'>
+    <div className='w-full py-4 px-4 md:px-4 md:py-8'>
       <ConnectedAccounts />
     </div>
   );
