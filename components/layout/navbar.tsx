@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { UserCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export const Navbar = () => {
   const [greeting, setGreeting] = useState("Hello");
@@ -30,12 +31,14 @@ export const Navbar = () => {
           <p className='text-sm text-gray-600'>Welcome to e-Sarif</p>
         </div>
 
-        <Avatar className='h-10 w-10 cursor-pointer border-2 border-primary shadow-md'>
-          <AvatarImage src='/images/avatar.png' alt='User profile' />
-          <AvatarFallback className='bg-primary/10'>
-            <UserCircle className='h-6 w-6 text-primary' />
-          </AvatarFallback>
-        </Avatar>
+        <Link href='/profile'>
+          <Avatar className='h-10 w-10 cursor-pointer border-2 border-primary shadow-md hover:border-primary/80 transition-colors'>
+            <AvatarImage src='/images/avatar.webp' alt='User profile' />
+            <AvatarFallback className='bg-primary/10'>
+              <UserCircle className='h-6 w-6 text-primary' />
+            </AvatarFallback>
+          </Avatar>
+        </Link>
       </div>
     </div>
   );
