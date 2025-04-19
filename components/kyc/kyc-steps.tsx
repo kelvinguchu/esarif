@@ -45,7 +45,7 @@ export function KycSteps({ steps, currentStep, onStepClick }: KycStepsProps) {
                       ? "bg-green-500"
                       : isCurrent
                       ? "bg-blue-500"
-                      : "bg-gray-700"
+                      : "bg-gray-300"
                   }
                   ${index !== steps.length - 1 ? "md:relative md:z-10" : ""}
                 `}>
@@ -62,18 +62,18 @@ export function KycSteps({ steps, currentStep, onStepClick }: KycStepsProps) {
                     text-sm font-medium
                     ${
                       isCompleted
-                        ? "text-green-500"
+                        ? "text-green-600"
                         : isCurrent
-                        ? "text-blue-500"
-                        : "text-gray-400"
+                        ? "text-blue-600"
+                        : "text-gray-500"
                     }
                   `}>
                     Step {step.id}
                   </span>
-                  <span className='block text-white font-medium'>
+                  <span className='block text-gray-800 font-medium'>
                     {step.name}
                   </span>
-                  <span className='block text-sm text-white/60'>
+                  <span className='block text-sm text-gray-500'>
                     {step.description}
                   </span>
                 </div>
@@ -84,7 +84,7 @@ export function KycSteps({ steps, currentStep, onStepClick }: KycStepsProps) {
                 <div
                   className={`
                     hidden md:block absolute top-4 left-4 w-full h-0.5 -translate-y-1/2
-                    ${isCompleted ? "bg-green-500" : "bg-gray-700"}
+                    ${isCompleted ? "bg-green-500" : "bg-gray-300"}
                   `}
                   style={{ transform: "translateX(2rem)" }}></div>
               )}

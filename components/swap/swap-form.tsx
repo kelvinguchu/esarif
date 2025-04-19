@@ -125,9 +125,9 @@ export const SwapForm = () => {
   };
 
   return (
-    <Card className='border border-white/10 shadow-xl bg-gradient-to-b from-[#0a2348] to-[#001a38] rounded-xl overflow-hidden backdrop-blur-sm'>
-      <CardHeader className='bg-gradient-to-r from-[#ebeffb]/10 to-[#ebeffb]/5 rounded-t-lg px-6 py-4 border-b border-white/5'>
-        <CardTitle className='text-white text-xl flex items-center gap-2'>
+    <Card className='border border-gray-200 shadow-lg bg-white rounded-xl overflow-hidden backdrop-blur-sm'>
+      <CardHeader className='bg-gradient-to-r from-gray-50 to-white rounded-t-lg px-6 py-4 border-b border-gray-100'>
+        <CardTitle className='text-gray-800 text-xl flex items-center gap-2'>
           <div className='bg-gradient-to-r from-primary to-blue-500 rounded-full p-1.5'>
             <ArrowRightLeft className='h-5 w-5 text-white' />
           </div>
@@ -135,11 +135,11 @@ export const SwapForm = () => {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className='pt-6 px-6 bg-transparent'>
+      <CardContent className='px-6 bg-transparent'>
         <form onSubmit={handleSubmit} className='space-y-6'>
           {/* Mode Selector */}
           <div className='space-y-3'>
-            <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+            <label className='text-sm text-gray-600 font-medium ml-1 mb-1 block'>
               I want to
             </label>
             <div className='grid grid-cols-3 gap-2'>
@@ -148,9 +148,9 @@ export const SwapForm = () => {
                 onClick={() => handleModeChange("buy")}
                 className={`${
                   mode === "buy"
-                    ? "bg-[#00805a] hover:bg-[#00805a]/90"
-                    : "bg-[#001a38]/80 hover:bg-[#00805a]/30"
-                } text-white border border-white/10 font-medium rounded-md`}>
+                    ? "bg-[#00805a] hover:bg-[#00805a]/90 text-white"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                } border border-gray-200 font-medium rounded-md`}>
                 Buy
               </Button>
               <Button
@@ -158,9 +158,9 @@ export const SwapForm = () => {
                 onClick={() => handleModeChange("sell")}
                 className={`${
                   mode === "sell"
-                    ? "bg-[#00805a] hover:bg-[#00805a]/90"
-                    : "bg-[#001a38]/80 hover:bg-[#00805a]/30"
-                } text-white border border-white/10 font-medium rounded-md`}>
+                    ? "bg-[#00805a] hover:bg-[#00805a]/90 text-white"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                } border border-gray-200 font-medium rounded-md`}>
                 Sell
               </Button>
               <Button
@@ -168,9 +168,9 @@ export const SwapForm = () => {
                 onClick={() => handleModeChange("transfer")}
                 className={`${
                   mode === "transfer"
-                    ? "bg-[#00805a] hover:bg-[#00805a]/90"
-                    : "bg-[#001a38]/80 hover:bg-[#00805a]/30"
-                } text-white border border-white/10 font-medium rounded-md`}>
+                    ? "bg-[#00805a] hover:bg-[#00805a]/90 text-white"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                } border border-gray-200 font-medium rounded-md`}>
                 Transfer
               </Button>
             </div>
@@ -181,7 +181,7 @@ export const SwapForm = () => {
             <>
               {/* From Section - Transfer Mode */}
               <div className='space-y-3'>
-                <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+                <label className='text-sm text-gray-600 font-medium ml-1 mb-1 block'>
                   From
                 </label>
                 <div className='flex flex-col gap-3'>
@@ -201,10 +201,10 @@ export const SwapForm = () => {
                       placeholder='0.00'
                       value={fromAmount}
                       onChange={handleAmountChange}
-                      className='bg-[#001a38]/80 border border-white/10 text-white rounded-lg shadow-inner shadow-black/20 transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg pl-7'
+                      className='bg-gray-50 border border-gray-200 text-gray-900 rounded-lg shadow-sm transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg pl-7'
                       min='0'
                     />
-                    <div className='absolute left-3 top-1/2 -translate-y-1/2 text-white/80'>
+                    <div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                       $
                     </div>
                   </div>
@@ -213,7 +213,7 @@ export const SwapForm = () => {
 
               {/* Add USDT to KES rate info when MPESA is selected */}
               {fromWallet === "MPESA" && toWallet.includes("USDT") && (
-                <div className='mt-1 p-2 rounded-lg bg-[#001428]/80 border border-white/5 text-xs text-white/70'>
+                <div className='mt-1 p-2 rounded-lg bg-blue-50 border border-blue-100 text-xs text-blue-700'>
                   <div className='flex items-center justify-between'>
                     <span>USDT to KES rate:</span>
                     <span>1 USDT ≈ 128.55 KSh</span>
@@ -228,7 +228,7 @@ export const SwapForm = () => {
                     type='button'
                     variant='outline'
                     size='icon'
-                    className='rounded-full border-0 h-12 w-12 bg-[#001a38] hover:bg-[#0a2348] text-white transition-all duration-300 hover:scale-105'
+                    className='rounded-full border-0 h-12 w-12 bg-white hover:bg-gray-50 text-gray-700 transition-all duration-300 hover:scale-105'
                     onClick={handleSwapWallets}>
                     <ArrowDown className='h-6 w-6' />
                   </Button>
@@ -237,7 +237,7 @@ export const SwapForm = () => {
 
               {/* To Section - Transfer Mode */}
               <div className='space-y-3'>
-                <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+                <label className='text-sm text-gray-600 font-medium ml-1 mb-1 block'>
                   To
                 </label>
                 <div className='flex flex-col gap-3'>
@@ -257,9 +257,9 @@ export const SwapForm = () => {
                       placeholder='0.00'
                       value={estimatedAmount}
                       readOnly
-                      className='w-full bg-[#001a38]/60 border border-white/10 text-white/80 rounded-lg shadow-inner shadow-black/20 h-12 text-lg pl-7'
+                      className='w-full bg-gray-50 border border-gray-200 text-gray-500 rounded-lg shadow-sm h-12 text-lg pl-7'
                     />
-                    <div className='absolute left-3 top-1/2 -translate-y-1/2 text-white/80'>
+                    <div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                       $
                     </div>
                   </div>
@@ -270,7 +270,7 @@ export const SwapForm = () => {
             <>
               {/* I Want Section - Buy/Sell Mode */}
               <div className='space-y-3'>
-                <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+                <label className='text-sm text-gray-600 font-medium ml-1 mb-1 block'>
                   {mode === "buy" ? "I want to buy" : "I want to sell"}
                 </label>
                 <div className='flex flex-col gap-3'>
@@ -290,7 +290,7 @@ export const SwapForm = () => {
 
               {/* For Section - Buy/Sell Mode */}
               <div className='space-y-3'>
-                <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+                <label className='text-sm text-gray-600 font-medium ml-1 mb-1 block'>
                   For
                 </label>
                 <div className='flex flex-col gap-3'>
@@ -300,10 +300,10 @@ export const SwapForm = () => {
                       placeholder='0.00'
                       value={fromAmount}
                       onChange={handleAmountChange}
-                      className='bg-[#001a38]/80 border border-white/10 text-white rounded-lg shadow-inner shadow-black/20 transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg pl-7'
+                      className='bg-gray-50 border border-gray-200 text-gray-900 rounded-lg shadow-sm transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg pl-7'
                       min='0'
                     />
-                    <div className='absolute left-3 top-1/2 -translate-y-1/2 text-white/80'>
+                    <div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
                       $
                     </div>
                   </div>
@@ -312,7 +312,7 @@ export const SwapForm = () => {
                     <div className='p-1 rounded-full bg-[#00805a]/20'>
                       <DollarSign className='h-3 w-3 text-[#00805a]' />
                     </div>
-                    <span className='text-xs text-white/60'>
+                    <span className='text-xs text-gray-500'>
                       {mode === "buy"
                         ? `You will receive approximately ${
                             fromAmount
@@ -336,7 +336,7 @@ export const SwapForm = () => {
 
               {/* Payment Method - Buy/Sell Mode */}
               <div className='space-y-3'>
-                <label className='text-sm text-white/60 font-medium ml-1 mb-1 block'>
+                <label className='text-sm text-gray-600 font-medium ml-1 mb-1 block'>
                   Payment Method
                 </label>
                 <div className='flex flex-col gap-3'>
@@ -354,7 +354,7 @@ export const SwapForm = () => {
 
           {/* Transaction Summary - conditionally rendered only for transfer mode */}
           {showSummary && mode === "transfer" && (
-            <div className='mt-4 pt-4 border-t border-white/10'>
+            <div className='mt-4 pt-4 border-t border-gray-200'>
               <TransactionSummary
                 fromAmount={fromAmount}
                 serviceFee={serviceFee}
@@ -367,7 +367,7 @@ export const SwapForm = () => {
           <div className='pt-6'>
             <Button
               type='submit'
-              className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-semibold py-6 rounded-lg shadow-lg shadow-[#00805a]/20 transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] border border-white/10'
+              className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-semibold py-6 rounded-lg shadow-lg shadow-[#00805a]/20 transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] border border-[#00805a]/10'
               disabled={Boolean(
                 isLoading || !fromAmount || parseFloat(fromAmount) <= 0
               )}>

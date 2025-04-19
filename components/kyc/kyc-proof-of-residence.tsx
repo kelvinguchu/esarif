@@ -134,19 +134,19 @@ export const KycProofOfResidence = ({
   };
 
   return (
-    <Card className='border-0 shadow-md bg-[#001a38] w-full'>
-      <CardHeader className='bg-[#ebeffb]/10 px-6 py-4'>
+    <Card className='border border-gray-200 shadow-md bg-white w-full'>
+      <CardHeader className='bg-gray-50 border-b border-gray-200 px-6 py-4'>
         <div className='flex items-center justify-between'>
           <div>
-            <CardTitle className='text-white text-lg'>
+            <CardTitle className='text-gray-800 text-lg'>
               Proof of Residence
             </CardTitle>
-            <CardDescription className='text-white/70 mt-1'>
+            <CardDescription className='text-gray-500 mt-1'>
               Upload a document that verifies your current residence address
             </CardDescription>
           </div>
           {isCompleted && (
-            <div className='h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center'>
+            <div className='h-8 w-8 rounded-full bg-green-100 flex items-center justify-center'>
               <Check className='h-4 w-4 text-green-500' />
             </div>
           )}
@@ -156,22 +156,22 @@ export const KycProofOfResidence = ({
         {isCompleted ? (
           <div className='flex flex-col space-y-6'>
             <div className='space-y-3'>
-              <p className='text-white/50 text-sm'>Document Type</p>
-              <p className='text-white'>
+              <p className='text-gray-500 text-sm'>Document Type</p>
+              <p className='text-gray-800'>
                 {DOCUMENT_TYPES.find((d) => d.value === proofData?.documentType)
                   ?.label ?? proofData?.documentType}
               </p>
             </div>
 
             <div className='space-y-3'>
-              <p className='text-white/50 text-sm'>Uploaded Document</p>
-              <div className='bg-[#041c38] rounded-md border border-white/10 p-4 flex items-center'>
+              <p className='text-gray-500 text-sm'>Uploaded Document</p>
+              <div className='bg-gray-50 rounded-md border border-gray-200 p-4 flex items-center'>
                 <File className='h-8 w-8 text-primary mr-3' />
                 <div>
-                  <p className='text-white font-medium'>
+                  <p className='text-gray-800 font-medium'>
                     {proofData?.fileName}
                   </p>
-                  <p className='text-white/50 text-sm'>
+                  <p className='text-gray-500 text-sm'>
                     Document successfully uploaded
                   </p>
                 </div>
@@ -181,7 +181,9 @@ export const KycProofOfResidence = ({
         ) : (
           <div className='flex flex-col space-y-6'>
             <div>
-              <label htmlFor='document-type' className='block text-white mb-2'>
+              <label
+                htmlFor='document-type'
+                className='block text-gray-700 mb-2'>
                 Document Type
               </label>
               <Select
@@ -189,15 +191,15 @@ export const KycProofOfResidence = ({
                 onValueChange={handleDocumentTypeChange}>
                 <SelectTrigger
                   id='document-type'
-                  className='bg-[#041c38] border-white/10 text-white'>
+                  className='bg-gray-50 border-gray-200 text-gray-800'>
                   <SelectValue placeholder='Select a document type' />
                 </SelectTrigger>
-                <SelectContent className='bg-[#041c38] border-white/10'>
+                <SelectContent className='bg-white border-gray-200'>
                   {DOCUMENT_TYPES.map((type) => (
                     <SelectItem
                       key={type.value}
                       value={type.value}
-                      className='text-white'>
+                      className='text-gray-800'>
                       {type.label}
                     </SelectItem>
                   ))}
@@ -206,27 +208,29 @@ export const KycProofOfResidence = ({
             </div>
 
             <div>
-              <label className='block text-white mb-2'>Upload Document</label>
+              <label className='block text-gray-700 mb-2'>
+                Upload Document
+              </label>
 
               {!file ? (
                 <div
                   {...getRootProps()}
-                  className={`border-2 border-dashed border-white/20 rounded-md p-6 cursor-pointer transition-colors ${
-                    isDragActive ? "bg-[#041c38]/80" : "bg-[#041c38]"
+                  className={`border-2 border-dashed border-gray-300 rounded-md p-6 cursor-pointer transition-colors ${
+                    isDragActive ? "bg-gray-100" : "bg-gray-50"
                   }`}>
                   <input {...getInputProps()} />
                   <div className='text-center'>
-                    <Upload className='h-10 w-10 text-white/30 mx-auto mb-4' />
+                    <Upload className='h-10 w-10 text-gray-400 mx-auto mb-4' />
                     {isDragActive ? (
-                      <p className='text-white font-medium'>
+                      <p className='text-gray-800 font-medium'>
                         Drop the file here...
                       </p>
                     ) : (
                       <>
-                        <p className='text-white font-medium mb-1'>
+                        <p className='text-gray-800 font-medium mb-1'>
                           Drag & drop a file here, or click to select
                         </p>
-                        <p className='text-white/50 text-sm'>
+                        <p className='text-gray-500 text-sm'>
                           Supported formats: PDF, JPEG, PNG (max 5MB)
                         </p>
                       </>
@@ -234,13 +238,13 @@ export const KycProofOfResidence = ({
                   </div>
                 </div>
               ) : (
-                <div className='bg-[#041c38] rounded-md border border-white/10 p-4'>
+                <div className='bg-gray-50 rounded-md border border-gray-200 p-4'>
                   <div className='flex items-center justify-between'>
                     <div className='flex items-center'>
                       <File className='h-8 w-8 text-primary mr-3' />
                       <div>
-                        <p className='text-white font-medium'>{fileName}</p>
-                        <p className='text-white/50 text-sm'>
+                        <p className='text-gray-800 font-medium'>{fileName}</p>
+                        <p className='text-gray-500 text-sm'>
                           {(file.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
@@ -249,13 +253,13 @@ export const KycProofOfResidence = ({
                       variant='ghost'
                       size='icon'
                       onClick={removeFile}
-                      className='h-8 w-8 text-white/70 hover:text-white hover:bg-white/10'>
+                      className='h-8 w-8 text-gray-500 hover:text-gray-700 hover:bg-gray-100'>
                       <X className='h-4 w-4' />
                     </Button>
                   </div>
 
                   {fileUrl && (
-                    <div className='mt-4 max-h-48 overflow-hidden rounded border border-white/10'>
+                    <div className='mt-4 max-h-48 overflow-hidden rounded border border-gray-200'>
                       <img
                         src={fileUrl}
                         alt='Document preview'

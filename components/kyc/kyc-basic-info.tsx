@@ -92,10 +92,10 @@ export function KycBasicInfo({
   };
 
   return (
-    <Card className='border border-[#1a3c5e]/70 shadow-md bg-[#051b36] w-full overflow-hidden'>
-      <div className='h-1 w-full bg-blue-600'></div>
-      <CardHeader className='bg-[#072442] border-b border-[#1a3c5e] p-4'>
-        <CardTitle className='text-white text-lg sm:text-xl'>
+    <Card className='border border-gray-200 shadow-md bg-white w-full overflow-hidden'>
+      <div className='h-1 w-full bg-[#00805a]'></div>
+      <CardHeader className='bg-gray-50 border-b border-gray-200 p-4'>
+        <CardTitle className='text-gray-800 text-lg sm:text-xl'>
           Personal Information
         </CardTitle>
       </CardHeader>
@@ -105,7 +105,7 @@ export function KycBasicInfo({
             <div className='space-y-1.5 sm:space-y-2 w-full md:w-[calc(50%-8px)]'>
               <Label
                 htmlFor='firstName'
-                className='text-white text-sm sm:text-base'>
+                className='text-gray-700 text-sm sm:text-base'>
                 First Name
               </Label>
               <Input
@@ -113,7 +113,7 @@ export function KycBasicInfo({
                 name='firstName'
                 value={formData.firstName}
                 onChange={handleChange}
-                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-gray-50 text-gray-900 border-gray-200 focus:border-[#00805a] focus:ring-[#00805a]/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.firstName ? "border-red-500" : ""
                 }`}
               />
@@ -127,7 +127,7 @@ export function KycBasicInfo({
             <div className='space-y-1.5 sm:space-y-2 w-full md:w-[calc(50%-8px)]'>
               <Label
                 htmlFor='lastName'
-                className='text-white text-sm sm:text-base'>
+                className='text-gray-700 text-sm sm:text-base'>
                 Last Name
               </Label>
               <Input
@@ -135,7 +135,7 @@ export function KycBasicInfo({
                 name='lastName'
                 value={formData.lastName}
                 onChange={handleChange}
-                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-gray-50 text-gray-900 border-gray-200 focus:border-[#00805a] focus:ring-[#00805a]/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.lastName ? "border-red-500" : ""
                 }`}
               />
@@ -149,7 +149,7 @@ export function KycBasicInfo({
             <div className='space-y-1.5 sm:space-y-2 w-full md:w-[calc(50%-8px)]'>
               <Label
                 htmlFor='dateOfBirth'
-                className='text-white text-sm sm:text-base'>
+                className='text-gray-700 text-sm sm:text-base'>
                 Date of Birth
               </Label>
               <Input
@@ -158,7 +158,7 @@ export function KycBasicInfo({
                 type='date'
                 value={formData.dateOfBirth}
                 onChange={handleChange}
-                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-gray-50 text-gray-900 border-gray-200 focus:border-[#00805a] focus:ring-[#00805a]/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.dateOfBirth ? "border-red-500" : ""
                 }`}
               />
@@ -172,7 +172,7 @@ export function KycBasicInfo({
             <div className='space-y-1.5 sm:space-y-2 w-full md:w-[calc(50%-8px)]'>
               <Label
                 htmlFor='nationality'
-                className='text-white text-sm sm:text-base'>
+                className='text-gray-700 text-sm sm:text-base'>
                 Nationality
               </Label>
               <Input
@@ -180,7 +180,7 @@ export function KycBasicInfo({
                 name='nationality'
                 value={formData.nationality}
                 onChange={handleChange}
-                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-gray-50 text-gray-900 border-gray-200 focus:border-[#00805a] focus:ring-[#00805a]/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.nationality ? "border-red-500" : ""
                 }`}
               />
@@ -194,7 +194,7 @@ export function KycBasicInfo({
             <div className='space-y-1.5 sm:space-y-2 w-full md:w-[calc(50%-8px)]'>
               <Label
                 htmlFor='email'
-                className='text-white text-sm sm:text-base'>
+                className='text-gray-700 text-sm sm:text-base'>
                 Email Address
               </Label>
               <Input
@@ -203,7 +203,7 @@ export function KycBasicInfo({
                 type='email'
                 value={formData.email}
                 onChange={handleChange}
-                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-gray-50 text-gray-900 border-gray-200 focus:border-[#00805a] focus:ring-[#00805a]/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.email ? "border-red-500" : ""
                 }`}
               />
@@ -217,7 +217,7 @@ export function KycBasicInfo({
             <div className='space-y-1.5 sm:space-y-2 w-full md:w-[calc(50%-8px)]'>
               <Label
                 htmlFor='phone'
-                className='text-white text-sm sm:text-base'>
+                className='text-gray-700 text-sm sm:text-base'>
                 Phone Number
               </Label>
               <Input
@@ -225,7 +225,7 @@ export function KycBasicInfo({
                 name='phone'
                 value={formData.phone}
                 onChange={handleChange}
-                className={`bg-[#0d2a47] text-white border-[#1a3c5e] focus:border-blue-500 focus:ring-blue-500/20 text-sm sm:text-base h-9 sm:h-10 ${
+                className={`bg-gray-50 text-gray-900 border-gray-200 focus:border-[#00805a] focus:ring-[#00805a]/20 text-sm sm:text-base h-9 sm:h-10 ${
                   errors.phone ? "border-red-500" : ""
                 }`}
                 placeholder='+1 234 567 8900'
@@ -238,9 +238,9 @@ export function KycBasicInfo({
             </div>
           </div>
 
-          <Alert className='bg-blue-900/20 border-blue-500/30 py-2 sm:py-3 text-xs sm:text-sm'>
-            <AlertCircle className='h-3 w-3 sm:h-4 sm:w-4 text-blue-400' />
-            <AlertDescription className='text-white/90'>
+          <Alert className='bg-[#00805a]/5 border-[#00805a]/20 py-2 sm:py-3 text-xs sm:text-sm'>
+            <AlertCircle className='h-3 w-3 sm:h-4 sm:w-4 text-[#00805a]' />
+            <AlertDescription className='text-gray-700'>
               Please ensure that all information provided matches your official
               documents.
             </AlertDescription>
@@ -249,7 +249,7 @@ export function KycBasicInfo({
           <div className='flex justify-end pt-2 sm:pt-4'>
             <Button
               type='submit'
-              className='bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4 h-auto w-full sm:w-auto rounded-md'>
+              className='bg-[#00805a] hover:bg-[#00805a]/90 text-white font-medium text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4 h-auto w-full sm:w-auto rounded-md'>
               Submit Verification
             </Button>
           </div>

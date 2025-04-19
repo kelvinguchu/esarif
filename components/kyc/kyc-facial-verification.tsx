@@ -128,19 +128,19 @@ export const KycFacialVerification = ({
   };
 
   return (
-    <Card className='border-0 shadow-md bg-[#001a38] w-full'>
-      <CardHeader className='bg-[#ebeffb]/10 px-6 py-4'>
+    <Card className='border border-gray-200 shadow-md bg-white w-full'>
+      <CardHeader className='bg-gray-50 border-b border-gray-200 px-6 py-4'>
         <div className='flex items-center justify-between'>
           <div>
-            <CardTitle className='text-white text-lg'>
+            <CardTitle className='text-gray-800 text-lg'>
               Facial Verification
             </CardTitle>
-            <CardDescription className='text-white/70 mt-1'>
+            <CardDescription className='text-gray-500 mt-1'>
               Take a selfie for identity verification
             </CardDescription>
           </div>
           {isCompleted && (
-            <div className='h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center'>
+            <div className='h-8 w-8 rounded-full bg-green-100 flex items-center justify-center'>
               <Check className='h-4 w-4 text-green-500' />
             </div>
           )}
@@ -150,15 +150,15 @@ export const KycFacialVerification = ({
         {isCompleted ? (
           <div className='flex flex-col space-y-6'>
             <div className='space-y-3'>
-              <p className='text-white/50 text-sm'>Verification Method</p>
-              <p className='text-white'>Photo Selfie</p>
+              <p className='text-gray-500 text-sm'>Verification Method</p>
+              <p className='text-gray-800'>Photo Selfie</p>
             </div>
 
             <div className='space-y-3'>
               {facialData?.selfieImage && (
                 <>
-                  <p className='text-white/50 text-sm'>Captured Selfie</p>
-                  <div className='bg-[#041c38] rounded-md overflow-hidden h-64 max-w-sm mx-auto border border-white/10'>
+                  <p className='text-gray-500 text-sm'>Captured Selfie</p>
+                  <div className='bg-gray-50 rounded-md overflow-hidden h-64 max-w-sm mx-auto border border-gray-200'>
                     <img
                       src={facialData.selfieImage}
                       alt='Selfie'
@@ -172,11 +172,11 @@ export const KycFacialVerification = ({
         ) : (
           <div className='flex flex-col space-y-6'>
             <div className='flex flex-col space-y-4'>
-              <div className='bg-[#041c38] rounded-md overflow-hidden border border-white/10 h-64 flex items-center justify-center'>
+              <div className='bg-gray-50 rounded-md overflow-hidden border border-gray-200 h-64 flex items-center justify-center'>
                 {!cameraActive && !capturedImage && (
                   <div className='text-center p-4'>
-                    <Camera className='h-16 w-16 text-white/30 mx-auto mb-4' />
-                    <p className='text-white/70 mb-4'>Camera is not active</p>
+                    <Camera className='h-16 w-16 text-gray-400 mx-auto mb-4' />
+                    <p className='text-gray-500 mb-4'>Camera is not active</p>
                     <Button
                       onClick={startCamera}
                       className='bg-primary hover:bg-primary/90'>
@@ -221,7 +221,7 @@ export const KycFacialVerification = ({
                   <Button
                     onClick={retakePhoto}
                     variant='outline'
-                    className='border-white/10 text-white hover:bg-white/5'>
+                    className='border-gray-300 text-gray-700 hover:bg-gray-50'>
                     <RefreshCw className='mr-2 h-4 w-4' />
                     Retake
                   </Button>

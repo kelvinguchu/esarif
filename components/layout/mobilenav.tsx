@@ -3,72 +3,94 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { FaExchangeAlt, FaHistory, FaIdCard } from "react-icons/fa";
+import dynamic from "next/dynamic";
+
+// Import icons with dynamic imports and disable SSR
+const IconComponents = {
+  FaIdCard: dynamic(
+    () => import("react-icons/fa").then((mod) => mod.FaIdCard),
+    { ssr: false }
+  ),
+  FaExchangeAlt: dynamic(
+    () => import("react-icons/fa").then((mod) => mod.FaExchangeAlt),
+    { ssr: false }
+  ),
+  FaHistory: dynamic(
+    () => import("react-icons/fa").then((mod) => mod.FaHistory),
+    { ssr: false }
+  ),
+};
 
 export const MobileNav = () => {
   const pathname = usePathname();
 
   const routes = [
     {
-      icon: FaIdCard,
+      icon: "FaIdCard",
       label: "KYC",
       href: "/kyc",
     },
     {
-      icon: FaExchangeAlt,
+      icon: "FaExchangeAlt",
       label: "Swap",
       href: "/swap",
       isMain: true,
     },
     {
-      icon: FaHistory,
+      icon: "FaHistory",
       label: "Transactions",
       href: "/transactions",
     },
   ];
 
   return (
-    <div className='fixed bottom-0 left-0 right-0 z-50 md:hidden px-3 pb-2'>
-      <nav className='flex items-center justify-around bg-[#05264c] h-16 relative rounded-full shadow-lg border border-white/10'>
-        {routes.map((route) => (
-          <Link
-            key={route.href}
-            href={route.href}
-            className={cn(
-              "flex flex-col items-center justify-center w-full h-full",
-              pathname === route.href
-                ? route.isMain
-                  ? "text-white"
-                  : "text-[#00805a]"
-                : "text-white/60 hover:text-white"
-            )}>
-            <div className='flex flex-col items-center'>
-              {route.isMain ? (
-                <div className='relative'>
-                  <div className='absolute -top-10 left-1/2 -translate-x-1/2 bg-[#00805a] rounded-full p-4 shadow-[0_0_15px_rgba(0,128,90,0.5)] border-4 border-[#05264c] transition-transform hover:scale-105'>
-                    <route.icon className='h-7 w-7 text-white' />
-                  </div>
-                </div>
-              ) : (
-                <div
-                  className={cn(
-                    "rounded-full p-2 transition-colors mb-1",
-                    pathname === route.href ? "bg-white/10" : "bg-transparent"
-                  )}>
-                  <route.icon className='h-5 w-5' />
-                </div>
-              )}
-              <span
+    <div className='fixed bottom-0 left-0 right-0 z-50 h-16 pb-2 border-t border-gray-200 bg-white md:hidden'>
+      <nav className='grid h-full grid-cols-3'>
+        {routes.map((route) => {
+          const isActive = pathname === route.href;
+          const isMain = route.isMain;
+
+          // Get the component dynamically
+          const IconComponent =
+            IconComponents[route.icon as keyof typeof IconComponents];
+
+          return (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={cn(
+                "flex flex-col items-center justify-center gap-1 pt-1 transition-colors",
+                isActive
+                  ? "text-[#00805a]"
+                  : isMain
+                  ? "text-[#00805a]/80"
+                  : "text-gray-500 hover:text-gray-700"
+              )}>
+              <div
                 className={cn(
-                  "text-xs font-medium transition-colors mt-1",
-                  route.isMain && "mt-9",
-                  pathname === route.href ? "opacity-100" : "opacity-70"
+                  "rounded-full p-2 transition-colors",
+                  isMain && !isActive && "bg-[#00805a]/10",
+                  isMain && isActive && "bg-[#00805a]"
                 )}>
-                {route.label}
-              </span>
-            </div>
-          </Link>
-        ))}
+                {IconComponent && (
+                  <IconComponent
+                    className={cn(
+                      "h-5 w-5",
+                      isMain && isActive
+                        ? "text-white"
+                        : isMain && !isActive
+                        ? "text-[#00805a]"
+                        : isActive
+                        ? "text-[#00805a]"
+                        : "text-gray-500"
+                    )}
+                  />
+                )}
+              </div>
+              <span className='text-xs font-medium'>{route.label}</span>
+            </Link>
+          );
+        })}
       </nav>
     </div>
   );

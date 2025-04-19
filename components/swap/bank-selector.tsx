@@ -66,15 +66,15 @@ export const BankSelector = ({
   };
 
   const content = (
-    <div className='p-4 divide-y divide-white/10'>
-      <div className='pb-2 text-white/70 font-medium'>
+    <div className='p-4 divide-y divide-gray-200'>
+      <div className='pb-2 text-gray-700 font-medium'>
         Select Payment Method
       </div>
       {bankOptions.map((bank) => (
         <div
           key={bank.id}
           className={`flex items-center justify-between py-3 px-3 my-1 rounded-lg cursor-pointer transition-all ${
-            bank.id === selected ? "bg-[#122a52] shadow-lg" : "hover:bg-white/5"
+            bank.id === selected ? "bg-gray-100 shadow-sm" : "hover:bg-gray-50"
           }`}
           onClick={() => {
             onSelect(bank.id);
@@ -91,8 +91,8 @@ export const BankSelector = ({
               {getIcon(bank)}
             </div>
             <div>
-              <div className='text-white font-medium'>{bank.name}</div>
-              <div className='text-white/60 text-sm'>{bank.description}</div>
+              <div className='text-gray-800 font-medium'>{bank.name}</div>
+              <div className='text-gray-500 text-sm'>{bank.description}</div>
             </div>
           </div>
           {bank.id === selected && <Check className='h-5 w-5 text-[#00805a]' />}
@@ -107,7 +107,7 @@ export const BankSelector = ({
       <DrawerTrigger asChild>
         <button
           type='button'
-          className='flex items-center gap-2 bg-[#001a38]/80 backdrop-blur-sm border border-white/10 text-white rounded-lg p-3 shadow-inner shadow-black/20 w-full transition-all hover:border-[#00805a]/30 group'
+          className='flex items-center gap-2 bg-gray-50 border border-gray-200 text-gray-800 rounded-lg p-3 shadow-sm w-full transition-all hover:border-[#00805a]/30 group'
           onClick={() => setShowDrawer(true)}>
           <div className='w-10 h-10 rounded-full flex items-center justify-center overflow-hidden group-hover:ring-2 group-hover:ring-[#00805a]/30 transition-all bg-white'>
             {selectedBank &&
@@ -118,29 +118,29 @@ export const BankSelector = ({
             )}
           </div>
           <div className='flex-1 text-left'>
-            <div className='text-white font-medium'>
+            <div className='text-gray-800 font-medium'>
               {selectedBank?.name || "Select Bank"}
             </div>
-            <div className='text-white/60 text-xs'>
+            <div className='text-gray-500 text-xs'>
               {selectedBank?.description || "Choose your preferred bank"}
             </div>
           </div>
-          <ChevronDown className='h-4 w-4 text-white/60' />
+          <ChevronDown className='h-4 w-4 text-gray-400' />
         </button>
       </DrawerTrigger>
-      <DrawerContent className='bg-gradient-to-t from-[#001834] to-[#00295a] border-t border-white/10 rounded-t-xl p-0'>
-        <DrawerHeader className='bg-gradient-to-r from-[#002346] to-[#001b35] border-b border-white/10 p-4 sticky top-0 z-10'>
-          <DrawerTitle className='text-white'>
+      <DrawerContent className='bg-white border-t border-gray-200 rounded-t-xl p-0'>
+        <DrawerHeader className='bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 p-4 sticky top-0 z-10'>
+          <DrawerTitle className='text-gray-800'>
             Select Payment Method
           </DrawerTitle>
         </DrawerHeader>
         <div className='max-h-[65vh] overflow-y-auto py-2 custom-scrollbar'>
           {content}
         </div>
-        <DrawerFooter className='border-t border-white/10 sticky bottom-0 bg-[#001834] z-10'>
+        <DrawerFooter className='border-t border-gray-200 sticky bottom-0 bg-white z-10'>
           <Button
             variant='outline'
-            className='w-full bg-transparent border-white/10 text-white hover:bg-white/10'
+            className='w-full bg-transparent border-gray-200 text-gray-700 hover:bg-gray-50'
             onClick={() => setShowDrawer(false)}>
             Cancel
           </Button>
@@ -152,7 +152,7 @@ export const BankSelector = ({
       <SheetTrigger asChild>
         <button
           type='button'
-          className='flex items-center gap-2 bg-[#001a38]/80 backdrop-blur-sm border border-white/10 text-white rounded-lg p-3 shadow-inner shadow-black/20 w-full transition-all hover:border-[#00805a]/30 group'>
+          className='flex items-center gap-2 bg-gray-50 border border-gray-200 text-gray-800 rounded-lg p-3 shadow-sm w-full transition-all hover:border-[#00805a]/30 group'>
           <div className='w-10 h-10 rounded-full flex items-center justify-center overflow-hidden group-hover:ring-2 group-hover:ring-[#00805a]/30 transition-all bg-white'>
             {selectedBank &&
             selectedBank.description.includes("Mobile Money") ? (
@@ -162,21 +162,23 @@ export const BankSelector = ({
             )}
           </div>
           <div className='flex-1 text-left'>
-            <div className='text-white font-medium'>
+            <div className='text-gray-800 font-medium'>
               {selectedBank?.name || "Select Bank"}
             </div>
-            <div className='text-white/60 text-xs'>
+            <div className='text-gray-500 text-xs'>
               {selectedBank?.description || "Choose your preferred bank"}
             </div>
           </div>
-          <ChevronDown className='h-4 w-4 text-white/60' />
+          <ChevronDown className='h-4 w-4 text-gray-400' />
         </button>
       </SheetTrigger>
       <SheetContent
         side='right'
-        className='w-[400px] bg-gradient-to-t from-[#001834] to-[#00295a] border-l border-white/10 p-0'>
-        <SheetHeader className='bg-gradient-to-r from-[#002346] to-[#001b35] border-b border-white/10 p-4 sticky top-0 z-10'>
-          <SheetTitle className='text-white'>Select Payment Method</SheetTitle>
+        className='w-[400px] bg-white border-l border-gray-200 p-0'>
+        <SheetHeader className='bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 p-4 sticky top-0 z-10'>
+          <SheetTitle className='text-gray-800'>
+            Select Payment Method
+          </SheetTitle>
         </SheetHeader>
         <div className='overflow-y-auto py-2 h-[calc(100vh-80px)] custom-scrollbar'>
           {content}

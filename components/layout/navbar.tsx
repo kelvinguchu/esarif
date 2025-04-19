@@ -23,17 +23,17 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className='fixed top-0 right-0 z-40 w-full  md:w-[calc(100%-16rem)] h-16 bg-[#05264c] shadow-md'>
-      <div className='h-full flex items-center justify-between px-6 bg-gradient-to-r from-[#05264c] to-[#05264c]/95'>
+    <div className='fixed top-0 right-0 z-40 w-full md:w-[calc(100%-16rem)] h-16 bg-white shadow-sm'>
+      <div className='h-full flex items-center justify-between px-6 bg-gradient-to-r from-white to-gray-50'>
         <div>
-          <h1 className='text-xl font-semibold text-white'>{greeting}</h1>
-          <p className='text-sm text-white/80'>Welcome to e-Sarif</p>
+          <h1 className='text-xl font-semibold text-gray-800'>{greeting}</h1>
+          <p className='text-sm text-gray-600'>Welcome to e-Sarif</p>
         </div>
 
-        <Avatar className='h-10 w-10 cursor-pointer border-2 border-primary shadow-lg'>
+        <Avatar className='h-10 w-10 cursor-pointer border-2 border-primary shadow-md'>
           <AvatarImage src='/images/avatar.png' alt='User profile' />
-          <AvatarFallback className='bg-primary/20'>
-            <UserCircle className='h-6 w-6 text-white' />
+          <AvatarFallback className='bg-primary/10'>
+            <UserCircle className='h-6 w-6 text-primary' />
           </AvatarFallback>
         </Avatar>
       </div>

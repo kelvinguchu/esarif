@@ -127,11 +127,11 @@ export const TransactionHistory = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-green-500/10 text-green-500 hover:bg-green-500/10";
+        return "bg-green-100 text-green-700 hover:bg-green-100 border-green-200";
       case "pending":
-        return "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/10";
+        return "bg-yellow-100 text-yellow-700 hover:bg-yellow-100 border-yellow-200";
       case "failed":
-        return "bg-red-500/10 text-red-500 hover:bg-red-500/10";
+        return "bg-red-100 text-red-700 hover:bg-red-100 border-red-200";
       default:
         return "";
     }
@@ -161,9 +161,9 @@ export const TransactionHistory = () => {
   };
 
   return (
-    <Card className='border-0 shadow-md bg-transparent rounded-lg overflow-hidden'>
-      <CardHeader className='bg-[#ebeffb]/10 px-6 py-4 flex flex-row items-center justify-between'>
-        <CardTitle className='text-white text-lg flex items-center gap-2'>
+    <Card className='border border-gray-200 shadow-md bg-white rounded-lg overflow-hidden'>
+      <CardHeader className='bg-gray-50 px-6 py-4 flex flex-row items-center justify-between border-b border-gray-200'>
+        <CardTitle className='text-gray-800 text-lg flex items-center gap-2'>
           Transaction History
           <Badge className='ml-2 bg-primary/20 text-primary hover:bg-primary/20'>
             {transactions.length}
@@ -173,14 +173,14 @@ export const TransactionHistory = () => {
           <Button
             variant='outline'
             size='sm'
-            className='hidden md:flex items-center gap-1.5 rounded-md border border-white/20 bg-[#ebeffb]/10 hover:bg-[#ebeffb]/20 text-white hover:text-white cursor-pointer'>
+            className='hidden md:flex items-center gap-1.5 rounded-md border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 cursor-pointer'>
             <Download className='h-4 w-4' />
             <span>Export</span>
           </Button>
           <Button
             variant='outline'
             size='icon'
-            className='rounded-md border border-white/20 bg-[#ebeffb]/10 hover:bg-[#ebeffb]/20 text-white hover:text-white cursor-pointer'
+            className='rounded-md border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 cursor-pointer'
             onClick={refreshTransactions}
             disabled={isLoading}>
             <RefreshCw
@@ -189,13 +189,13 @@ export const TransactionHistory = () => {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className='p-0 bg-transparent'>
+      <CardContent className='p-0 bg-white'>
         <div className='flex flex-col md:flex-row md:items-center gap-4 p-6 pb-4'>
           <div className='relative flex-1'>
-            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50 h-4 w-4' />
+            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
             <Input
               placeholder='Search transactions...'
-              className='pl-10 bg-[#001a38] border-0 text-white rounded-md w-full'
+              className='pl-10 bg-gray-50 border border-gray-200 text-gray-800 rounded-md w-full'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -206,14 +206,14 @@ export const TransactionHistory = () => {
                 <Button
                   variant='outline'
                   size='sm'
-                  className='md:hidden items-center gap-1.5 rounded-md border border-white/20 bg-[#001a38] hover:bg-[#001a38]/90 text-white hover:text-white cursor-pointer'>
+                  className='md:hidden items-center gap-1.5 rounded-md border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 cursor-pointer'>
                   <Filter className='h-4 w-4 mr-1' />
                   Filters
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align='end'
-                className='bg-[#001a38] border-white/10 text-white'>
+                className='bg-white border-gray-200 text-gray-800'>
                 <DropdownMenuItem
                   onClick={() => setFilter("all")}
                   className='cursor-pointer'>
@@ -243,10 +243,10 @@ export const TransactionHistory = () => {
             </DropdownMenu>
             <div className='hidden md:block'>
               <Select value={filter} onValueChange={setFilter}>
-                <SelectTrigger className='w-[140px] bg-[#001a38] border-0 text-white rounded-md cursor-pointer'>
+                <SelectTrigger className='w-[140px] bg-gray-50 border border-gray-200 text-gray-800 rounded-md cursor-pointer'>
                   <SelectValue placeholder='Filter by' />
                 </SelectTrigger>
-                <SelectContent className='bg-[#001a38] border-white/10 text-white'>
+                <SelectContent className='bg-white border-gray-200 text-gray-800'>
                   <SelectItem value='all'>All</SelectItem>
                   <SelectItem value='swap'>Swaps</SelectItem>
                   <SelectItem value='buy'>Buys</SelectItem>
@@ -261,47 +261,55 @@ export const TransactionHistory = () => {
         {/* Desktop Table View */}
         <div className='overflow-x-auto hidden md:block'>
           <Table>
-            <TableHeader className='bg-[#001a38]'>
-              <TableRow className='hover:bg-transparent border-white/10'>
-                <TableHead className='text-white font-medium'>Date</TableHead>
-                <TableHead className='text-white font-medium'>
+            <TableHeader className='bg-gray-50'>
+              <TableRow className='hover:bg-transparent border-gray-200'>
+                <TableHead className='text-gray-700 font-medium'>
+                  Date
+                </TableHead>
+                <TableHead className='text-gray-700 font-medium'>
                   Transaction ID
                 </TableHead>
-                <TableHead className='text-white font-medium'>Type</TableHead>
-                <TableHead className='text-white font-medium'>From</TableHead>
-                <TableHead className='text-white font-medium'>To</TableHead>
-                <TableHead className='text-white font-medium'>Amount</TableHead>
-                <TableHead className='text-white font-medium text-right'>
+                <TableHead className='text-gray-700 font-medium'>
+                  Type
+                </TableHead>
+                <TableHead className='text-gray-700 font-medium'>
+                  From
+                </TableHead>
+                <TableHead className='text-gray-700 font-medium'>To</TableHead>
+                <TableHead className='text-gray-700 font-medium'>
+                  Amount
+                </TableHead>
+                <TableHead className='text-gray-700 font-medium text-right'>
                   Status
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className='bg-[#001a38]/50'>
+            <TableBody className='bg-white'>
               {filteredTransactions.length > 0 ? (
                 filteredTransactions.map((tx) => (
                   <TableRow
                     key={tx.id}
-                    className='hover:bg-[#001a38] border-white/10 cursor-pointer'
+                    className='hover:bg-gray-50 border-gray-200 cursor-pointer'
                     onClick={() => toggleRowExpansion(tx.id)}>
-                    <TableCell className='text-white/70 font-medium'>
+                    <TableCell className='text-gray-600 font-medium'>
                       {tx.date}
                     </TableCell>
-                    <TableCell className='text-white/70'>{tx.id}</TableCell>
+                    <TableCell className='text-gray-600'>{tx.id}</TableCell>
                     <TableCell>
                       <div className='flex items-center gap-2'>
                         {getTypeIcon(tx.type)}
-                        <span className='text-white/70 capitalize'>
+                        <span className='text-gray-600 capitalize'>
                           {tx.type}
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className='text-white/70'>
+                    <TableCell className='text-gray-600'>
                       {tx.fromWallet}
                     </TableCell>
-                    <TableCell className='text-white/70'>
+                    <TableCell className='text-gray-600'>
                       {tx.toWallet}
                     </TableCell>
-                    <TableCell className='text-white/70'>
+                    <TableCell className='text-gray-600'>
                       ${tx.amount}
                     </TableCell>
                     <TableCell className='text-right'>
@@ -319,7 +327,7 @@ export const TransactionHistory = () => {
                 <TableRow>
                   <TableCell
                     colSpan={7}
-                    className='text-center h-32 text-white/50'>
+                    className='text-center h-32 text-gray-400'>
                     No transactions found
                   </TableCell>
                 </TableRow>
@@ -331,21 +339,21 @@ export const TransactionHistory = () => {
         {/* Mobile List View */}
         <div className='md:hidden'>
           {filteredTransactions.length > 0 ? (
-            <div className='divide-y divide-white/10'>
+            <div className='divide-y divide-gray-200'>
               {filteredTransactions.map((tx) => (
                 <div key={tx.id} className='py-4 px-4'>
                   <div
                     className='flex justify-between items-center cursor-pointer'
                     onClick={() => toggleRowExpansion(tx.id)}>
                     <div className='flex items-center gap-3'>
-                      <div className='h-8 w-8 rounded-full bg-[#001a38] flex items-center justify-center'>
+                      <div className='h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center'>
                         {getTypeIcon(tx.type)}
                       </div>
                       <div>
-                        <div className='text-white font-medium'>
+                        <div className='text-gray-800 font-medium'>
                           ${tx.amount}
                         </div>
-                        <div className='text-white/50 text-xs'>{tx.date}</div>
+                        <div className='text-gray-500 text-xs'>{tx.date}</div>
                       </div>
                     </div>
                     <div className='flex items-center gap-2'>
@@ -357,36 +365,36 @@ export const TransactionHistory = () => {
                         {tx.status}
                       </Badge>
                       {expandedRow === tx.id ? (
-                        <ChevronUp className='h-4 w-4 text-white/50' />
+                        <ChevronUp className='h-4 w-4 text-gray-400' />
                       ) : (
-                        <ChevronDown className='h-4 w-4 text-white/50' />
+                        <ChevronDown className='h-4 w-4 text-gray-400' />
                       )}
                     </div>
                   </div>
 
                   {expandedRow === tx.id && (
-                    <div className='mt-4 ml-11 pl-1 border-l-2 border-white/10 space-y-2'>
+                    <div className='mt-4 ml-11 pl-1 border-l-2 border-gray-200 space-y-2'>
                       <div className='flex justify-between'>
-                        <span className='text-white/50 text-sm'>Type:</span>
-                        <span className='text-white text-sm capitalize'>
+                        <span className='text-gray-500 text-sm'>Type:</span>
+                        <span className='text-gray-800 text-sm capitalize'>
                           {tx.type}
                         </span>
                       </div>
                       <div className='flex justify-between'>
-                        <span className='text-white/50 text-sm'>From:</span>
-                        <span className='text-white text-sm'>
+                        <span className='text-gray-500 text-sm'>From:</span>
+                        <span className='text-gray-800 text-sm'>
                           {tx.fromWallet}
                         </span>
                       </div>
                       <div className='flex justify-between'>
-                        <span className='text-white/50 text-sm'>To:</span>
-                        <span className='text-white text-sm'>
+                        <span className='text-gray-500 text-sm'>To:</span>
+                        <span className='text-gray-800 text-sm'>
                           {tx.toWallet}
                         </span>
                       </div>
                       <div className='flex justify-between'>
-                        <span className='text-white/50 text-sm'>ID:</span>
-                        <span className='text-white text-sm'>{tx.id}</span>
+                        <span className='text-gray-500 text-sm'>ID:</span>
+                        <span className='text-gray-800 text-sm'>{tx.id}</span>
                       </div>
                     </div>
                   )}
@@ -394,22 +402,22 @@ export const TransactionHistory = () => {
               ))}
             </div>
           ) : (
-            <div className='py-12 text-center text-white/50'>
+            <div className='py-12 text-center text-gray-400'>
               No transactions found
             </div>
           )}
         </div>
 
         {filteredTransactions.length > 0 && (
-          <div className='flex items-center justify-between p-4 border-t border-white/10'>
-            <p className='text-white/50 text-sm'>
+          <div className='flex items-center justify-between p-4 border-t border-gray-200'>
+            <p className='text-gray-500 text-sm'>
               Showing {filteredTransactions.length} of {transactions.length}{" "}
               transactions
             </p>
             <Button
               variant='outline'
               size='sm'
-              className='border border-white/20 bg-[#001a38] hover:bg-[#001a38]/90 text-white hover:text-white cursor-pointer'>
+              className='border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 cursor-pointer'>
               Load More
             </Button>
           </div>

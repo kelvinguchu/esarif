@@ -19,7 +19,6 @@ export default function KycVerificationType({
   const router = useRouter();
   const [verificationComponent, setVerificationComponent] =
     useState<React.ReactNode | null>(null);
-  const [title, setTitle] = useState("Verification");
   const [loading, setLoading] = useState(true);
 
   const resolvedParams = use(params);
@@ -36,7 +35,6 @@ export default function KycVerificationType({
             setVerificationComponent(
               <KycBasicInfo onNext={(data) => handleVerificationSubmit(data)} />
             );
-            setTitle("Basic Information");
             break;
           case "document-verification":
             setVerificationComponent(
@@ -45,7 +43,6 @@ export default function KycVerificationType({
                 onBack={() => router.push("/kyc")}
               />
             );
-            setTitle("ID Verification");
             break;
           case "facial-verification":
             setVerificationComponent(
@@ -53,7 +50,6 @@ export default function KycVerificationType({
                 onSubmit={(data) => handleVerificationSubmit(data)}
               />
             );
-            setTitle("Facial Verification");
             break;
           case "proof-of-residence":
             setVerificationComponent(
@@ -61,7 +57,6 @@ export default function KycVerificationType({
                 onSubmit={(data) => handleVerificationSubmit(data)}
               />
             );
-            setTitle("Proof of Address");
             break;
           default:
             router.push("/kyc");
@@ -89,20 +84,17 @@ export default function KycVerificationType({
           <Link href='/kyc'>
             <Button
               variant='ghost'
-              className='p-0 mb-2 sm:mb-0 sm:mr-4 text-white/70 hover:text-white hover:bg-transparent text-sm sm:text-base'>
+              className='p-0 mb-2 sm:mb-0 sm:mr-4 text-gray-500 hover:text-gray-800 hover:bg-transparent text-sm sm:text-base'>
               <ArrowLeft className='h-4 w-4 sm:h-5 sm:w-5 mr-1' />
               <span>Back to Verifications</span>
             </Button>
           </Link>
-          <h1 className='text-xl sm:text-2xl font-semibold text-white'>
-            {title}
-          </h1>
         </div>
       </div>
 
       {loading ? (
         <div className='flex justify-center items-center h-48 sm:h-64'>
-          <div className='animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-t-2 border-b-2 border-white'></div>
+          <div className='animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-t-2 border-b-2 border-primary'></div>
         </div>
       ) : (
         <div className='w-full'>{verificationComponent}</div>

@@ -55,14 +55,14 @@ export const MainSidebar = () => {
 
   return (
     <Sidebar
-      className='md:flex fixed inset-y-0 z-50 bg-[#05264c] shadow-md w-64'
+      className='md:flex fixed inset-y-0 z-50 bg-white shadow-md w-64 border-r border-gray-100'
       variant='inset'>
       <SidebarHeader className='py-4 h-16'>
         <Link href='/swap' className='flex items-center gap-2 px-6'>
           <div className='p-2 bg-primary rounded-md shadow-md'>
             <FaExchangeAlt className='h-6 w-6 text-white' />
           </div>
-          <span className='font-bold text-xl text-white'>e-Sarif</span>
+          <span className='font-bold text-xl text-gray-800'>e-Sarif</span>
         </Link>
       </SidebarHeader>
 
@@ -78,13 +78,24 @@ export const MainSidebar = () => {
                     className={
                       pathname === route.href
                         ? "bg-primary/90 text-white !important shadow-md"
-                        : "bg-transparent text-white !important hover:bg-white/5"
+                        : "bg-transparent text-gray-700 !important hover:bg-gray-100"
                     }>
                     <Link
                       href={route.href}
-                      className='flex items-center py-2.5 px-4 rounded-lg text-white'>
-                      <route.icon className='h-5 w-5 mr-3 text-white' />
-                      <span className='text-white text-opacity-100 font-medium'>
+                      className='flex items-center py-2.5 px-4 rounded-lg'>
+                      <route.icon
+                        className={`h-5 w-5 mr-3 ${
+                          pathname === route.href
+                            ? "text-white"
+                            : "text-gray-600"
+                        }`}
+                      />
+                      <span
+                        className={
+                          pathname === route.href
+                            ? "text-white"
+                            : "text-gray-700"
+                        }>
                         {route.label}
                       </span>
                     </Link>
@@ -98,7 +109,7 @@ export const MainSidebar = () => {
 
       <SidebarFooter className='mt-auto'>
         <div className='px-6 py-4'>
-          <p className='text-white/60 text-xs'>
+          <p className='text-gray-500 text-xs'>
             &copy; {new Date().getFullYear()} e-Sarif
           </p>
         </div>
@@ -106,13 +117,13 @@ export const MainSidebar = () => {
 
       <style jsx global>{`
         [data-sidebar="menu-button"] {
-          color: white !important;
+          color: inherit !important;
         }
         [data-sidebar="menu-button"] span {
-          color: white !important;
+          color: inherit !important;
         }
         [data-sidebar="menu-button"] svg {
-          color: white !important;
+          color: inherit !important;
         }
       `}</style>
     </Sidebar>

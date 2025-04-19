@@ -10,7 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className='min-h-screen min-w-[100%] bg-gradient-to-br from-[#05264c] to-[#041c38] text-foreground relative'>
+      <div className='min-h-screen min-w-[100%] bg-gradient-to-b from-white to-gray-50 text-foreground relative'>
         <MainSidebar />
         <Navbar />
         <main className='pt-16 pb-16 md:pb-0 md:pl-64 min-h-screen transition-all duration-500 px-2 sm:px-6 py-6'>
