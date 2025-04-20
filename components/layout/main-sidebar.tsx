@@ -77,27 +77,14 @@ export const MainSidebar = () => {
                     isActive={pathname === route.href}
                     className={
                       pathname === route.href
-                        ? "bg-primary/90 text-white !important shadow-md"
-                        : "bg-transparent text-gray-700 !important hover:bg-gray-100"
+                        ? "bg-primary/90 text-white shadow-md"
+                        : "bg-transparent text-gray-700 hover:bg-gray-100"
                     }>
                     <Link
                       href={route.href}
                       className='flex items-center py-2.5 px-4 rounded-lg'>
-                      <route.icon
-                        className={`h-5 w-5 mr-3 ${
-                          pathname === route.href
-                            ? "text-white"
-                            : "text-gray-600"
-                        }`}
-                      />
-                      <span
-                        className={
-                          pathname === route.href
-                            ? "text-white"
-                            : "text-gray-700"
-                        }>
-                        {route.label}
-                      </span>
+                      <route.icon className={"h-5 w-5 mr-3"} />
+                      <span>{route.label}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -114,18 +101,6 @@ export const MainSidebar = () => {
           </p>
         </div>
       </SidebarFooter>
-
-      <style jsx global>{`
-        [data-sidebar="menu-button"] {
-          color: inherit !important;
-        }
-        [data-sidebar="menu-button"] span {
-          color: inherit !important;
-        }
-        [data-sidebar="menu-button"] svg {
-          color: inherit !important;
-        }
-      `}</style>
     </Sidebar>
   );
 };

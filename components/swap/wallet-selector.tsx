@@ -1,25 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-  DrawerFooter,
-} from "@/components/ui/drawer";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { WalletInfo, WalletLogo } from "./wallet-logo";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import React from "react";
+import { ChevronDown } from "lucide-react";
+import { WalletInfo } from "@/lib/swap/types";
+import { WalletLogo } from "./wallet-logo";
+import { GenericSelector } from "./generic-selector";
 
 interface WalletSelectorProps {
   label: string;
@@ -40,134 +25,66 @@ export const WalletSelector = ({
   showDrawer,
   setShowDrawer,
 }: WalletSelectorProps) => {
-  const selectedWallet = walletOptions.find((wallet) => wallet.id === selected);
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const selectedWallet = walletOptions.find((w) => w.id === selected);
 
-  // Handle drawer state changes - simplified to use the external state directly
-  const handleOpenChange = (open: boolean) => {
-    setShowDrawer(open);
-  };
-
-  const content = (
-    <div className='p-4 divide-y divide-gray-200'>
-      {walletOptions.map((wallet) => (
-        <div
-          key={wallet.id}
-          className={`flex items-center justify-between py-3 px-3 my-1 rounded-lg cursor-pointer transition-all ${
-            wallet.id === selected
-              ? "bg-gray-100 shadow-sm"
-              : "hover:bg-gray-50"
-          }`}
-          onClick={() => {
-            onSelect(wallet.id);
-            setShowDrawer(false);
-          }}>
-          <div className='flex items-center gap-3'>
-            <div
-              className='w-10 h-10 rounded-full flex items-center justify-center bg-white'
-              style={{
-                boxShadow:
-                  wallet.id === selected ? `0 0 0 2px ${wallet.color}` : "none",
-                background: wallet.isLocalImage ? "white" : `${wallet.color}20`,
-              }}>
-              <WalletLogo wallet={wallet} />
-            </div>
-            <div>
-              <div className='text-gray-800 font-medium'>{wallet.name}</div>
-              <div className='text-gray-500 text-sm'>{wallet.description}</div>
-            </div>
-          </div>
-          {wallet.id === selected && <Check className='h-5 w-5 text-primary' />}
-        </div>
-      ))}
+  // Define how to render a single wallet option in the list
+  const renderWalletOption = (wallet: WalletInfo, isSelected: boolean) => (
+    <div className='flex items-center gap-3 flex-1'>
+      <div
+        className='w-10 h-10 rounded-full flex items-center justify-center bg-white'
+        style={{
+          boxShadow: isSelected ? `0 0 0 2px ${wallet.color}` : "none",
+          background: wallet.isLocalImage ? "white" : `${wallet.color}20`,
+        }}>
+        <WalletLogo wallet={wallet} />
+      </div>
+      <div>
+        <div className='text-gray-800 font-medium'>{wallet.name}</div>
+        <div className='text-gray-500 text-sm'>{wallet.description}</div>
+      </div>
     </div>
   );
 
-  // Render either Drawer (mobile) or Sheet (desktop)
-  return isMobile ? (
-    <Drawer open={showDrawer} onOpenChange={handleOpenChange}>
-      <DrawerTrigger asChild>
-        <button
-          type='button'
-          className='flex items-center gap-2 bg-gray-50 border border-gray-200 text-gray-800 rounded-lg p-3 shadow-sm w-full transition-all hover:border-primary/30 group'
-          onClick={() => setShowDrawer(true)}>
-          <div
-            className='w-10 h-10 rounded-full flex items-center justify-center overflow-hidden group-hover:ring-2 group-hover:ring-primary/30 transition-all'
-            style={{
-              background: selectedWallet?.isLocalImage
-                ? "white"
-                : `${selectedWallet?.color}20`,
-            }}>
-            {selectedWallet && <WalletLogo wallet={selectedWallet} />}
-          </div>
-          <div className='flex-1 text-left'>
-            <div className='text-gray-800 font-medium'>
-              {selectedWallet?.name}
-            </div>
-            <div className='text-gray-500 text-xs'>
-              {selectedWallet?.description}
-            </div>
-          </div>
-          <ChevronDown className='h-4 w-4 text-gray-400' />
-        </button>
-      </DrawerTrigger>
-      <DrawerContent className='bg-white border-t border-gray-200 rounded-t-xl p-0'>
-        <DrawerHeader className='bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 p-4 sticky top-0 z-10'>
-          <DrawerTitle className='text-gray-800'>
-            Select {label} Wallet
-          </DrawerTitle>
-        </DrawerHeader>
-        <div className='max-h-[65vh] overflow-y-auto py-2 custom-scrollbar'>
-          {content}
+  // Define how to render the trigger button
+  const renderWalletTrigger = (selectedWallet: WalletInfo | undefined) => (
+    <button
+      type='button'
+      onClick={() => setShowDrawer(true)}
+      className='flex items-center gap-2 bg-gray-50 border border-gray-200 text-gray-800 rounded-lg p-3 shadow-sm w-full transition-all hover:border-primary/30 group'>
+      <div
+        className='w-10 h-10 rounded-full flex items-center justify-center overflow-hidden group-hover:ring-2 group-hover:ring-primary/30 transition-all'
+        style={{
+          background: selectedWallet?.isLocalImage
+            ? "white"
+            : `${selectedWallet?.color}20`,
+        }}>
+        {selectedWallet && <WalletLogo wallet={selectedWallet} />}
+      </div>
+      <div className='flex-1 text-left'>
+        <div className='text-gray-800 font-medium'>
+          {selectedWallet?.name || `Select ${label} Wallet`}
         </div>
-        <DrawerFooter className='border-t border-gray-200 sticky bottom-0 bg-white z-10'>
-          <Button
-            variant='outline'
-            className='w-full bg-transparent border-gray-200 text-gray-700 hover:bg-gray-50'
-            onClick={() => setShowDrawer(false)}>
-            Cancel
-          </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  ) : (
-    <Sheet>
-      <SheetTrigger asChild>
-        <button
-          type='button'
-          className='flex items-center gap-2 bg-gray-50 border border-gray-200 text-gray-800 rounded-lg p-3 shadow-sm w-full transition-all hover:border-primary/30 group'>
-          <div
-            className='w-10 h-10 rounded-full flex items-center justify-center overflow-hidden group-hover:ring-2 group-hover:ring-primary/30 transition-all'
-            style={{
-              background: selectedWallet?.isLocalImage
-                ? "white"
-                : `${selectedWallet?.color}20`,
-            }}>
-            {selectedWallet && <WalletLogo wallet={selectedWallet} />}
-          </div>
-          <div className='flex-1 text-left'>
-            <div className='text-gray-800 font-medium'>
-              {selectedWallet?.name}
-            </div>
-            <div className='text-gray-500 text-xs'>
-              {selectedWallet?.description}
-            </div>
-          </div>
-          <ChevronDown className='h-4 w-4 text-gray-400' />
-        </button>
-      </SheetTrigger>
-      <SheetContent
-        side='right'
-        className='w-[400px] bg-white border-l border-gray-200 p-0'>
-        <SheetHeader className='bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 p-4 sticky top-0 z-10'>
-          <SheetTitle className='text-gray-800'>
-            Select {label} Wallet
-          </SheetTitle>
-        </SheetHeader>
-        <div className='overflow-y-auto py-2 h-[calc(100vh-80px)] custom-scrollbar'>
-          {content}
+        <div className='text-gray-500 text-xs'>
+          {selectedWallet?.description || "Choose your wallet"}
         </div>
-      </SheetContent>
-    </Sheet>
+      </div>
+      <ChevronDown className='h-4 w-4 text-gray-400' />
+    </button>
+  );
+
+  return (
+    <>
+      {renderWalletTrigger(selectedWallet)}
+
+      <GenericSelector<WalletInfo>
+        label={`Select ${label} Wallet`}
+        options={walletOptions}
+        selectedId={selected}
+        onSelect={onSelect}
+        showDrawer={showDrawer}
+        setShowDrawer={setShowDrawer}
+        renderOption={renderWalletOption}
+      />
+    </>
   );
 };

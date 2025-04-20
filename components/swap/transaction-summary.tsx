@@ -1,6 +1,7 @@
 "use client";
 
 import { Wallet, RefreshCw } from "lucide-react";
+import { formatCurrency } from "@/lib/swap/utils";
 
 interface TransactionSummaryProps {
   fromAmount: string;
@@ -17,16 +18,6 @@ export const TransactionSummary = ({
 }: TransactionSummaryProps) => {
   const isMpesa = toWallet === "MPESA";
 
-  const kshRate = 128.55;
-
-  const formatCurrency = (amount: number) => {
-    if (isMpesa) {
-      return `KSh ${(amount * kshRate).toFixed(2)}`;
-    } else {
-      return `$${amount.toFixed(2)}`;
-    }
-  };
-
   return (
     <div className='bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border border-gray-200 p-4 shadow-sm'>
       <h3 className='text-gray-800 font-medium mb-4 flex items-center'>
@@ -39,20 +30,20 @@ export const TransactionSummary = ({
         <div className='flex justify-between'>
           <span className='text-gray-600'>Amount:</span>
           <span className='text-gray-800 font-medium'>
-            {formatCurrency(parseFloat(fromAmount))}
+            {formatCurrency(parseFloat(fromAmount), toWallet)}
           </span>
         </div>
         <div className='flex justify-between'>
           <span className='text-gray-600'>Service Charge (1%):</span>
           <span className='text-gray-800 font-medium'>
-            {formatCurrency(serviceFee)}
+            {formatCurrency(serviceFee, toWallet)}
           </span>
         </div>
         <div className='h-px bg-gray-200 my-3'></div>
         <div className='flex justify-between text-base'>
           <span className='text-gray-700 font-medium'>Net Amount:</span>
           <span className='text-gray-900 font-semibold'>
-            {formatCurrency(netAmount)}
+            {formatCurrency(netAmount, toWallet)}
           </span>
         </div>
       </div>
