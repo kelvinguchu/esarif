@@ -14,14 +14,12 @@ import {
 export interface AccountData {
   id: string;
   name: string;
-  type: "mobile-money" | "crypto";
-  provider: string;
-  balance: number;
-  currency: string;
+  category: "mobileMoney" | "crypto" | "bank" | "wallet";
+  description: string;
+  logo: string;
   accountNumber: string;
   lastUpdated: string;
-  connected: boolean;
-  logoUrl: string;
+  color?: string;
 }
 
 interface AccountCardProps {
@@ -36,22 +34,6 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
     navigator.clipboard.writeText(account.accountNumber);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
-
-  const formatCurrency = (amount: number, currency: string) => {
-    try {
-      // Use a standard currency code for non-standard currencies
-      const validCurrency = currency === "SLSH" ? "SOS" : currency;
-
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: validCurrency,
-        maximumFractionDigits: validCurrency === "USD" ? 2 : 0,
-      }).format(amount);
-    } catch (error) {
-      // Fallback for invalid currency codes
-      return amount.toLocaleString() + " " + currency;
-    }
   };
 
   // Get initials for the logo placeholder
@@ -77,19 +59,19 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
     <Card className='bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all w-full h-full overflow-hidden'>
       <CardHeader className='bg-gray-50 border-b border-gray-200 flex flex-row items-center justify-between p-3 md:p-4'>
         <div className='flex items-center space-x-2 md:space-x-3'>
-          {account.logoUrl ? (
+          {account.logo ? (
             <div className='h-8 w-8 md:h-10 md:w-10 rounded-full bg-white p-1 flex items-center justify-center overflow-hidden'>
               <img
-                src={account.logoUrl}
+                src={account.logo}
                 alt={account.name}
                 className='h-6 w-6 md:h-8 md:w-8 object-contain'
               />
             </div>
           ) : (
             <div
-              className={`h-8 w-8 md:h-10 md:w-10 rounded-full ${getLogoColor(
-                account.name
-              )} p-2 flex items-center justify-center text-white font-semibold text-xs md:text-sm`}>
+              className={`h-8 w-8 md:h-10 md:w-10 rounded-full ${
+                account.color || getLogoColor(account.name)
+              } p-2 flex items-center justify-center text-white font-semibold text-xs md:text-sm`}>
               {getInitials(account.name)}
             </div>
           )}
@@ -97,7 +79,7 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
             <CardTitle className='text-gray-800 text-base md:text-lg'>
               {account.name}
             </CardTitle>
-            <p className='text-gray-500 text-xs'>{account.provider}</p>
+            <p className='text-gray-500 text-xs'>{account.description}</p>
           </div>
         </div>
         <DropdownMenu>
@@ -128,12 +110,6 @@ export function AccountCard({ account, onDisconnect }: AccountCardProps) {
       </CardHeader>
       <CardContent className='p-3 md:p-4'>
         <div className='flex flex-col space-y-3'>
-          <div>
-            <p className='text-gray-500 text-xs mb-1'>Balance</p>
-            <p className='text-gray-800 text-lg md:text-xl font-semibold'>
-              {formatCurrency(account.balance, account.currency)}
-            </p>
-          </div>
           <div>
             <p className='text-gray-500 text-xs mb-1'>Account Number</p>
             <div className='flex items-center'>

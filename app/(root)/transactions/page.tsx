@@ -1,6 +1,4 @@
 import { TransactionHistory } from "@/components/transactions/transaction-history";
-import { TransactionSummary } from "@/components/transactions/transaction-summary";
-import { ArrowLeftRight, TrendingUp } from "lucide-react";
 
 export const metadata = {
   title: "e-Sarif | Transactions",
@@ -16,9 +14,6 @@ function TransactionsPage() {
         </h1>
         <p className='text-gray-600 max-w-3xl'>Your transaction history</p>
       </div>
-
-      <TransactionSummary />
-
       <div className='mb-12'>
         <TransactionHistory />
       </div>

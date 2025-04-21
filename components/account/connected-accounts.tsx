@@ -11,67 +11,67 @@ export function ConnectedAccounts() {
   const [activeTab, setActiveTab] = useState("all");
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  // Simulated account data
+  // Simulated account data with updated structure
   const [accounts, setAccounts] = useState<AccountData[]>([
     {
       id: "1",
       name: "M-Pesa",
-      type: "mobile-money",
-      provider: "Safaricom",
-      balance: 15420,
-      currency: "KES",
+      category: "mobileMoney",
+      description: "Kenyan Mobile Money",
       accountNumber: "+254 712 345 678",
       lastUpdated: "Today at 12:45 PM",
-      connected: true,
-      logoUrl: "/logos/mpesa.png",
+      logo: "/logos/mpesa.png",
+      color: "#4CAF50",
     },
     {
       id: "2",
       name: "EVC Plus",
-      type: "mobile-money",
-      provider: "Hormuud",
-      balance: 2350000,
-      currency: "SOS",
+      category: "mobileMoney",
+      description: "Somali Mobile Money",
       accountNumber: "+252 612 345 678",
       lastUpdated: "Today at 11:30 AM",
-      connected: true,
-      logoUrl: "/logos/evc.svg",
+      logo: "/logos/evc.svg",
+      color: "#2196F3",
     },
     {
       id: "3",
-      name: "USDT",
-      type: "crypto",
-      provider: "TRC20",
-      balance: 327.85,
-      currency: "USD",
+      name: "USDT (TRC20)",
+      category: "crypto",
+      description: "Tether on TRON",
       accountNumber: "TBs2hdDaJ...4f3Ax2p",
       lastUpdated: "Today at 10:15 AM",
-      connected: true,
-      logoUrl: "",
+      logo: "/logos/usdt.svg",
+      color: "#26A17B",
     },
     {
       id: "4",
       name: "ZAAD",
-      type: "mobile-money",
-      provider: "Telesom",
-      balance: 1240000,
-      currency: "SOS",
+      category: "mobileMoney",
+      description: "Somali Mobile Money",
       accountNumber: "+252 634 567 890",
       lastUpdated: "Today at 09:20 AM",
-      connected: true,
-      logoUrl: "/logos/zaad.png",
+      logo: "/logos/zaad.png",
+      color: "#3F51B5",
     },
     {
       id: "5",
-      name: "USDC",
-      type: "crypto",
-      provider: "BEP20",
-      balance: 105.42,
-      currency: "USD",
-      accountNumber: "0xbA42F...5c12D",
-      lastUpdated: "Yesterday at 6:30 PM",
-      connected: true,
-      logoUrl: "",
+      name: "Premier Bank",
+      category: "bank",
+      description: "Banking Services",
+      accountNumber: "1234567890",
+      lastUpdated: "Yesterday at 3:30 PM",
+      logo: "/logos/premier-bank.png",
+      color: "#FF5722",
+    },
+    {
+      id: "6",
+      name: "Salaam Bank",
+      category: "bank",
+      description: "Banking Services",
+      accountNumber: "0987654321",
+      lastUpdated: "Yesterday at 2:15 PM",
+      logo: "/logos/salaam-bank.jpeg",
+      color: "#009688",
     },
   ]);
 
@@ -82,7 +82,7 @@ export function ConnectedAccounts() {
   const filteredAccounts =
     activeTab === "all"
       ? accounts
-      : accounts.filter((account) => account.type === activeTab);
+      : accounts.filter((account) => account.category === activeTab);
 
   const handleOpenSheet = () => {
     setSheetOpen(true);
@@ -118,7 +118,12 @@ export function ConnectedAccounts() {
             All Accounts
           </TabsTrigger>
           <TabsTrigger
-            value='mobile-money'
+            value='bank'
+            className='flex-1 text-gray-700 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500'>
+            Banks
+          </TabsTrigger>
+          <TabsTrigger
+            value='mobileMoney'
             className='flex-1 text-gray-700 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-white data-[state=inactive]:text-gray-500'>
             Mobile Money
           </TabsTrigger>

@@ -59,156 +59,122 @@ export default function LoginForm() {
   }
 
   return (
-    <div className='flex items-center justify-center min-h-screen py-4 px-3 sm:py-6 sm:px-6 bg-gray-50'>
-      <div className='relative flex flex-col md:flex-row w-full max-w-5xl overflow-hidden rounded-xl shadow-lg bg-white'>
-        {/* Left side - Image/Brand - Hidden on mobile, visible from md breakpoint */}
-        <div className='relative hidden md:block md:w-1/2 overflow-hidden bg-primary/5'>
-          <div className='absolute inset-0 flex flex-col items-center justify-center z-20 p-6 lg:p-10'>
-            <div className='px-5 py-3 rounded-full bg-primary flex items-center justify-center mb-6 lg:mb-8 shadow-md'>
-              <span className='text-2xl lg:text-3xl font-bold text-white tracking-tight'>
-                e-Sarif
-              </span>
-            </div>
-            <h2 className='text-2xl lg:text-3xl font-bold text-gray-800 mb-3 lg:mb-4'>
-              Welcome Back
-            </h2>
-            <p className='text-center text-gray-600 mb-6 lg:mb-8 max-w-sm'>
-              Access your wallets and manage your finances securely in one
-              place.
-            </p>
-            <div className='grid grid-cols-3 gap-3 lg:gap-4 w-full max-w-xs'>
-              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
-                <span className='text-xs text-gray-700 font-medium'>Mpesa</span>
-              </div>
-              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
-                <span className='text-xs text-gray-700 font-medium'>EVC</span>
-              </div>
-              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
-                <span className='text-xs text-gray-700 font-medium'>ZAAD</span>
-              </div>
-              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
-                <span className='text-xs text-gray-700 font-medium'>USDT</span>
-              </div>
-              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
-                <span className='text-xs text-gray-700 font-medium'>JEEB</span>
-              </div>
-              <div className='rounded-lg bg-white p-2 border border-gray-200 flex items-center justify-center transition-colors hover:bg-gray-50 shadow-sm'>
-                <span className='text-xs text-gray-700 font-medium'>
-                  T-Plus
-                </span>
-              </div>
-            </div>
+    <div className='flex items-center justify-center min-h-screen py-2 px-2 sm:py-6 sm:px-6 bg-gray-50'>
+      <div className='relative w-full max-w-md min-h-[90vh] overflow-hidden rounded-xl shadow-lg bg-white flex flex-col'>
+        {/* Brand Header */}
+        <div className='text-center w-full py-6 sm:py-5 bg-white border-b border-gray-200 flex-shrink-0'>
+          <div className='inline-flex px-5 py-2 items-center justify-center rounded-full bg-primary shadow-md'>
+            <span className='text-base sm:text-lg font-bold text-white'>
+              e-Sarif
+            </span>
           </div>
         </div>
 
-        {/* Mobile Brand - Only visible on smaller screens */}
-        <div className='md:hidden text-center w-full py-6 bg-white border-b border-gray-200'>
-          <div className='flex justify-center mb-2'>
-            <div className='inline-flex px-4 py-2 items-center justify-center rounded-full bg-primary shadow-md'>
-              <span className='text-lg font-bold text-white'>e-Sarif</span>
+        {/* Form Container with Centering */}
+        <div className='flex-grow flex flex-col justify-center'>
+          <div className='w-full px-5 sm:px-6 py-4 flex flex-col'>
+            <div className='text-center mb-6 sm:mb-5'>
+              <h1 className='text-xl sm:text-2xl font-bold text-gray-800 mb-1'>
+                Sign In
+              </h1>
+              <CardDescription className='text-xs sm:text-sm text-gray-600'>
+                Enter your credentials to access your account
+              </CardDescription>
             </div>
-          </div>
-        </div>
 
-        {/* Right side - Form */}
-        <div className='w-full md:w-1/2 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col bg-white'>
-          <div className='space-y-2 text-center mb-6 md:mb-8'>
-            <h1 className='text-xl sm:text-2xl md:text-3xl font-bold text-gray-800'>
-              Sign In
-            </h1>
-            <CardDescription className='text-sm text-gray-600 px-1'>
-              Enter your credentials to access your account
-            </CardDescription>
-          </div>
-
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className='space-y-5 md:space-y-6'>
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='text-gray-800 font-medium text-sm sm:text-base'>
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <div className='relative'>
-                        <Mail className='absolute left-3 top-1/2 -translate-y-1/2 h-[18px] w-[18px] sm:h-5 sm:w-5 text-gray-500' />
-                        <Input
-                          placeholder='name@example.com'
-                          {...field}
-                          className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage className='text-red-600 font-medium text-xs sm:text-sm' />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem>
-                    <div className='flex justify-between items-center flex-wrap gap-1'>
-                      <FormLabel className='text-gray-800 font-medium text-sm sm:text-base'>
-                        Password
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className='space-y-4'>
+                <FormField
+                  control={form.control}
+                  name='email'
+                  render={({ field }) => (
+                    <FormItem className='mb-2'>
+                      <FormLabel className='text-gray-800 font-medium text-xs sm:text-sm'>
+                        Email
                       </FormLabel>
-                      <Link
-                        href='#'
-                        className='text-xs sm:text-sm text-primary hover:text-primary/90 font-medium hover:underline'>
-                        Forgot password?
-                      </Link>
-                    </div>
-                    <FormControl>
-                      <div className='relative'>
-                        <Lock className='absolute left-3 top-1/2 -translate-y-1/2 h-[18px] w-[18px] sm:h-5 sm:w-5 text-gray-500' />
-                        <Input
-                          type='password'
-                          placeholder='••••••••'
-                          {...field}
-                          className='h-11 sm:h-12 pl-9 sm:pl-10 text-sm sm:text-base rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
-                        />
+                      <FormControl>
+                        <div className='relative'>
+                          <Mail className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-[18px] sm:w-[18px] text-gray-500' />
+                          <Input
+                            placeholder='name@example.com'
+                            {...field}
+                            className='h-10 sm:h-11 pl-8 sm:pl-9 text-xs sm:text-sm rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage className='text-red-600 font-medium text-xs' />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='password'
+                  render={({ field }) => (
+                    <FormItem className='mb-3'>
+                      <div className='flex justify-between items-center flex-wrap gap-1'>
+                        <FormLabel className='text-gray-800 font-medium text-xs sm:text-sm'>
+                          Password
+                        </FormLabel>
+                        <Link
+                          href='#'
+                          className='text-[10px] sm:text-xs text-primary hover:text-primary/90 font-medium hover:underline'>
+                          Forgot password?
+                        </Link>
                       </div>
-                    </FormControl>
-                    <FormMessage className='text-red-600 font-medium text-xs sm:text-sm' />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type='submit'
-                disabled={isLoading}
-                className='w-full h-11 sm:h-12 text-sm sm:text-base font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-all shadow-md hover:shadow-lg mt-2'>
-                {isLoading ? (
-                  <>
-                    <Loader2 className='w-4 h-4 sm:w-5 sm:h-5 mr-2 animate-spin' />
-                    Signing in...
-                  </>
-                ) : (
-                  <>
-                    Sign in
-                    <ArrowRight className='w-4 h-4 ml-2' />
-                  </>
-                )}
-              </Button>
-            </form>
-          </Form>
+                      <FormControl>
+                        <div className='relative'>
+                          <Lock className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-[18px] sm:w-[18px] text-gray-500' />
+                          <Input
+                            type='password'
+                            placeholder='••••••••'
+                            {...field}
+                            className='h-10 sm:h-11 pl-8 sm:pl-9 text-xs sm:text-sm rounded-lg bg-gray-50 border-gray-200 focus:border-primary focus-visible:ring-1 focus-visible:ring-primary text-gray-800 placeholder:text-gray-500'
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage className='text-red-600 font-medium text-xs' />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type='submit'
+                  disabled={isLoading}
+                  className='w-full h-10 sm:h-11 text-xs sm:text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-all shadow-md hover:shadow-lg mt-2'>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className='w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 animate-spin' />
+                      Signing in...
+                    </>
+                  ) : (
+                    <>
+                      Sign in
+                      <ArrowRight className='w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1.5 sm:ml-2' />
+                    </>
+                  )}
+                </Button>
+              </form>
+            </Form>
 
-          <div className='mt-auto pt-6 md:pt-10 text-center'>
-            <p className='text-sm text-gray-600'>
-              Don't have an account?{" "}
-              <Link
-                href='/register'
-                className='font-medium text-primary hover:text-primary/90 hover:underline'>
-                Sign up now
-              </Link>
-            </p>
-            <p className='text-xs text-gray-500 mt-4'>
-              © {currentYear} e-Sarif. All rights reserved.
-            </p>
+            <div className='mt-5 text-center'>
+              <p className='text-xs sm:text-sm text-gray-600'>
+                Don't have an account?{" "}
+                <Link
+                  href='/register'
+                  className='font-medium text-primary hover:text-primary/90 hover:underline'>
+                  Sign up now
+                </Link>
+              </p>
+            </div>
           </div>
+        </div>
+
+        {/* Footer - Always visible */}
+        <div className='flex-shrink-0 py-4 text-center border-t border-gray-200 bg-white'>
+          <p className='text-[10px] sm:text-xs text-gray-500'>
+            © {currentYear} e-Sarif. All rights reserved.
+          </p>
         </div>
       </div>
     </div>

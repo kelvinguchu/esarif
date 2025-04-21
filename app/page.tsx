@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className='relative min-h-screen w-full overflow-hidden bg-background'>
+    <div className='relative min-h-screen w-full overflow-hidden bg-[#05264c]'>
       {/* Animated particles background with improved effects */}
       <div className='absolute inset-0 z-0'>
         <div className='absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse'></div>
@@ -23,7 +23,7 @@ export default function Home() {
 
       {/* Diagonal split design with image and improved overlay */}
       <div className='absolute inset-0 z-0'>
-        <div className='absolute inset-0 bg-gradient-to-br from-background via-background/95 to-background/80'></div>
+        <div className='absolute inset-0 bg-gradient-to-br from-[#05264c]/95 to-[#05264c]/80'></div>
         <div
           className='absolute top-0 right-0 bottom-0 left-1/3 md:left-1/2 bg-cover bg-center bg-no-repeat'
           style={{
@@ -47,7 +47,7 @@ export default function Home() {
         <div className='w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center'>
           <div className='mb-6 relative'>
             <div className='inline-flex mb-4'>
-              <div className='px-6 py-2 rounded-full bg-background border border-white/20 shadow-md'>
+              <div className='px-6 py-2 rounded-full bg-[#05264c] border border-white/20 shadow-md'>
                 <span className='text-xl md:text-2xl font-bold text-primary'>
                   e-Sarif
                 </span>
@@ -118,7 +118,7 @@ export default function Home() {
             <div className='absolute top-0 left-0 right-0 w-full bg-gradient-to-br from-primary/30 to-blue-500/20 rounded-2xl backdrop-blur-md border border-white/20 p-6 transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-xl'>
               <div className='relative'>
                 {/* Card background enhancement for better contrast */}
-                <div className='absolute -inset-6 bg-background/40 rounded-2xl -z-10 backdrop-blur-md'></div>
+                <div className='absolute -inset-6 bg-bg-[#05264c]/40 rounded-2xl -z-10 backdrop-blur-md'></div>
 
                 <div className='h-11 w-11 rounded-full bg-primary/40 mb-4 flex items-center justify-center shadow-md'>
                   <Wallet className='h-5 w-5 text-white' />
@@ -137,7 +137,7 @@ export default function Home() {
             <div className='absolute top-[170px] left-0 right-0 w-full bg-gradient-to-br from-blue-500/30 to-indigo-500/20 rounded-2xl backdrop-blur-md border border-white/20 p-6 transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-xl'>
               <div className='relative'>
                 {/* Card background enhancement for better contrast */}
-                <div className='absolute -inset-6 bg-background/40 rounded-2xl -z-10 backdrop-blur-md'></div>
+                <div className='absolute -inset-6 bg-bg-[#05264c]/40 rounded-2xl -z-10 backdrop-blur-md'></div>
 
                 <div className='h-11 w-11 rounded-full bg-blue-500/40 mb-4 flex items-center justify-center shadow-md'>
                   <RefreshCw className='h-5 w-5 text-white' />
@@ -156,7 +156,7 @@ export default function Home() {
             <div className='absolute top-[340px] left-0 right-0 w-full bg-gradient-to-br from-indigo-500/30 to-purple-500/20 rounded-2xl backdrop-blur-md border border-white/20 p-6 transform hover:-translate-y-2 transition-all duration-300 shadow-lg hover:shadow-xl'>
               <div className='relative'>
                 {/* Card background enhancement for better contrast */}
-                <div className='absolute -inset-6 bg-background/40 rounded-2xl -z-10 backdrop-blur-md'></div>
+                <div className='absolute -inset-6 bg-bg-[#05264c]/40 rounded-2xl -z-10 backdrop-blur-md'></div>
 
                 <div className='h-11 w-11 rounded-full bg-indigo-500/40 mb-4 flex items-center justify-center shadow-md'>
                   <BarChart3 className='h-5 w-5 text-white' />
@@ -178,7 +178,7 @@ export default function Home() {
         <div className='space-y-4'>
           <div className='w-full bg-gradient-to-r from-primary/30 to-blue-500/20 rounded-xl backdrop-blur-md border border-white/20 p-5 shadow-lg transform transition-transform hover:translate-y-[-2px] relative overflow-hidden'>
             {/* Card background enhancement for better contrast */}
-            <div className='absolute inset-0 bg-background/30 -z-10 backdrop-blur-sm'></div>
+            <div className='absolute inset-0 bg-[#05264c]/30 -z-10 backdrop-blur-sm'></div>
 
             <div className='h-10 w-10 rounded-full bg-primary/40 mb-3 flex items-center justify-center shadow-md'>
               <Wallet className='h-5 w-5 text-white' />
@@ -194,7 +194,7 @@ export default function Home() {
 
           <div className='w-full bg-gradient-to-r from-blue-500/30 to-indigo-500/20 rounded-xl backdrop-blur-md border border-white/20 p-5 shadow-lg transform transition-transform hover:translate-y-[-2px] relative overflow-hidden'>
             {/* Card background enhancement for better contrast */}
-            <div className='absolute inset-0 bg-background/30 -z-10 backdrop-blur-sm'></div>
+            <div className='absolute inset-0 bbg-[#05264c]/30 -z-10 backdrop-blur-sm'></div>
 
             <div className='h-10 w-10 rounded-full bg-blue-500/40 mb-3 flex items-center justify-center shadow-md'>
               <RefreshCw className='h-5 w-5 text-white' />
@@ -210,7 +210,7 @@ export default function Home() {
 
           <div className='w-full bg-gradient-to-r from-indigo-500/30 to-purple-500/20 rounded-xl backdrop-blur-md border border-white/20 p-5 shadow-lg transform transition-transform hover:translate-y-[-2px] relative overflow-hidden'>
             {/* Card background enhancement for better contrast */}
-            <div className='absolute inset-0 bg-background/30 -z-10 backdrop-blur-sm'></div>
+            <div className='absolute inset-0 bg-bg-[#05264c]/30 -z-10 backdrop-blur-sm'></div>
 
             <div className='h-10 w-10 rounded-full bg-indigo-500/40 mb-3 flex items-center justify-center shadow-md'>
               <BarChart3 className='h-5 w-5 text-white' />

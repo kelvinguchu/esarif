@@ -141,9 +141,6 @@ export default function RegisterForm() {
           <h1 className='text-xl sm:text-2xl md:text-3xl font-bold text-gray-800'>
             Create Your Account
           </h1>
-          <CardDescription className='text-sm text-gray-600 mt-2 px-1'>
-            Join e-Sarif to manage all your wallets in one place
-          </CardDescription>
         </div>
 
         <Form {...form}>

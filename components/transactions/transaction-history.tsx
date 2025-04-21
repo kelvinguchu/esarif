@@ -12,6 +12,8 @@ import {
   ArrowLeftRight,
   ChevronDown,
   ChevronUp,
+  Calendar,
+  Info,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -38,6 +40,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { format } from "date-fns";
 
 interface Transaction {
   id: string;
@@ -45,74 +54,201 @@ interface Transaction {
   type: "swap" | "buy" | "sell" | "transfer";
   amount: string;
   fromWallet: string;
+  fromWalletName: string;
+  fromCategory: "bank" | "mobileMoney" | "wallet" | "crypto";
   toWallet: string;
+  toWalletName: string;
+  toCategory: "bank" | "mobileMoney" | "wallet" | "crypto";
   status: "completed" | "pending" | "failed";
+  fromAmount?: string;
+  toAmount?: string;
+  fee?: string;
+  rate?: string;
 }
 
 export const TransactionHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState("all");
+  const [dateRange, setDateRange] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
-  // Mock transactions data
+  // Mock transactions data with improved details
   const [transactions] = useState<Transaction[]>([
     {
       id: "TX123456",
-      date: "2023-05-15 14:30",
+      date: "2023-09-15T14:30:00",
       type: "swap",
       amount: "500",
       fromWallet: "MPESA",
-      toWallet: "BTC",
+      fromWalletName: "M-Pesa",
+      fromCategory: "mobileMoney",
+      toWallet: "USDT-TRC20",
+      toWalletName: "USDT (TRC20)",
+      toCategory: "crypto",
       status: "completed",
+      fromAmount: "500.00",
+      toAmount: "3.92",
+      fee: "5.00",
+      rate: "1 USD = 127.55 KSh",
     },
     {
       id: "TX123457",
-      date: "2023-05-14 10:15",
+      date: "2023-09-14T10:15:00",
       type: "buy",
       amount: "200",
-      fromWallet: "USDT",
-      toWallet: "BTC",
+      fromWallet: "Premier-Bank",
+      fromWalletName: "Premier Bank",
+      fromCategory: "bank",
+      toWallet: "USDT-TRC20",
+      toWalletName: "USDT (TRC20)",
+      toCategory: "crypto",
       status: "completed",
+      fromAmount: "200.00",
+      toAmount: "199.50",
+      fee: "0.50",
+      rate: "1 USDT = $1.0001",
     },
     {
       id: "TX123458",
-      date: "2023-05-13 16:45",
+      date: "2023-09-13T16:45:00",
       type: "sell",
       amount: "300",
-      fromWallet: "ETH",
-      toWallet: "USDT",
+      fromWallet: "USDT-BEP20",
+      fromWalletName: "USDT (BEP20)",
+      fromCategory: "crypto",
+      toWallet: "EVC",
+      toWalletName: "EVC Plus",
+      toCategory: "mobileMoney",
       status: "pending",
+      fromAmount: "300.00",
+      toAmount: "298.50",
+      fee: "1.50",
+      rate: "1 USDT = $1.00",
     },
     {
       id: "TX123459",
-      date: "2023-05-12 09:20",
-      type: "transfer",
+      date: "2023-09-12T09:20:00",
+      type: "swap",
       amount: "150",
-      fromWallet: "BTC",
+      fromWallet: "Premier-Bank",
+      fromWalletName: "Premier Bank",
+      fromCategory: "bank",
       toWallet: "EVC",
+      toWalletName: "EVC Plus",
+      toCategory: "mobileMoney",
       status: "failed",
+      fromAmount: "150.00",
+      toAmount: "149.25",
+      fee: "0.75",
+      rate: "1 USD = $1.00",
     },
     {
       id: "TX123460",
-      date: "2023-05-11 13:10",
+      date: "2023-09-11T13:10:00",
       type: "swap",
       amount: "1000",
       fromWallet: "MPESA",
-      toWallet: "ETH",
+      fromWalletName: "M-Pesa",
+      fromCategory: "mobileMoney",
+      toWallet: "dahab-plus",
+      toWalletName: "Dahab Plus",
+      toCategory: "wallet",
       status: "completed",
+      fromAmount: "1000.00",
+      toAmount: "995.00",
+      fee: "5.00",
+      rate: "1 USD = 127.55 KSh",
+    },
+    {
+      id: "TX123461",
+      date: "2023-09-10T11:22:00",
+      type: "buy",
+      amount: "500",
+      fromWallet: "Salaam-Bank",
+      fromWalletName: "Salaam Bank",
+      fromCategory: "bank",
+      toWallet: "USDT-TRC20",
+      toWalletName: "USDT (TRC20)",
+      toCategory: "crypto",
+      status: "completed",
+      fromAmount: "500.00",
+      toAmount: "498.75",
+      fee: "1.25",
+      rate: "1 USDT = $1.0001",
+    },
+    {
+      id: "TX123462",
+      date: "2023-09-09T08:45:00",
+      type: "sell",
+      amount: "250",
+      fromWallet: "USDC-BEP20",
+      fromWalletName: "USDC (BEP20)",
+      fromCategory: "crypto",
+      toWallet: "ZAAD",
+      toWalletName: "ZAAD",
+      toCategory: "mobileMoney",
+      status: "completed",
+      fromAmount: "250.00",
+      toAmount: "248.75",
+      fee: "1.25",
+      rate: "1 USDC = $0.9998",
+    },
+    {
+      id: "TX123463",
+      date: "2023-09-08T14:15:00",
+      type: "swap",
+      amount: "350",
+      fromWallet: "dahab-plus",
+      fromWalletName: "Dahab Plus",
+      fromCategory: "wallet",
+      toWallet: "ZAAD",
+      toWalletName: "ZAAD",
+      toCategory: "mobileMoney",
+      status: "completed",
+      fromAmount: "350.00",
+      toAmount: "348.25",
+      fee: "1.75",
+      rate: "1 USD = $1.00",
     },
   ]);
 
+  // Filter transactions based on type, search query, and date range
   const filteredTransactions = transactions.filter((tx) => {
+    // Filter by transaction type
     if (filter !== "all" && tx.type !== filter) return false;
+
+    // Filter by search query
     if (
       searchQuery &&
       !tx.id.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !tx.fromWallet.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !tx.toWallet.toLowerCase().includes(searchQuery.toLowerCase())
+      !tx.fromWalletName.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !tx.toWalletName.toLowerCase().includes(searchQuery.toLowerCase())
     )
       return false;
+
+    // Filter by date range
+    if (dateRange !== "all") {
+      const txDate = new Date(tx.date);
+      const now = new Date();
+
+      switch (dateRange) {
+        case "today":
+          if (txDate.toDateString() !== now.toDateString()) return false;
+          break;
+        case "week":
+          const weekAgo = new Date();
+          weekAgo.setDate(now.getDate() - 7);
+          if (txDate < weekAgo) return false;
+          break;
+        case "month":
+          const monthAgo = new Date();
+          monthAgo.setMonth(now.getMonth() - 1);
+          if (txDate < monthAgo) return false;
+          break;
+      }
+    }
+
     return true;
   });
 
@@ -122,6 +258,15 @@ export const TransactionHistory = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+  };
+
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return format(date, "MMM d, yyyy h:mm a");
+    } catch (e) {
+      return dateString;
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -152,6 +297,45 @@ export const TransactionHistory = () => {
     }
   };
 
+  const getTypeLabel = (
+    type: string,
+    fromCategory?: string,
+    toCategory?: string
+  ) => {
+    switch (type) {
+      case "swap":
+        if (fromCategory && toCategory) {
+          return `${getCategoryLabel(fromCategory)} to ${getCategoryLabel(
+            toCategory
+          )} Swap`;
+        }
+        return "Swap";
+      case "buy":
+        return "Buy Crypto";
+      case "sell":
+        return "Sell Crypto";
+      case "transfer":
+        return "Transfer";
+      default:
+        return type;
+    }
+  };
+
+  const getCategoryLabel = (category: string) => {
+    switch (category) {
+      case "bank":
+        return "Bank";
+      case "mobileMoney":
+        return "Mobile Money";
+      case "wallet":
+        return "Wallet";
+      case "crypto":
+        return "Crypto";
+      default:
+        return category;
+    }
+  };
+
   const toggleRowExpansion = (id: string) => {
     if (expandedRow === id) {
       setExpandedRow(null);
@@ -170,13 +354,31 @@ export const TransactionHistory = () => {
           </Badge>
         </CardTitle>
         <div className='flex items-center gap-2'>
-          <Button
-            variant='outline'
-            size='sm'
-            className='hidden md:flex items-center gap-1.5 rounded-md border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 cursor-pointer'>
-            <Download className='h-4 w-4' />
-            <span>Export</span>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant='outline'
+                size='sm'
+                className='hidden md:flex items-center gap-1.5 rounded-md border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 cursor-pointer'>
+                <Download className='h-4 w-4' />
+                <span>Export</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align='end'
+              className='bg-white border-gray-200 text-gray-800'>
+              <DropdownMenuItem className='cursor-pointer'>
+                Export as CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem className='cursor-pointer'>
+                Export as PDF
+              </DropdownMenuItem>
+              <DropdownMenuItem className='cursor-pointer'>
+                Export as Excel
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button
             variant='outline'
             size='icon'
@@ -194,64 +396,38 @@ export const TransactionHistory = () => {
           <div className='relative flex-1'>
             <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
             <Input
-              placeholder='Search transactions...'
+              placeholder='Search by ID, wallet name...'
               className='pl-10 bg-gray-50 border border-gray-200 text-gray-800 rounded-md w-full'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <div className='flex items-center gap-3'>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  className='md:hidden items-center gap-1.5 rounded-md border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 cursor-pointer'>
-                  <Filter className='h-4 w-4 mr-1' />
-                  Filters
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align='end'
-                className='bg-white border-gray-200 text-gray-800'>
-                <DropdownMenuItem
-                  onClick={() => setFilter("all")}
-                  className='cursor-pointer'>
-                  All
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setFilter("swap")}
-                  className='cursor-pointer'>
-                  Swaps
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setFilter("buy")}
-                  className='cursor-pointer'>
-                  Buys
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setFilter("sell")}
-                  className='cursor-pointer'>
-                  Sells
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setFilter("transfer")}
-                  className='cursor-pointer'>
-                  Transfers
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <div className='hidden md:block'>
+          <div className='flex items-center gap-3 flex-wrap'>
+            <div className='md:block'>
               <Select value={filter} onValueChange={setFilter}>
                 <SelectTrigger className='w-[140px] bg-gray-50 border border-gray-200 text-gray-800 rounded-md cursor-pointer'>
-                  <SelectValue placeholder='Filter by' />
+                  <SelectValue placeholder='Transaction Type' />
                 </SelectTrigger>
                 <SelectContent className='bg-white border-gray-200 text-gray-800'>
-                  <SelectItem value='all'>All</SelectItem>
+                  <SelectItem value='all'>All Types</SelectItem>
                   <SelectItem value='swap'>Swaps</SelectItem>
                   <SelectItem value='buy'>Buys</SelectItem>
                   <SelectItem value='sell'>Sells</SelectItem>
                   <SelectItem value='transfer'>Transfers</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className='md:block'>
+              <Select value={dateRange} onValueChange={setDateRange}>
+                <SelectTrigger className='w-[140px] bg-gray-50 border border-gray-200 text-gray-800 rounded-md cursor-pointer'>
+                  <SelectValue placeholder='Date Range' />
+                </SelectTrigger>
+                <SelectContent className='bg-white border-gray-200 text-gray-800'>
+                  <SelectItem value='all'>All Time</SelectItem>
+                  <SelectItem value='today'>Today</SelectItem>
+                  <SelectItem value='week'>Last 7 Days</SelectItem>
+                  <SelectItem value='month'>Last 30 Days</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -276,7 +452,7 @@ export const TransactionHistory = () => {
                   From
                 </TableHead>
                 <TableHead className='text-gray-700 font-medium'>To</TableHead>
-                <TableHead className='text-gray-700 font-medium'>
+                <TableHead className='text-gray-700 font-medium text-right'>
                   Amount
                 </TableHead>
                 <TableHead className='text-gray-700 font-medium text-right'>
@@ -292,24 +468,30 @@ export const TransactionHistory = () => {
                     className='hover:bg-gray-50 border-gray-200 cursor-pointer'
                     onClick={() => toggleRowExpansion(tx.id)}>
                     <TableCell className='text-gray-600 font-medium'>
-                      {tx.date}
+                      {formatDate(tx.date)}
                     </TableCell>
-                    <TableCell className='text-gray-600'>{tx.id}</TableCell>
+                    <TableCell className='text-gray-600 font-mono text-sm'>
+                      {tx.id}
+                    </TableCell>
                     <TableCell>
                       <div className='flex items-center gap-2'>
                         {getTypeIcon(tx.type)}
-                        <span className='text-gray-600 capitalize'>
-                          {tx.type}
+                        <span className='text-gray-600'>
+                          {getTypeLabel(
+                            tx.type,
+                            tx.fromCategory,
+                            tx.toCategory
+                          )}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell className='text-gray-600'>
-                      {tx.fromWallet}
+                      {tx.fromWalletName}
                     </TableCell>
                     <TableCell className='text-gray-600'>
-                      {tx.toWallet}
+                      {tx.toWalletName}
                     </TableCell>
-                    <TableCell className='text-gray-600'>
+                    <TableCell className='text-right font-medium'>
                       ${tx.amount}
                     </TableCell>
                     <TableCell className='text-right'>
@@ -328,7 +510,13 @@ export const TransactionHistory = () => {
                   <TableCell
                     colSpan={7}
                     className='text-center h-32 text-gray-400'>
-                    No transactions found
+                    <div className='flex flex-col items-center justify-center gap-2 py-8'>
+                      <Info className='h-8 w-8 text-gray-300' />
+                      <p>No transactions found</p>
+                      <p className='text-sm text-gray-400'>
+                        Try adjusting your filters
+                      </p>
+                    </div>
                   </TableCell>
                 </TableRow>
               )}
@@ -343,20 +531,29 @@ export const TransactionHistory = () => {
               {filteredTransactions.map((tx) => (
                 <div key={tx.id} className='py-4 px-4'>
                   <div
-                    className='flex justify-between items-center cursor-pointer'
+                    className='flex justify-between items-start cursor-pointer'
                     onClick={() => toggleRowExpansion(tx.id)}>
                     <div className='flex items-center gap-3'>
-                      <div className='h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center'>
+                      <div className='h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center'>
                         {getTypeIcon(tx.type)}
                       </div>
                       <div>
                         <div className='text-gray-800 font-medium'>
                           ${tx.amount}
                         </div>
-                        <div className='text-gray-500 text-xs'>{tx.date}</div>
+                        <div className='text-gray-600 text-xs'>
+                          {getTypeLabel(
+                            tx.type,
+                            tx.fromCategory,
+                            tx.toCategory
+                          )}
+                        </div>
+                        <div className='text-gray-500 text-xs'>
+                          {formatDate(tx.date)}
+                        </div>
                       </div>
                     </div>
-                    <div className='flex items-center gap-2'>
+                    <div className='flex flex-col items-end gap-1'>
                       <Badge
                         variant='outline'
                         className={`${getStatusColor(
@@ -365,36 +562,74 @@ export const TransactionHistory = () => {
                         {tx.status}
                       </Badge>
                       {expandedRow === tx.id ? (
-                        <ChevronUp className='h-4 w-4 text-gray-400' />
+                        <ChevronUp className='h-4 w-4 text-gray-400 mt-1' />
                       ) : (
-                        <ChevronDown className='h-4 w-4 text-gray-400' />
+                        <ChevronDown className='h-4 w-4 text-gray-400 mt-1' />
                       )}
                     </div>
                   </div>
 
                   {expandedRow === tx.id && (
-                    <div className='mt-4 ml-11 pl-1 border-l-2 border-gray-200 space-y-2'>
-                      <div className='flex justify-between'>
-                        <span className='text-gray-500 text-sm'>Type:</span>
-                        <span className='text-gray-800 text-sm capitalize'>
-                          {tx.type}
-                        </span>
+                    <div className='mt-4 ml-12 pl-2 border-l-2 border-gray-200 space-y-3'>
+                      <div className='grid grid-cols-2 gap-x-4 gap-y-2'>
+                        <div>
+                          <span className='text-gray-500 text-xs'>From:</span>
+                          <div className='text-gray-800 text-sm'>
+                            {tx.fromWalletName}
+                            <span className='text-xs text-gray-500 ml-1'>
+                              ({getCategoryLabel(tx.fromCategory)})
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          <span className='text-gray-500 text-xs'>To:</span>
+                          <div className='text-gray-800 text-sm'>
+                            {tx.toWalletName}
+                            <span className='text-xs text-gray-500 ml-1'>
+                              ({getCategoryLabel(tx.toCategory)})
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          <span className='text-gray-500 text-xs'>
+                            Amount Sent:
+                          </span>
+                          <div className='text-gray-800 text-sm'>
+                            {tx.fromAmount}
+                          </div>
+                        </div>
+                        <div>
+                          <span className='text-gray-500 text-xs'>
+                            Amount Received:
+                          </span>
+                          <div className='text-gray-800 text-sm'>
+                            {tx.toAmount}
+                          </div>
+                        </div>
+                        {tx.fee && (
+                          <div>
+                            <span className='text-gray-500 text-xs'>Fee:</span>
+                            <div className='text-gray-800 text-sm'>
+                              ${tx.fee}
+                            </div>
+                          </div>
+                        )}
+                        {tx.rate && (
+                          <div>
+                            <span className='text-gray-500 text-xs'>Rate:</span>
+                            <div className='text-gray-800 text-sm'>
+                              {tx.rate}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      <div className='flex justify-between'>
-                        <span className='text-gray-500 text-sm'>From:</span>
-                        <span className='text-gray-800 text-sm'>
-                          {tx.fromWallet}
+                      <div>
+                        <span className='text-gray-500 text-xs'>
+                          Transaction ID:
                         </span>
-                      </div>
-                      <div className='flex justify-between'>
-                        <span className='text-gray-500 text-sm'>To:</span>
-                        <span className='text-gray-800 text-sm'>
-                          {tx.toWallet}
-                        </span>
-                      </div>
-                      <div className='flex justify-between'>
-                        <span className='text-gray-500 text-sm'>ID:</span>
-                        <span className='text-gray-800 text-sm'>{tx.id}</span>
+                        <div className='text-gray-800 text-sm font-mono'>
+                          {tx.id}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -402,8 +637,12 @@ export const TransactionHistory = () => {
               ))}
             </div>
           ) : (
-            <div className='py-12 text-center text-gray-400'>
-              No transactions found
+            <div className='py-12 flex flex-col items-center justify-center gap-2'>
+              <Info className='h-8 w-8 text-gray-300' />
+              <p className='text-gray-400'>No transactions found</p>
+              <p className='text-sm text-gray-400'>
+                Try adjusting your filters
+              </p>
             </div>
           )}
         </div>
