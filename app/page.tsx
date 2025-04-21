@@ -30,7 +30,7 @@ export default function Home() {
             backgroundImage: "url('/images/landing-page.jpg')",
             clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0% 100%)",
           }}>
-          <div className='absolute inset-0 bg-background/40 backdrop-blur-sm'></div>
+          <div className='absolute inset-0 bg-[#05264c]/40 backdrop-blur-sm'></div>
         </div>
       </div>
 
