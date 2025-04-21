@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { DollarSign, CircleDollarSign } from "lucide-react";
+import { DollarSign } from "lucide-react";
 import type { WalletInfo } from "@/lib/swap/types";
 
 interface WalletLogoProps {

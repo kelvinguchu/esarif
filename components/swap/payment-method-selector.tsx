@@ -49,10 +49,16 @@ export const PaymentMethodSelector = () => {
     newCategory: PaymentMethodOption["category"]
   ) => {
     if (!newCategory) return;
+
+    // Always set the category and open the drawer
     setSelectedCategory(newCategory);
-    // Don't automatically select first item anymore
-    // Instead, just open the drawer to show options for this category
     setBankDrawerOpen(true);
+
+    // If the newly selected category doesn't match the current selection's category,
+    // it's safer to clear the selection
+    if (selectedOption && selectedOption.category !== newCategory) {
+      setSelectedBank(""); // Reset the selection if changing category
+    }
   };
 
   // Handle the actual selection from the GenericSelector's list
@@ -124,7 +130,13 @@ export const PaymentMethodSelector = () => {
         <div className='mt-2'>
           {" "}
           {/* Removed min-h */}
-          <div className='flex items-center gap-2 rounded-lg border border-gray-200 bg-emerald-50 p-3 text-gray-800 shadow-sm'>
+          <div
+            onClick={() => {
+              // When clicked, re-open the drawer with the same category
+              setSelectedCategory(selectedOption.category);
+              setBankDrawerOpen(true);
+            }}
+            className='flex items-center gap-2 rounded-lg border border-gray-200 bg-emerald-50 p-3 text-gray-800 shadow-sm cursor-pointer hover:bg-emerald-100 hover:border-emerald-300 transition-colors'>
             <div className='w-8 h-8 rounded-full flex items-center justify-center bg-white overflow-hidden border border-gray-200'>
               {getMethodIcon(selectedOption)}
             </div>
@@ -136,7 +148,22 @@ export const PaymentMethodSelector = () => {
                 {selectedOption.description}
               </div>
             </div>
-            <Check className='h-5 w-5 text-primary' /> {/* Add checkmark */}
+            <div className='text-gray-500 hover:text-gray-700'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='16'
+                height='16'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='currentColor'
+                strokeWidth='2'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                className='pencil'>
+                <path d='M12 20h9'></path>
+                <path d='M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'></path>
+              </svg>
+            </div>
           </div>
         </div>
       )}

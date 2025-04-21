@@ -45,7 +45,6 @@ export const GenericSelector = <T extends GenericOption>({
   setShowDrawer,
   renderOption,
 }: GenericSelectorProps<T>) => {
-  const selectedOption = options.find((option) => option.id === selectedId);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const handleOpenChange = (open: boolean) => {

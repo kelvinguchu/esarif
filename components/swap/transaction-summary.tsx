@@ -1,6 +1,6 @@
 "use client";
 
-import { Wallet, RefreshCw } from "lucide-react";
+import { Wallet, ArrowRightLeft } from "lucide-react";
 import { formatCurrency } from "@/lib/swap/utils";
 
 interface TransactionSummaryProps {
@@ -8,6 +8,9 @@ interface TransactionSummaryProps {
   serviceFee: number;
   netAmount: number;
   toWallet?: string;
+  fromWallet?: string;
+  exchangeRate?: number;
+  exchangeInfo?: string;
 }
 
 export const TransactionSummary = ({
@@ -15,8 +18,18 @@ export const TransactionSummary = ({
   serviceFee,
   netAmount,
   toWallet = "",
+  fromWallet = "",
+  exchangeRate,
+  exchangeInfo,
 }: TransactionSummaryProps) => {
-  const isMpesa = toWallet === "MPESA";
+  const isMpesaFrom = fromWallet === "MPESA";
+  const isMpesaTo = toWallet === "MPESA";
+  const fromSymbol = isMpesaFrom ? "KSh" : "$";
+  const toSymbol = isMpesaTo ? "KSh" : "$";
+
+  const isCurrencyConversion = isMpesaFrom !== isMpesaTo;
+
+  const amountValue = parseFloat(fromAmount) || 0;
 
   return (
     <div className='bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border border-gray-200 p-4 shadow-sm'>
@@ -24,26 +37,46 @@ export const TransactionSummary = ({
         <div className='p-1 bg-gradient-to-r from-blue-100 to-green-100 rounded-full mr-2'>
           <Wallet className='h-4 w-4 text-primary' />
         </div>
-        Transaction Summary {isMpesa ? "(KES)" : "(USD)"}
+        Transaction Summary
       </h3>
       <div className='space-y-3 text-sm'>
         <div className='flex justify-between'>
-          <span className='text-gray-600'>Amount:</span>
+          <span className='text-gray-600'>Amount ({fromSymbol}):</span>
           <span className='text-gray-800 font-medium'>
-            {formatCurrency(parseFloat(fromAmount), toWallet)}
+            {fromSymbol}
+            {amountValue.toFixed(2)}
           </span>
         </div>
         <div className='flex justify-between'>
           <span className='text-gray-600'>Service Charge (1%):</span>
           <span className='text-gray-800 font-medium'>
-            {formatCurrency(serviceFee, toWallet)}
+            {fromSymbol}
+            {serviceFee.toFixed(2)}
           </span>
         </div>
+
+        {exchangeRate && isCurrencyConversion && (
+          <div className='pt-2 border-t border-blue-100 mt-2'>
+            <div className='flex justify-between text-xs text-blue-700'>
+              <span className='flex items-center'>
+                <ArrowRightLeft className='w-3 h-3 mr-1' />
+                Exchange Rate:
+              </span>
+              <span>
+                1 {fromSymbol} = {exchangeRate.toFixed(2)} {toSymbol}
+              </span>
+            </div>
+          </div>
+        )}
+
         <div className='h-px bg-gray-200 my-3'></div>
         <div className='flex justify-between text-base'>
-          <span className='text-gray-700 font-medium'>Net Amount:</span>
+          <span className='text-gray-700 font-medium'>
+            You Receive ({toSymbol}):
+          </span>
           <span className='text-gray-900 font-semibold'>
-            {formatCurrency(netAmount, toWallet)}
+            {toSymbol}
+            {netAmount.toFixed(2)}
           </span>
         </div>
       </div>

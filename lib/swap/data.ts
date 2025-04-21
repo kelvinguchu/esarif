@@ -1,6 +1,5 @@
 // Swap related static data
-import { WalletInfo, PaymentMethodOption } from "./types";
-import type { CurrencyRateInfo } from "./types"; // Add type import
+import type { CurrencyRateInfo, PaymentMethodOption } from "./types"; // Updated import
 
 // --- Constants ---
 export const KES_PER_USD = 128.55;
@@ -13,7 +12,7 @@ export const currencyRates: { [key: string]: CurrencyRateInfo } = {
     symbol: "KSh",
     name: "Kenyan Shilling",
     rate: 128.55,
-    type: "mobile",
+    type: "mobile", // Keep type for rate calculation? Or derive from paymentMethods? Let's keep for now.
   },
   EVC: { symbol: "$", name: "EVC Plus (USD)", rate: 1.0, type: "mobile" },
   EDAHAB: { symbol: "$", name: "eDahab (USD)", rate: 1.0, type: "mobile" },
@@ -21,129 +20,33 @@ export const currencyRates: { [key: string]: CurrencyRateInfo } = {
   SAHAL: { symbol: "$", name: "SAHAL (USD)", rate: 1.0, type: "mobile" },
 
   // Crypto (Rate is USD value per 1 unit of Crypto)
-  // CORRECTED ENTRIES:
   "USDT-TRC20": {
-    symbol: "USDT", // Correct symbol
+    symbol: "USDT",
     name: "Tether (TRON)",
     type: "crypto",
-    rateUSD: 1.0001, // Correct rate under rateUSD
+    rateUSD: 1.0001,
   },
   "USDT-BEP20": {
-    symbol: "USDT", // Correct symbol
+    symbol: "USDT",
     name: "Tether (BSC)",
     type: "crypto",
-    rateUSD: 1.0, // Correct rate under rateUSD
+    rateUSD: 1.0,
   },
   "USDC-BEP20": {
-    symbol: "USDC", // Correct symbol
+    symbol: "USDC",
     name: "USD Coin (BSC)",
     type: "crypto",
-    rateUSD: 0.9998, // Correct rate under rateUSD
+    rateUSD: 0.9998,
   },
+  // Add IDs for other mobile money if needed in rates, e.g., T-Plus, JEEB if rates differ
 };
 
 // Type helper for currency IDs
 export type CurrencyId = keyof typeof currencyRates;
 
-// --- Wallet Options ---
-// Note: WalletInfo type will be moved to types.ts
-export const walletOptions: WalletInfo[] = [
-  {
-    id: "MPESA",
-    name: "M-PESA",
-    type: "mobile",
-    logo: "/logos/mpesa.png",
-    description: "Kenyan Mobile Money",
-    color: "#4CAF50",
-    isLocalImage: true,
-  },
-  {
-    id: "EVC",
-    name: "EVC Plus",
-    type: "mobile",
-    logo: "/logos/evc.svg",
-    description: "Somali Mobile Money",
-    color: "#2196F3",
-    isLocalImage: true,
-  },
-  {
-    id: "T-PLUS",
-    name: "T-Plus",
-    type: "mobile",
-    logo: "/logos/tplus.webp",
-    description: "Somali Mobile Money",
-    color: "#FF9800",
-    isLocalImage: true,
-  },
-  {
-    id: "JEEB",
-    name: "JEEB",
-    type: "mobile",
-    logo: "/logos/jeeb.png",
-    description: "Somali Mobile Money",
-    color: "#E91E63",
-    isLocalImage: true,
-  },
-  {
-    id: "SAHAL",
-    name: "SAHAL",
-    type: "mobile",
-    logo: "/logos/sahal.png",
-    description: "Somali Mobile Money",
-    color: "#9C27B0",
-    isLocalImage: true,
-  },
-  {
-    id: "ZAAD",
-    name: "ZAAD",
-    type: "mobile",
-    logo: "/logos/zaad.png",
-    description: "Somali Mobile Money",
-    color: "#3F51B5",
-    isLocalImage: true,
-  },
-  {
-    id: "USDT-TRC20",
-    name: "USDT (TRC20)",
-    type: "crypto",
-    logo: "/logos/usdt.svg",
-    description: "Tether on TRON",
-    color: "#26A17B",
-    isLocalImage: true,
-  },
-  {
-    id: "USDT-BEP20",
-    name: "USDT (BEP20)",
-    type: "crypto",
-    logo: "/logos/usdt.svg",
-    description: "Tether on Binance Smart Chain",
-    color: "#F0B90B",
-    isLocalImage: true,
-  },
-  {
-    id: "USDC-BEP20",
-    name: "USDC (BEP20)",
-    type: "crypto",
-    logo: "/logos/usdc.svg",
-    description: "USD Coin on Binance Smart Chain",
-    color: "#2775CA",
-    isLocalImage: true,
-  },
-];
+// --- Wallet Options --- DELETED ---
 
-// Helper function to get wallets by type
-export const getWalletsByType = (type: "crypto" | "mobile"): WalletInfo[] => {
-  return walletOptions.filter((wallet) => wallet.type === type);
-};
-
-export const cryptoWallets = getWalletsByType("crypto");
-export const mobileWallets = getWalletsByType("mobile");
-
-// --- Bank Options ---
-// Replaced somaliaBanks with a categorized paymentMethods array
-// Note: PaymentMethodOption type is now imported from types.ts
-
-// Payment Methods (Banks, Mobile Money, Wallets)
+// --- Payment Methods (Banks, Mobile Money, Wallets, Crypto) ---
 export const paymentMethods: PaymentMethodOption[] = [
   // Banks
   {
@@ -191,45 +94,50 @@ export const paymentMethods: PaymentMethodOption[] = [
 
   // Mobile Money
   {
-    id: "mpesa",
+    id: "MPESA", // Using the same ID as in currencyRates
     name: "M-Pesa",
     logo: "/logos/mpesa.png",
     description: "Kenyan Mobile Money",
     category: "mobileMoney",
+    color: "#4CAF50", // Adding color for consistency if needed
   },
   {
-    id: "evc",
+    id: "EVC", // Using the same ID as in currencyRates
     name: "EVC Plus",
     logo: "/logos/evc.svg",
     description: "Somali Mobile Money",
     category: "mobileMoney",
+    color: "#2196F3",
   },
   {
-    id: "edahab",
+    id: "EDAHAB", // Using the same ID as in currencyRates
     name: "eDahab",
     logo: "/logos/edahab.png",
     description: "Somali Mobile Money",
     category: "mobileMoney",
+    // Add color if available/needed
   },
   {
-    id: "zaad",
+    id: "ZAAD", // Using the same ID as in currencyRates
     name: "ZAAD",
     logo: "/logos/zaad.png",
     description: "Somali Mobile Money",
     category: "mobileMoney",
+    color: "#3F51B5",
   },
   {
-    id: "sahal",
+    id: "SAHAL", // Using the same ID as in currencyRates
     name: "SAHAL",
     logo: "/logos/sahal.png",
     description: "Somali Mobile Money",
     category: "mobileMoney",
+    color: "#9C27B0",
   },
 
-  // Wallets
+  // Wallets (Digital Wallets category)
   {
     id: "dahab-plus",
-    name: "Dahab Plus", // Assuming this is the correct name for dahab-plus.png
+    name: "Dahab Plus",
     logo: "/logos/dahab-plus.png",
     description: "Digital Wallet",
     category: "wallet",
@@ -247,6 +155,32 @@ export const paymentMethods: PaymentMethodOption[] = [
     logo: "/logos/premier-wallet.jpeg",
     description: "Digital Wallet",
     category: "wallet",
+  },
+
+  // Crypto (Adding crypto options here)
+  {
+    id: "USDT-TRC20", // Using the same ID as in currencyRates
+    name: "USDT (TRC20)",
+    logo: "/logos/usdt.svg", // Reusing logo path
+    description: "Tether on TRON",
+    category: "crypto",
+    color: "#26A17B", // Add color
+  },
+  {
+    id: "USDT-BEP20", // Using the same ID as in currencyRates
+    name: "USDT (BEP20)",
+    logo: "/logos/usdt.svg", // Reusing logo path
+    description: "Tether on Binance Smart Chain",
+    category: "crypto",
+    color: "#F0B90B", // Add color
+  },
+  {
+    id: "USDC-BEP20", // Using the same ID as in currencyRates
+    name: "USDC (BEP20)",
+    logo: "/logos/usdc.svg", // Reusing logo path
+    description: "USD Coin on Binance Smart Chain",
+    category: "crypto",
+    color: "#2775CA", // Add color
   },
 ];
 

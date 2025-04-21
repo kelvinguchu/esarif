@@ -17,8 +17,8 @@ export interface PaymentMethodOption {
   name: string;
   logo: string; // Path to logo image
   description: string;
-  category: "bank" | "mobileMoney" | "wallet";
-  color?: string; // Optional: Used by original BankOption, kept for potential styling
+  category: "bank" | "mobileMoney" | "wallet" | "crypto";
+  color?: string; // Optional: Used for styling, added to crypto/mobile options in data.ts
 }
 
 // Represents the structure of currency rate information

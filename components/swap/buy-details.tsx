@@ -2,16 +2,20 @@
 
 import React from "react";
 import { useSwapContext } from "@/context/swap-context";
-import {
-  WalletInfo,
-  PaymentMethodOption,
-  CurrencyId,
-  CurrencyRateInfo,
-} from "@/lib/swap/types";
-import { paymentMethods, currencyRates, cryptoWallets } from "@/lib/swap/data";
-import { Button } from "@/components/ui/button";
+import { paymentMethods, currencyRates } from "@/lib/swap/data";
 import { Input } from "@/components/ui/input";
-import { Copy, Info, Banknote, Smartphone, Wallet } from "lucide-react";
+import {
+  Info,
+  Banknote,
+  Smartphone,
+  Wallet,
+  ArrowRight,
+  CreditCard,
+  Send,
+  BarChart3,
+  ShieldCheck,
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const BuyDetails = () => {
   const {
@@ -20,196 +24,255 @@ export const BuyDetails = () => {
     fromAmount,
     receivingAddress,
     setReceivingAddress,
+    estimatedAmount,
+    netAmount,
+    serviceFee,
   } = useSwapContext();
 
-  // Define these first
   const paymentMethod = paymentMethods.find((p) => p.id === selectedBank);
-  const cryptoWallet = cryptoWallets.find((w) => w.id === toWallet) as
-    | (WalletInfo & { address?: string; networkName?: string })
-    | undefined;
+  const cryptoDetails = paymentMethods.find(
+    (p) => p.id === toWallet && p.category === "crypto"
+  );
+
   const amount = fromAmount ? parseFloat(fromAmount) : 0;
-  const currencyInfo = currencyRates[toWallet as keyof typeof currencyRates]; // Now safe to use toWallet
+  const currencyInfo = currencyRates[toWallet as keyof typeof currencyRates];
 
-  // Now calculate dependent values
   const cryptoSymbol =
-    currencyInfo?.symbol || cryptoWallet?.id?.split("-")[0] || "Crypto";
-  const serviceFeeRate = 0.01; // 1%
-  const fiatFee = amount * serviceFeeRate;
-  const netFiatAmount = amount - fiatFee;
+    currencyInfo?.symbol || cryptoDetails?.name.split(" ")[0] || "Crypto";
+  const networkName = cryptoDetails?.id.includes("-")
+    ? cryptoDetails?.id.split("-")[1]
+    : cryptoDetails?.category;
 
-  // Determine the exchange rate using provided values or fallback
+  const fiatFee = serviceFee;
+  const netFiatAmount = netAmount;
+  const finalCryptoAmount = parseFloat(estimatedAmount);
+
   let exchangeRate: number | undefined;
-  switch (toWallet) {
-    case "USDT-TRC20":
-      exchangeRate = 1.0001;
-      break;
-    case "USDT-BEP20":
-      exchangeRate = 1.0;
-      break;
-    case "USDC-BEP20":
-      exchangeRate = 0.9998;
-      break;
-    default:
-      // Fallback to currencyRates data (checking type and property existence)
-      if (currencyInfo) {
-        if (
-          currencyInfo.type === "crypto" &&
-          "rateUSD" in currencyInfo &&
-          typeof currencyInfo.rateUSD === "number"
-        ) {
-          exchangeRate = currencyInfo.rateUSD;
-        } else if (
-          currencyInfo.type !== "crypto" &&
-          "rate" in currencyInfo &&
-          typeof currencyInfo.rate === "number"
-        ) {
-          // This case shouldn't happen in 'buy' mode, but included for robustness
-          exchangeRate = currencyInfo.rate;
-        }
-      }
-      break;
+  if (currencyInfo) {
+    if ("rateUSD" in currencyInfo && typeof currencyInfo.rateUSD === "number") {
+      exchangeRate = currencyInfo.rateUSD;
+    } else if (
+      "rate" in currencyInfo &&
+      typeof currencyInfo.rate === "number"
+    ) {
+      exchangeRate = currencyInfo.rate;
+    }
   }
 
-  // Calculate final crypto amount using MULTIPLICATION
-  const finalCryptoAmount =
-    exchangeRate && exchangeRate > 0 ? netFiatAmount * exchangeRate : 0;
-
-  // --- Placeholder Data (Keep for payment instructions) ---
   const genericAccountNumber = "001234567890";
   const companyName = "E-Sarif Ltd.";
   const mpesaPaybill = "254252";
   const genericMobileAccount = "+252 61 1234567";
 
-  if (!paymentMethod || !cryptoWallet || amount <= 0) {
+  if (!paymentMethod || !cryptoDetails || amount <= 0) {
     return null;
   }
 
   return (
-    <div className='space-y-6 mt-6 pt-6 border-t border-gray-200'>
-      {/* 1. Payment Instructions */}
-      <div className='space-y-3 p-4 bg-gray-50 rounded-lg border border-gray-100'>
-        <h3 className='text-sm font-semibold text-gray-700 flex items-center gap-2'>
-          {paymentMethod.category === "bank" ? (
-            <Banknote className='w-4 h-4' />
-          ) : (
-            <Smartphone className='w-4 h-4' />
-          )}
-          Payment Instructions ({paymentMethod.name})
-        </h3>
+    <div className='space-y-6 mt-3 w-full md:max-w-3xl lg:max-w-4xl mx-auto'>
+      {/* Payment Instructions Card */}
+      <Card className='overflow-hidden border-t-4 border-t-blue-500 shadow-sm w-full'>
+        <CardHeader className='bg-gradient-to-r from-blue-50 to-white pb-2'>
+          <CardTitle className='text-blue-800 flex items-center text-base'>
+            {paymentMethod.category === "bank" ? (
+              <Banknote className='mr-2 h-5 w-5 text-blue-600' />
+            ) : (
+              <Smartphone className='mr-2 h-5 w-5 text-blue-600' />
+            )}
+            Payment Instructions
+          </CardTitle>
+        </CardHeader>
+        <CardContent className='pt-4'>
+          <div className='p-3 bg-blue-50/50 rounded-lg border border-blue-100 space-y-3 w-full'>
+            <div className='flex items-center gap-2 text-sm font-medium text-blue-700 mb-1'>
+              <CreditCard className='h-4 w-4' />
+              <span>{paymentMethod.name}</span>
+            </div>
 
-        {/* Bank Instructions */}
-        {paymentMethod.category === "bank" && (
-          <div className='text-xs text-gray-600 space-y-1'>
-            <p>
-              Please transfer exactly <strong>${amount.toFixed(2)}</strong> to:
-            </p>
-            <p>
-              <strong>Account Name:</strong> {companyName}
-            </p>
-            <p>
-              <strong>Account Number:</strong> {genericAccountNumber}
-            </p>
-            <p>
-              <strong>Bank:</strong> {paymentMethod.name}
-            </p>
-            <p className='mt-2 text-blue-600'>
-              <Info className='w-3 h-3 inline mr-1' /> Use your Order ID as the
-              reference.
-            </p>
+            {paymentMethod.category === "bank" && (
+              <div className='text-sm text-gray-700 space-y-2 w-full'>
+                <div className='flex items-center gap-2 bg-white p-2 rounded-md border border-gray-100 w-full'>
+                  <ArrowRight className='h-4 w-4 text-blue-500 flex-shrink-0' />
+                  <p>
+                    Transfer exactly{" "}
+                    <span className='font-mono font-bold text-blue-700'>
+                      ${amount.toFixed(2)}
+                    </span>{" "}
+                    to:
+                  </p>
+                </div>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3 w-full'>
+                  <div className='bg-white p-2 rounded-md border border-gray-100'>
+                    <p className='text-xs text-gray-500 mb-1'>Account Name</p>
+                    <p className='font-medium'>{companyName}</p>
+                  </div>
+                  <div className='bg-white p-2 rounded-md border border-gray-100'>
+                    <p className='text-xs text-gray-500 mb-1'>Account Number</p>
+                    <p className='font-mono'>{genericAccountNumber}</p>
+                  </div>
+                  <div className='bg-white p-2 rounded-md border border-gray-100'>
+                    <p className='text-xs text-gray-500 mb-1'>Bank</p>
+                    <p className='font-medium'>{paymentMethod.name}</p>
+                  </div>
+                </div>
+                <div className='flex items-start mt-2 bg-yellow-50 p-2 rounded-md border border-yellow-100 w-full'>
+                  <Info className='w-4 h-4 text-amber-500 mt-0.5 mr-2 flex-shrink-0' />
+                  <p className='text-xs text-gray-700'>
+                    Use your Order ID as the reference for this transaction.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {paymentMethod.id === "MPESA" && (
+              <div className='text-sm text-gray-700 space-y-2 w-full'>
+                <div className='flex items-center gap-2 bg-white p-2 rounded-md border border-gray-100 w-full'>
+                  <ArrowRight className='h-4 w-4 text-green-500 flex-shrink-0' />
+                  <p>
+                    Pay exactly{" "}
+                    <span className='font-mono font-bold text-green-700'>
+                      ${amount.toFixed(2)}
+                    </span>{" "}
+                    via M-Pesa
+                  </p>
+                </div>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 w-full'>
+                  <div className='bg-white p-2 rounded-md border border-gray-100'>
+                    <p className='text-xs text-gray-500 mb-1'>Paybill Number</p>
+                    <p className='font-mono font-medium'>{mpesaPaybill}</p>
+                  </div>
+                  <div className='bg-white p-2 rounded-md border border-gray-100'>
+                    <p className='text-xs text-gray-500 mb-1'>Account</p>
+                    <p className='font-medium'>YOUR NAME</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {paymentMethod.category === "mobileMoney" &&
+              paymentMethod.id !== "MPESA" && (
+                <div className='text-sm text-gray-700 space-y-2 w-full'>
+                  <div className='flex items-center gap-2 bg-white p-2 rounded-md border border-gray-100 w-full'>
+                    <ArrowRight className='h-4 w-4 text-blue-500 flex-shrink-0' />
+                    <p>
+                      Send exactly{" "}
+                      <span className='font-mono font-bold text-blue-700'>
+                        ${amount.toFixed(2)}
+                      </span>{" "}
+                      to:
+                    </p>
+                  </div>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 w-full'>
+                    <div className='bg-white p-2 rounded-md border border-gray-100'>
+                      <p className='text-xs text-gray-500 mb-1'>
+                        Account Number
+                      </p>
+                      <p className='font-mono'>{genericMobileAccount}</p>
+                    </div>
+                    <div className='bg-white p-2 rounded-md border border-gray-100'>
+                      <p className='text-xs text-gray-500 mb-1'>Network</p>
+                      <p className='font-medium'>{paymentMethod.name}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
-        )}
+        </CardContent>
+      </Card>
 
-        {/* MPESA Instructions - Use static text for Account */}
-        {paymentMethod.id === "mpesa" && (
-          <div className='text-xs text-gray-600 space-y-2'>
-            <p>
-              Please pay exactly <strong>${amount.toFixed(2)}</strong> via
-              M-Pesa using:
-            </p>
-            <p>
-              <strong>Paybill Number:</strong> {mpesaPaybill}
-            </p>
-            <p>
-              <strong>Account:</strong> YOUR NAME
-            </p>
-          </div>
-        )}
-
-        {/* Other Mobile Money Instructions */}
-        {paymentMethod.category === "mobileMoney" &&
-          paymentMethod.id !== "mpesa" && (
-            <div className='text-xs text-gray-600 space-y-1'>
-              <p>
-                Please send exactly <strong>${amount.toFixed(2)}</strong> to:
-              </p>
-              <p>
-                <strong>Account Number:</strong> {genericMobileAccount}
-              </p>
-              <p>
-                <strong>Network:</strong> {paymentMethod.name}
+      {/* Wallet Address Card */}
+      <Card className='overflow-hidden border-t-4 border-t-purple-500 shadow-sm w-full'>
+        <CardHeader className='bg-gradient-to-r from-purple-50 to-white pb-2'>
+          <CardTitle className='text-purple-800 flex items-center text-base'>
+            <Wallet className='mr-2 h-5 w-5 text-purple-600' />
+            Your Receiving Wallet Address
+          </CardTitle>
+        </CardHeader>
+        <CardContent className='pt-4 w-full'>
+          <div className='space-y-3 w-full'>
+            <div className='flex items-center gap-2 bg-purple-50 rounded-md p-2 border border-purple-100 w-full'>
+              <ShieldCheck className='h-4 w-4 text-purple-600' />
+              <p className='text-sm text-purple-800 font-medium'>
+                {cryptoDetails.name} ({networkName ?? "Network"})
               </p>
             </div>
-          )}
-      </div>
+            <p className='text-xs text-gray-600 bg-gray-50 p-2 rounded-md border border-gray-100 w-full'>
+              Please enter the destination {cryptoDetails.name} address where
+              you want to receive your crypto. Ensure it's correct and supports
+              the {networkName ?? "selected"} network.
+            </p>
+            <Input
+              placeholder={`Enter your ${cryptoDetails.name} (${
+                networkName ?? cryptoSymbol
+              }) address...`}
+              value={receivingAddress}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setReceivingAddress(e.target.value)
+              }
+              className='font-mono bg-white border-purple-200 focus:border-purple-400 focus:ring-purple-200 text-sm h-10 w-full'
+            />
+            <div className='flex items-start mt-1 w-full'>
+              <Info className='h-4 w-4 text-amber-500 mt-0.5 mr-2 flex-shrink-0' />
+              <p className='text-xs text-gray-600'>
+                Double-check your wallet address. Transactions sent to incorrect
+                addresses cannot be recovered.
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      {/* 2. User Receiving Wallet Input */}
-      <div className='space-y-2 sm:space-y-3 p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-100'>
-        <h3 className='text-xs sm:text-sm font-semibold text-blue-800 flex items-center gap-1 sm:gap-2'>
-          <Wallet className='w-3 h-3 sm:w-4 sm:h-4' />
-          Your Receiving Wallet Address ({cryptoWallet.name})
-        </h3>
-        <p className='text-[10px] sm:text-xs text-blue-600'>
-          Please enter the destination {cryptoWallet.name} address where you
-          want to receive your crypto. Ensure it's correct and supports the{" "}
-          {cryptoWallet.networkName || "selected"} network.
-        </p>
-        <Input
-          placeholder={`Enter your ${cryptoWallet.name} (${
-            cryptoWallet.networkName || cryptoSymbol
-          }) address...`}
-          value={receivingAddress}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setReceivingAddress(e.target.value)
-          }
-          className='bg-white border-blue-200 focus:border-blue-400 focus:ring-blue-200 text-xs sm:text-sm h-9 sm:h-10'
-        />
-      </div>
-
-      {/* 3. Transaction Summary */}
-      <div className='space-y-3 p-4 bg-green-50 rounded-lg border border-green-100'>
-        <h3 className='text-xs sm:text-sm font-semibold text-green-800'>
-          Transaction Summary
-        </h3>
-        <div className='space-y-2 text-xs text-green-700'>
-          <div className='flex flex-wrap justify-between'>
-            <span>You Pay:</span>
-            <span className='font-medium'>${amount.toFixed(2)} USD</span>
+      {/* Transaction Summary Card */}
+      <Card className='overflow-hidden border-t-4 border-t-green-500 shadow-sm w-full'>
+        <CardHeader className='bg-gradient-to-r from-green-50 to-white pb-2'>
+          <CardTitle className='text-green-800 flex items-center text-base'>
+            <BarChart3 className='mr-2 h-5 w-5 text-green-600' />
+            Transaction Summary
+          </CardTitle>
+        </CardHeader>
+        <CardContent className='pt-4 w-full'>
+          <div className='bg-white border border-gray-100 rounded-lg p-4 shadow-sm space-y-2 w-full'>
+            <div className='grid grid-cols-2 gap-1 text-sm'>
+              <span className='text-gray-600'>You Pay:</span>
+              <span className='font-medium text-right'>
+                ${amount.toFixed(2)} USD
+              </span>
+            </div>
+            <div className='grid grid-cols-2 gap-1 text-sm'>
+              <span className='text-gray-600'>Service Fee:</span>
+              <span className='text-red-600 font-medium text-right'>
+                - ${fiatFee.toFixed(2)} USD
+              </span>
+            </div>
+            <div className='grid grid-cols-2 gap-1 text-sm border-t border-gray-200 pt-2 mt-2'>
+              <span className='text-gray-600'>Amount Used for Conversion:</span>
+              <span className='font-medium text-right'>
+                ${netFiatAmount.toFixed(2)} USD
+              </span>
+            </div>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm bg-green-50 p-2 mt-1 rounded-md'>
+              <span className='text-green-700 flex items-center gap-1 mb-1 sm:mb-0'>
+                <ArrowRight className='h-3 w-3 flex-shrink-0' />
+                <span>Exchange Rate:</span>
+              </span>
+              <span className='text-green-700 font-medium text-left sm:text-right'>
+                {exchangeRate
+                  ? `1 ${cryptoSymbol} = $${exchangeRate.toFixed(4)} USD`
+                  : "N/A"}
+              </span>
+            </div>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-1 pt-3 mt-2 border-t border-gray-200'>
+              <span className='font-semibold text-green-800 mb-1 sm:mb-0'>
+                You Receive:
+              </span>
+              <span className='font-mono font-semibold text-green-800 text-left sm:text-right'>
+                {finalCryptoAmount > 0 ? finalCryptoAmount.toFixed(8) : "0.00"}{" "}
+                {cryptoSymbol}
+              </span>
+            </div>
           </div>
-          <div className='flex flex-wrap justify-between'>
-            <span>Service Fee (1% of payment):</span>
-            <span className='font-medium text-red-600'>
-              - ${fiatFee.toFixed(2)} USD
-            </span>
-          </div>
-          <div className='flex flex-wrap justify-between border-t border-green-200 pt-1 sm:pt-2 mt-1 sm:mt-2'>
-            <span>Amount After Fee:</span>
-            <span className='font-medium'>${netFiatAmount.toFixed(2)} USD</span>
-          </div>
-          <div className='flex justify-between'>
-            <span>Exchange Rate Used:</span>
-            <span className='font-medium'>
-              $1 USD ≈ {exchangeRate?.toFixed(4) || "N/A"} {cryptoSymbol}
-            </span>
-          </div>
-          <div className='pt-2 mt-2 border-t border-green-200 flex justify-between text-sm'>
-            <span className='font-semibold text-green-800'>You Receive ≈</span>
-            <span className='font-semibold text-green-800'>
-              {finalCryptoAmount > 0 ? finalCryptoAmount.toFixed(8) : "0.00"}{" "}
-              {cryptoSymbol}
-            </span>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
