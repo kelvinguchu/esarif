@@ -40,15 +40,18 @@ export const BuyForm = () => {
     stkDialogOpen,
     setStkDialogOpen,
     setIsLoading,
-    fromWallet, // Context now manages fromWallet based on selectedBank for buy mode
   } = useSwapContext();
 
-  // Show details requires: Amount, Payment method selected (fromWallet/selectedBank), Crypto selected (toWallet)
-  const showDetails = Boolean(
-    fromWallet && toWallet && fromAmount && parseFloat(fromAmount) > 0
-  );
+  // Define conditions for showing details and enabling button
+  const validAmountEntered = fromAmount && parseFloat(fromAmount) > 0;
+  const cryptoSelected = Boolean(toWallet);
+  const paymentMethodSelected = Boolean(selectedBank); // Explicitly check selectedBank
 
-  const isMpesaSelected = fromWallet === "MPESA"; // Check based on the actual payment method used (fromWallet)
+  // Show details requires: Valid Amount, Crypto selected, Payment Method selected
+  const showDetails =
+    validAmountEntered && cryptoSelected && paymentMethodSelected;
+
+  const isMpesaSelected = selectedBank === "MPESA"; // Check based on selectedBank
 
   const handleDialogClose = () => {
     setStkDialogOpen(false);
@@ -58,15 +61,14 @@ export const BuyForm = () => {
   return (
     <>
       {/* I Want Section - Buy Mode (Crypto Selection) */}
-      <div className='space-y-3'>
-        <div className='flex items-center gap-2 mb-1'>
-          <Bitcoin className='h-4 w-4 text-amber-500' />
+      <div className='space-y-2'>
+        <div className='flex items-center gap-2'>
           <label className='text-sm text-gray-700 font-medium'>
             I want to buy
           </label>
         </div>
-        <div className='p-0.5 bg-gradient-to-r from-amber-100 to-amber-50 rounded-xl'>
-          <div className='bg-white rounded-lg p-2'>
+        <div className='rounded-lg border border-amber-100 overflow-hidden'>
+          <div className='bg-amber-50/50 px-3 py-2'>
             <WalletSelector
               label='Buy Crypto' // Updated label
               selected={toWallet} // The crypto to buy
@@ -81,16 +83,15 @@ export const BuyForm = () => {
       </div>
 
       {/* Flow arrow */}
-      <div className='flex justify-center my-2'>
-        <div className='p-1 bg-gray-100 rounded-full'>
-          <ArrowDown className='h-4 w-4 text-gray-400' />
+      <div className='flex justify-center my-3'>
+        <div className='bg-gray-100 rounded-full p-1.5 shadow-sm'>
+          <ArrowDown className='h-4 w-4 text-gray-500' />
         </div>
       </div>
 
       {/* For Section - Buy Mode (Amount in USD) */}
-      <div className='space-y-3'>
-        <div className='flex items-center gap-2 mb-1'>
-          <DollarSign className='h-4 w-4 text-green-600' />
+      <div className='space-y-2'>
+        <div className='flex items-center gap-2'>
           <label className='text-sm text-gray-700 font-medium'>
             For (Amount in USD)
           </label>
@@ -101,7 +102,7 @@ export const BuyForm = () => {
             placeholder='0.00'
             value={fromAmount} // User inputs USD amount to spend
             onChange={handleAmountChange}
-            className='bg-gray-50 border border-gray-200 text-gray-900 rounded-lg shadow-sm transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/30 h-12 text-lg pl-12'
+            className='bg-white border border-green-100 text-gray-900 rounded-lg shadow-sm transition-all focus:border-green-200 focus:ring-1 focus:ring-green-300/30 h-12 text-lg pl-12'
             min='0'
           />
           <div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 flex items-center'>
@@ -113,30 +114,29 @@ export const BuyForm = () => {
       </div>
 
       {/* Flow arrow */}
-      <div className='flex justify-center my-2'>
-        <div className='p-1 bg-gray-100 rounded-full'>
-          <ArrowDown className='h-4 w-4 text-gray-400' />
+      <div className='flex justify-center my-3'>
+        <div className='bg-gray-100 rounded-full p-1.5 shadow-sm'>
+          <ArrowDown className='h-4 w-4 text-gray-500' />
         </div>
       </div>
 
       {/* Payment Method - Buy Mode (How user pays) */}
-      <div className='space-y-3'>
-        <div className='flex items-center gap-2 mb-1'>
-          <CreditCard className='h-4 w-4 text-blue-600' />
+      <div className='space-y-2'>
+        <div className='flex items-center gap-2'>
           <label className='text-sm text-gray-700 font-medium'>
             Payment Method
           </label>
         </div>
-        <div className='p-0.5 bg-gradient-to-r from-blue-100/50 to-blue-50 rounded-xl'>
-          <div className='bg-white rounded-lg p-2'>
+        <div className='rounded-lg border border-blue-100 overflow-hidden'>
+          <div className='bg-blue-50/50 px-3 py-2'>
             <PaymentMethodSelector />
           </div>
         </div>
       </div>
 
-      {/* Render BuyDetails if conditions met */}
+      {/* Render BuyDetails only when all conditions are met */}
       {showDetails && (
-        <div className='mt-6 pt-6 border-t border-gray-200 bg-gradient-to-b from-white to-gray-50/30'>
+        <div className='mt-8 pt-2'>
           <BuyDetails />
         </div>
       )}
@@ -145,13 +145,12 @@ export const BuyForm = () => {
       <div className='pt-6'>
         <Button
           type='submit'
-          className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-semibold py-6 rounded-lg shadow-lg shadow-[#00805a]/20 transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] border border-[#00805a]/10'
+          className='w-full bg-[#00805a] hover:bg-[#00805a]/90 text-white font-semibold py-6 rounded-lg shadow-md shadow-[#00805a]/10 transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] border border-[#00805a]/10'
           disabled={Boolean(
             isLoading ||
-              !fromAmount ||
-              parseFloat(fromAmount) <= 0 ||
-              !fromWallet || // Must select payment method
-              !toWallet // Must select crypto to buy
+              !validAmountEntered ||
+              !cryptoSelected ||
+              !paymentMethodSelected
           )}>
           {isLoading ? (
             <>
@@ -159,25 +158,18 @@ export const BuyForm = () => {
               Processing...
             </>
           ) : isMpesaSelected ? (
-            <>
-              <span className='mr-2'>📱</span>
-              Send STK Push
-            </>
+            <>Send STK Push</>
           ) : (
-            <>
-              <Bitcoin className='mr-2 h-4 w-4' />
-              Buy Crypto
-            </>
+            <>Buy Crypto</>
           )}
         </Button>
       </div>
 
       {/* STK Push Dialog (Rendered based on context state) */}
       <Dialog open={stkDialogOpen} onOpenChange={handleDialogClose}>
-        <DialogContent className='w-[90%] sm:w-full max-w-sm bg-gradient-to-b from-blue-50 to-white'>
+        <DialogContent className='w-[90%] sm:w-full max-w-sm bg-white'>
           <DialogHeader>
             <DialogTitle className='flex items-center gap-2 text-blue-800'>
-              <span className='text-xl'>📱</span>
               STK Push Initiated
             </DialogTitle>
           </DialogHeader>

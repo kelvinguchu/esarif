@@ -146,7 +146,8 @@ export const SwapProvider = ({ children }: { children: ReactNode }) => {
   // Calculate fees and amounts (assuming fromAmount is USD)
   const feeAmount = fromAmount ? parseFloat(fromAmount) : 0;
   // Fee logic: 1% for Transfer, 0% for Buy/Sell (adjust if needed)
-  const serviceFee = mode === "transfer" ? feeAmount * 0.01 : 0;
+  // Apply 1% fee to all modes for now
+  const serviceFee = feeAmount * 0.01;
   const netAmount = feeAmount - serviceFee; // Net amount in USD
 
   // Calculate estimated amount in the *target* currency

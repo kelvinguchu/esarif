@@ -19,6 +19,9 @@ const IconComponents = {
     () => import("react-icons/fa").then((mod) => mod.FaHistory),
     { ssr: false }
   ),
+  FaUser: dynamic(() => import("react-icons/fa").then((mod) => mod.FaUser), {
+    ssr: false,
+  }),
 };
 
 export const MobileNav = () => {
@@ -29,6 +32,7 @@ export const MobileNav = () => {
       icon: "FaIdCard",
       label: "KYC",
       href: "/kyc",
+      isMain: true,
     },
     {
       icon: "FaExchangeAlt",
@@ -40,12 +44,19 @@ export const MobileNav = () => {
       icon: "FaHistory",
       label: "Transactions",
       href: "/transactions",
+      isMain: true,
+    },
+    {
+      icon: "FaUser",
+      label: "My Account",
+      href: "/account",
+      isMain: true,
     },
   ];
 
   return (
-    <div className='fixed bottom-0 left-0 right-0 z-50 h-16 pb-2 border-t border-gray-200 bg-white md:hidden'>
-      <nav className='grid h-full grid-cols-3'>
+    <div className='fixed bottom-0 left-0 right-0 z-50 h-16 px-4 pb-4 border-t border-gray-200 bg-white md:hidden'>
+      <nav className='grid h-full grid-cols-4'>
         {routes.map((route) => {
           const isActive = pathname === route.href;
           const isMain = route.isMain;

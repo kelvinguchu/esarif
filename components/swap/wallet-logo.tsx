@@ -10,7 +10,8 @@ interface WalletLogoProps {
 }
 
 export const WalletLogo = ({ wallet, size = 32 }: WalletLogoProps) => {
-  if (wallet.isLocalImage && wallet.logo) {
+  // Check if the wallet has a logo path
+  if (wallet.logo) {
     return (
       <Image
         src={wallet.logo}
@@ -22,9 +23,7 @@ export const WalletLogo = ({ wallet, size = 32 }: WalletLogoProps) => {
     );
   }
 
-  console.warn(
-    `WalletLogo: Missing or non-local logo for ${wallet.id}. Falling back to default icon.`
-  );
+  // Fallback icon if no logo is available
   return (
     <div
       className='flex items-center justify-center w-full h-full rounded-full'
@@ -44,7 +43,7 @@ export const WalletIcon = ({ wallet, size = 24 }: WalletLogoProps) => {
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        background: wallet.isLocalImage ? "white" : `${wallet.color}`,
+        background: `${wallet.color || "#ffffff"}`,
       }}>
       <WalletLogo wallet={wallet} size={size * 0.9} />
     </div>
