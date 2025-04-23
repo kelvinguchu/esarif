@@ -1,7 +1,7 @@
 import React from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { useSwapContext } from "@/context/swap-context"; // Use correct context hook
-import { paymentMethods } from "@/lib/swap/data"; // Import paymentMethods
+import { paymentMethods, KES_PER_USD } from "@/lib/swap/data"; // Import paymentMethods and KES_PER_USD
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -41,6 +41,8 @@ const sellRates: { [key: string]: number } = {
   "USDC-BEP20": 0.9998,
 };
 
+const KES_CONVERSION_RATE = 129; // User requested rate
+
 const SellDetails: React.FC = () => {
   const {
     fromWallet: fromWalletId, // ID of the crypto being sold
@@ -49,6 +51,7 @@ const SellDetails: React.FC = () => {
     setAccountNumber,
     accountName,
     setAccountName,
+    selectedBank, // Need this to check if receiving method is Mpesa
   } = useSwapContext();
 
   const [copySuccess, setCopySuccess] = React.useState(false);
@@ -97,6 +100,15 @@ const SellDetails: React.FC = () => {
   const serviceFeeUSD = amountWantedUSD * serviceFeeRate;
   const totalUSD = amountWantedUSD + serviceFeeUSD;
   const cryptoToSend = totalUSD / exchangeRate;
+
+  // Check if receiving method is M-Pesa
+  const isMpesaReceiver = selectedBank === "MPESA";
+  const displaySymbol = isMpesaReceiver ? "KSh" : "$";
+  const displayRate = isMpesaReceiver ? KES_CONVERSION_RATE : 1;
+
+  const amountToReceive = amountWantedUSD * displayRate;
+  const serviceFeeToDisplay = serviceFeeUSD * displayRate;
+  const totalValueToDisplay = totalUSD * displayRate; // Convert total value
 
   return (
     <div className='space-y-8 max-w-3xl mx-auto'>
@@ -162,7 +174,7 @@ const SellDetails: React.FC = () => {
               <p className='mb-2'>
                 Deposit{" "}
                 <span className='font-mono bg-white px-2 py-1 rounded text-primary border border-primary/20'>
-                  {cryptoToSend.toFixed(3)} {cryptoDetails.id}
+                  {cryptoToSend.toFixed(6)} {cryptoDetails.id}
                 </span>{" "}
                 to:
               </p>
@@ -236,20 +248,28 @@ const SellDetails: React.FC = () => {
           <div className='grid grid-cols-2 gap-1'>
             <span className='text-gray-600'>Amount you receive:</span>
             <span className='font-medium text-right'>
-              ${amountWantedUSD.toFixed(2)}
+              {displaySymbol}
+              {amountToReceive.toFixed(2)}
             </span>
           </div>
           <div className='grid grid-cols-2 gap-1 text-gray-500 text-sm'>
             <span>Service Fee (1%):</span>
-            <span className='text-right'>+ ${serviceFeeUSD.toFixed(2)}</span>
+            <span className='text-right'>
+              + {displaySymbol}
+              {serviceFeeToDisplay.toFixed(2)}
+            </span>
           </div>
           <div className='grid grid-cols-2 gap-1 text-gray-500 text-sm'>
             <span>Network:</span>
             <span className='text-right'>{depositInfo.network}</span>
           </div>
           <div className='grid grid-cols-2 gap-1 font-medium border-t pt-2 mt-2'>
-            <span>Total USD Value:</span>
-            <span className='text-right'>${totalUSD.toFixed(2)}</span>
+            {/* Total Value in the receiving currency */}
+            <span>Total Value:</span>
+            <span className='text-right'>
+              {displaySymbol}
+              {totalValueToDisplay.toFixed(2)}
+            </span>
           </div>
           <div className='grid grid-cols-2 text-[14px] gap-1 bg-purple-50 p-2 rounded'>
             <span className='text-purple-700 flex items-center mb-1 sm:mb-0'>
@@ -262,7 +282,7 @@ const SellDetails: React.FC = () => {
           <div className='grid grid-cols-2 text-[14px] gap-1 font-semibold text-lg text-primary border-t pt-3 mt-2'>
             <span className='mb-1 sm:mb-0'>You Send:</span>
             <span className='font-mono text-left sm:text-right'>
-              {cryptoToSend.toFixed(3)} {cryptoDetails.id}
+              {cryptoToSend.toFixed(6)} {cryptoDetails.id}
             </span>
           </div>
         </div>
